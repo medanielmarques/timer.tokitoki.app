@@ -21,7 +21,7 @@ export const exampleRouter = createTRPCRouter({
 
       return {
         greeting: `Hello ${input.text}`,
-        // idk,
+        idk,
       };
     }),
 
