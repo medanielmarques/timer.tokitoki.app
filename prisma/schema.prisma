@@ -1,0 +1,41 @@
+generator kysely {
+  provider = "prisma-kysely"
+  output   = "../src/server/db"
+}
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id    String @id
+  Timer Timer?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Timer {
+  id              String @id @default(cuid())
+  pomodoroCount   Int    @default(0)
+  shortBreakCount Int    @default(0)
+  longBreakCount  Int    @default(0)
+
+  pomodoroTime   Int @default(1500000) // 25 minutes
+  shortBreakTime Int @default(300000) // 5 minutes
+  longBreakTime  Int @default(900000) // 15 minutes
+
+  longBreakInterval             Int     @default(4)
+  currentLongBreakIntervalCount Int     @default(0)
+  autoStartPomodoros            Boolean @default(true)
+  autoStartBreaks               Boolean @default(true)
+  alarmVolume                   Int     @default(100)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+}
