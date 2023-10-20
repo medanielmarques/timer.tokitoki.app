@@ -1,10 +1,10 @@
-import { api } from "@/utils/api";
-import { Button } from "@mantine/core";
+import { api } from "@/utils/api"
+import { Button } from "@mantine/core"
 
 export default function Home() {
-  const hello = api.post.hello.useQuery({ text: "hello" });
+  const hello = api.post.hello.useQuery({ text: "hello" })
 
-  console.log(hello.data);
+  console.log(hello.data)
 
   // async function signIn() {
   //   await supabase.auth.signInWithOAuth({
@@ -24,5 +24,5 @@ export default function Home() {
     <div>
       <Button color="red">test</Button>
     </div>
-  );
+  )
 }

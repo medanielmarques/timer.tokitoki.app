@@ -1,12 +1,13 @@
-import { Kysely, PostgresDialect } from "kysely";
-import { type DB } from "./types";
-import { NeonDialect } from "kysely-neon";
-import { customAlphabet } from "nanoid";
+import { Kysely, PostgresDialect } from "kysely"
+import { NeonDialect } from "kysely-neon"
+import { customAlphabet } from "nanoid"
+import { Pool } from "pg"
 // import { createClient } from "@supabase/supabase-js";
-import ws from "ws";
-import { Pool } from "pg";
+import ws from "ws"
 
-export type { DB } from "./types";
+import { type DB } from "./types"
+
+export type { DB } from "./types"
 
 export const db = new Kysely<DB>({
   dialect:
@@ -20,10 +21,10 @@ export const db = new Kysely<DB>({
             connectionString: process.env.DATABASE_URL,
           }),
         }),
-});
+})
 
 export const genId = (size?: number) =>
-  customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", size ?? 12)();
+  customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", size ?? 12)()
 
 // export const supabase = createClient(
 //   process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
