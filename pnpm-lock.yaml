@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@mantine/core':
     specifier: ^7.1.5
@@ -23,6 +19,9 @@ dependencies:
   '@t3-oss/env-nextjs':
     specifier: ^0.7.0
     version: 0.7.0(typescript@5.1.6)(zod@3.22.4)
+  '@tabler/icons-react':
+    specifier: ^2.39.0
+    version: 2.39.0(react@18.2.0)
   '@tanstack/react-query':
     specifier: ^4.32.6
     version: 4.32.6(react-dom@18.2.0)(react@18.2.0)
@@ -59,6 +58,9 @@ dependencies:
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
+  react-timer-hook:
+    specifier: ^3.0.7
+    version: 3.0.7(react@18.2.0)
   superjson:
     specifier: ^1.13.1
     version: 1.13.1
@@ -804,6 +806,20 @@ packages:
       '@t3-oss/env-core': 0.7.0(typescript@5.1.6)(zod@3.22.4)
       typescript: 5.1.6
       zod: 3.22.4
+    dev: false
+
+  /@tabler/icons-react@2.39.0(react@18.2.0):
+    resolution: {integrity: sha512-MyUK1jqtmHPZBnDXqIc1Y5OnfoqG+tGaSB1/gcl0mlY462fJ5f3QB0ZIZzAHMAGYb6K2iJSdFIFavhcgpDDZ7Q==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tabler/icons': 2.39.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
+  /@tabler/icons@2.39.0:
+    resolution: {integrity: sha512-iK3j2jIEGIUaJcbYYg5iwyG1Y/m4lzUxAUbxRpvgeXCWP29jvZaH5hajZmU3KaSealddHuJg7PSQislPHpCsoQ==}
     dev: false
 
   /@tanstack/query-core@4.32.6:
@@ -3813,6 +3829,14 @@ packages:
       - '@types/react'
     dev: false
 
+  /react-timer-hook@3.0.7(react@18.2.0):
+    resolution: {integrity: sha512-ATpNcU+PQRxxfNBPVqce2+REtjGAlwmfoNQfcEBMZFxPj0r3GYdKhyPHdStvqrejejEi0QvqaJZjy2lBlFvAsA==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-transition-group@4.4.5(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
     peerDependencies:
@@ -4761,3 +4785,7 @@ packages:
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
