@@ -1,16 +1,19 @@
-import { type AppType } from "next/app";
-import { MantineProvider } from "@mantine/core";
+import { api } from "@/utils/api"
+import { MantineProvider } from "@mantine/core"
+import "@mantine/core/styles.css"
+import { type AppType } from "next/app"
+import { Montserrat } from "next/font/google"
 
-import { api } from "@/utils/api";
-
-import "@mantine/core/styles.css";
+const montserrat = Montserrat({ subsets: ["latin"] })
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <MantineProvider>
-      <Component {...pageProps} />
-    </MantineProvider>
-  );
-};
+    <main className={montserrat.className}>
+      <MantineProvider>
+        <Component {...pageProps} />
+      </MantineProvider>
+    </main>
+  )
+}
 
-export default api.withTRPC(MyApp);
+export default api.withTRPC(MyApp)
