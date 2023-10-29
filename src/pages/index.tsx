@@ -4,18 +4,25 @@ import {
   IconPlayerPlayFilled,
 } from "@tabler/icons-react"
 import NextHead from "next/head"
+import { useEffect } from "react"
 import { useTimer } from "react-timer-hook"
 
 const addZeroBefore = (time: number) => ("0" + time.toString()).slice(-2)
 
 export default function Home() {
   const time = new Date()
-  time.setSeconds(time.getSeconds() + 60 * 25) // 60 seconds * 25 = 25 minutes
+  time.setSeconds(time.getSeconds() + 3) // 60 seconds * 25 = 25 minutes
 
-  const { minutes, seconds, isRunning, pause, resume } = useTimer({
+  const { minutes, seconds, isRunning, pause, resume, restart } = useTimer({
     expiryTimestamp: time,
     autoStart: false,
   })
+
+  useEffect(() => {
+    if (minutes === 0 && seconds === 0) {
+      restart(time, false)
+    }
+  }, [minutes, seconds, restart, time])
 
   return (
     <>
@@ -32,7 +39,7 @@ export default function Home() {
       >
         <Text c="gray.7" size="64px" fw="bold">
           {/* 25:00 */}
-          {minutes} : {addZeroBefore(seconds)}
+          {addZeroBefore(minutes)} : {addZeroBefore(seconds)}
         </Text>
 
         <Button
