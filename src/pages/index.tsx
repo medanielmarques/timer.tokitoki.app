@@ -1,3 +1,4 @@
+import { useSounds } from "@/lib/use-sounds"
 import { Button, Flex, Text } from "@mantine/core"
 import {
   IconPlayerPauseFilled,
@@ -11,18 +12,22 @@ const addZeroBefore = (time: number) => ("0" + time.toString()).slice(-2)
 
 export default function Home() {
   const time = new Date()
-  time.setSeconds(time.getSeconds() + 3) // 60 seconds * 25 = 25 minutes
+  // const time = useMemo(() => new Date(), [])
+  time.setSeconds(time.getSeconds() + 60 * 25) // 60 seconds * 25 = 25 minutes
 
   const { minutes, seconds, isRunning, pause, resume, restart } = useTimer({
     expiryTimestamp: time,
     autoStart: false,
   })
 
+  const { playAlarmSound, playToggleTimerSound } = useSounds()
+
   useEffect(() => {
     if (minutes === 0 && seconds === 0) {
+      playAlarmSound()
       restart(time, false)
     }
-  }, [minutes, seconds, restart, time])
+  }, [minutes, seconds, restart, time, playAlarmSound])
 
   return (
     <>
@@ -44,6 +49,7 @@ export default function Home() {
 
         <Button
           onClick={() => {
+            playToggleTimerSound()
             isRunning ? pause() : resume()
           }}
           color="gray.7"
