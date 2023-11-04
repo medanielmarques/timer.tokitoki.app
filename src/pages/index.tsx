@@ -1,5 +1,5 @@
 import { useSounds } from "@/lib/use-sounds"
-import { Button, Flex, Text } from "@mantine/core"
+import { Box, Button, Center, Flex, Text } from "@mantine/core"
 import {
   IconPlayerPauseFilled,
   IconPlayerPlayFilled,
@@ -32,38 +32,42 @@ export default function Home() {
   return (
     <>
       <NextHead>
-        <title>{`${minutes}:${addZeroBefore(seconds)} - Toki`}</title>
+        <title>{`${addZeroBefore(minutes)}:${addZeroBefore(
+          seconds,
+        )} - Toki`}</title>
       </NextHead>
 
-      <Flex
-        gap={200}
-        direction="column"
-        justify="center"
-        align="center"
-        h="100vh"
-      >
-        <Text c="gray.7" size="64px" fw="bold">
-          {/* 25:00 */}
-          {addZeroBefore(minutes)} : {addZeroBefore(seconds)}
-        </Text>
-
-        <Button
-          onClick={() => {
-            playToggleTimerSound()
-            isRunning ? pause() : resume()
-          }}
-          color="gray.7"
-          w={100}
-          h={80}
-          radius="lg"
+      <Center h="100vh">
+        <Flex
+          gap={150}
+          direction="column"
+          justify="space-between"
+          align="center"
         >
-          {isRunning ? (
-            <IconPlayerPauseFilled size={35} />
-          ) : (
-            <IconPlayerPlayFilled size={35} />
-          )}
-        </Button>
-      </Flex>
+          <Box h={80} />
+
+          <Text c="gray.7" size="64px" fw="bold">
+            {addZeroBefore(minutes)} : {addZeroBefore(seconds)}
+          </Text>
+
+          <Button
+            onClick={() => {
+              playToggleTimerSound()
+              isRunning ? pause() : resume()
+            }}
+            color="gray.7"
+            w={100}
+            h={80}
+            radius="lg"
+          >
+            {isRunning ? (
+              <IconPlayerPauseFilled size={35} />
+            ) : (
+              <IconPlayerPlayFilled size={35} />
+            )}
+          </Button>
+        </Flex>
+      </Center>
     </>
   )
 }
