@@ -33,7 +33,7 @@
     {
       "label": "prisma-studio",
       "type": "shell",
-      "command": "pnpm db:studio",
+      "command": "pnpm db:studio-no-browser",
       "isBackground": false,
       "problemMatcher": []
     }
