@@ -95,6 +95,7 @@ export default function Home() {
           <Flex align="center" gap={40}>
             <IconChevronLeft
               color="#909296"
+              cursor="pointer"
               onClick={() => {
                 const next_activity = change_activity(activity, "left")
 
@@ -115,6 +116,7 @@ export default function Home() {
 
             <IconChevronRight
               color="#909296"
+              cursor="pointer"
               onClick={() => {
                 const next_activity = change_activity(activity, "right")
 
