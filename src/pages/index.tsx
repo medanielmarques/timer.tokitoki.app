@@ -41,7 +41,7 @@ function change_timer(activity: Activity) {
   }
 }
 
-function formatActivity(activity: Activity) {
+function format_activity(activity: Activity) {
   switch (activity) {
     case "pomodoro":
       return "Pomodoro"
@@ -66,21 +66,21 @@ export default function Home() {
     autoStart: false,
   })
 
-  const { playAlarmSound, playToggleTimerSound } = useSounds()
+  const { play_alarm_sound, play_toggle_timer_sound } = useSounds()
 
   useEffect(() => {
     if (minutes === 0 && seconds === 0) {
-      playAlarmSound()
+      play_alarm_sound()
       restart(get_timer(), false)
     }
-  }, [minutes, seconds, restart, playAlarmSound])
+  }, [minutes, seconds, restart, play_alarm_sound])
 
   return (
     <>
       <NextHead>
         <title>{`${add_zero_before(minutes)}:${add_zero_before(
           seconds,
-        )} - Toki`}</title>
+        )} - Toki - ${format_activity(activity)}`}</title>
       </NextHead>
 
       <Center h="100vh">
@@ -93,19 +93,21 @@ export default function Home() {
           <Box h={80} />
 
           <Flex align="center" gap={40}>
-            <IconChevronLeft
-              color="#909296"
-              cursor="pointer"
-              onClick={() => {
-                const next_activity = change_activity(activity, "left")
+            {isRunning ? null : (
+              <IconChevronLeft
+                color="#909296"
+                cursor="pointer"
+                onClick={() => {
+                  const next_activity = change_activity(activity, "left")
 
-                setActivity(next_activity)
-                restart(change_timer(next_activity), false)
-              }}
-            />
+                  setActivity(next_activity)
+                  restart(change_timer(next_activity), false)
+                }}
+              />
+            )}
 
             <Flex direction="column" align="center" gap={10}>
-              <Text>{formatActivity(activity)}</Text>
+              <Text>{format_activity(activity)}</Text>
 
               <Text c="gray.7" size="64px" fw="bold">
                 {add_zero_before(minutes)} : {add_zero_before(seconds)}
@@ -114,21 +116,23 @@ export default function Home() {
               <Box h={20} />
             </Flex>
 
-            <IconChevronRight
-              color="#909296"
-              cursor="pointer"
-              onClick={() => {
-                const next_activity = change_activity(activity, "right")
+            {isRunning ? null : (
+              <IconChevronRight
+                color="#909296"
+                cursor="pointer"
+                onClick={() => {
+                  const next_activity = change_activity(activity, "right")
 
-                setActivity(next_activity)
-                restart(change_timer(next_activity), false)
-              }}
-            />
+                  setActivity(next_activity)
+                  restart(change_timer(next_activity), false)
+                }}
+              />
+            )}
           </Flex>
 
           <Button
             onClick={() => {
-              playToggleTimerSound()
+              play_toggle_timer_sound()
               isRunning ? pause() : resume()
             }}
             color="gray.7"

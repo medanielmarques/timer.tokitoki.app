@@ -1,14 +1,14 @@
 import useSound from "use-sound"
 
-const bubbleSfx = "../audio/bubble.mp3"
-const toggleTimerSfx = "../audio/toggle-timer.mp3"
+const bubble_sfx = "../audio/bubble.mp3"
+const toggle_timer_sfx = "../audio/toggle-timer.mp3"
 
 export const useSounds = () => {
-  const [playAlarmSound] = useSound(bubbleSfx, {
+  const [play_alarm_sound] = useSound(bubble_sfx, {
     volume: 100 / 100,
   })
 
-  const [playToggleTimerSound] = useSound(toggleTimerSfx, { volume: 1 })
+  const [play_toggle_timer_sound] = useSound(toggle_timer_sfx, { volume: 1 })
 
-  return { playAlarmSound, playToggleTimerSound }
+  return { play_alarm_sound, play_toggle_timer_sound }
 }
