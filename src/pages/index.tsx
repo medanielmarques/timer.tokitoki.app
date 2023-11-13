@@ -1,5 +1,4 @@
 import { useSounds } from "@/lib/use-sounds"
-import { Box, Button, Center, Flex, Text } from "@mantine/core"
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -83,16 +82,11 @@ export default function Home() {
         )} - Toki - ${format_activity(activity)}`}</title>
       </NextHead>
 
-      <Center h="100vh">
-        <Flex
-          gap={150}
-          direction="column"
-          justify="space-between"
-          align="center"
-        >
-          <Box h={80} />
+      <div className="h-screen flex items-center justify-center">
+        <div className="flex flex-col justify-between items-center gap-36">
+          <div className="h-20" />
 
-          <Flex align="center" gap={40}>
+          <div className="flex items-center gap-10">
             {isRunning ? null : (
               <IconChevronLeft
                 color="#909296"
@@ -106,15 +100,15 @@ export default function Home() {
               />
             )}
 
-            <Flex direction="column" align="center" gap={10}>
-              <Text>{format_activity(activity)}</Text>
+            <div className="flex flex-col items-center gap-2">
+              <p>{format_activity(activity)}</p>
 
-              <Text c="gray.7" size="64px" fw="bold">
+              <p className="text-gray-600 text-6xl font-bold">
                 {add_zero_before(minutes)} : {add_zero_before(seconds)}
-              </Text>
+              </p>
 
-              <Box h={20} />
-            </Flex>
+              <div className="h-5" />
+            </div>
 
             {isRunning ? null : (
               <IconChevronRight
@@ -128,26 +122,23 @@ export default function Home() {
                 }}
               />
             )}
-          </Flex>
+          </div>
 
-          <Button
+          <button
+            className="rounded-2xl text-white flex items-center justify-center bg-gray-600 w-24 h-20"
             onClick={() => {
               play_toggle_timer_sound()
               isRunning ? pause() : resume()
             }}
-            color="gray.7"
-            w={100}
-            h={80}
-            radius="lg"
           >
             {isRunning ? (
               <IconPlayerPauseFilled size={35} />
             ) : (
               <IconPlayerPlayFilled size={35} />
             )}
-          </Button>
-        </Flex>
-      </Center>
+          </button>
+        </div>
+      </div>
     </>
   )
 }
