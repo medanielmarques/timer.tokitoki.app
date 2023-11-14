@@ -88,19 +88,21 @@ export default function Home() {
 
           <div className="flex items-center gap-10">
             {isRunning ? null : (
-              <IconChevronLeft
-                color="#909296"
-                cursor="pointer"
-                onClick={() => {
-                  const next_activity = change_activity(activity, "left")
+              <div className="bg-gray-100 p-1 flex justify-center items-center rounded-full">
+                <IconChevronLeft
+                  color="#909296"
+                  cursor="pointer"
+                  onClick={() => {
+                    const next_activity = change_activity(activity, "left")
 
-                  setActivity(next_activity)
-                  restart(change_timer(next_activity), false)
-                }}
-              />
+                    setActivity(next_activity)
+                    restart(change_timer(next_activity), false)
+                  }}
+                />
+              </div>
             )}
 
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col items-center gap-2 min-w-[208px]">
               <p>{format_activity(activity)}</p>
 
               <p className="text-gray-600 text-6xl font-bold">
@@ -111,16 +113,18 @@ export default function Home() {
             </div>
 
             {isRunning ? null : (
-              <IconChevronRight
-                color="#909296"
-                cursor="pointer"
-                onClick={() => {
-                  const next_activity = change_activity(activity, "right")
+              <div className="bg-gray-100 p-1 flex justify-center items-center rounded-full">
+                <IconChevronRight
+                  color="#909296"
+                  cursor="pointer"
+                  onClick={() => {
+                    const next_activity = change_activity(activity, "right")
 
-                  setActivity(next_activity)
-                  restart(change_timer(next_activity), false)
-                }}
-              />
+                    setActivity(next_activity)
+                    restart(change_timer(next_activity), false)
+                  }}
+                />
+              </div>
             )}
           </div>
 
