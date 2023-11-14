@@ -7,6 +7,7 @@ import {
 } from "@tabler/icons-react"
 import NextHead from "next/head"
 import { useEffect, useState } from "react"
+import { useSwipeable } from "react-swipeable"
 import { useTimer } from "react-timer-hook"
 
 function add_zero_before(time: number) {
@@ -15,9 +16,11 @@ function add_zero_before(time: number) {
 
 type Activity = "pomodoro" | "short_break" | "long_break"
 
-function change_activity(
+type DirectionClicked = "left" | "right"
+
+function get_next_activity(
   current: Activity,
-  direction_clicked: "left" | "right",
+  direction_clicked: DirectionClicked,
 ): Activity {
   switch (current) {
     case "pomodoro":
@@ -74,6 +77,17 @@ export default function Home() {
     }
   }, [minutes, seconds, restart, play_alarm_sound])
 
+  function change_activity(direction_clicked: DirectionClicked) {
+    const next_activity = get_next_activity(activity, direction_clicked)
+    setActivity(next_activity)
+    restart(change_timer(next_activity), false)
+  }
+
+  const handle_swipe = useSwipeable({
+    onSwipedLeft: () => change_activity("right"),
+    onSwipedRight: () => change_activity("left"),
+  })
+
   return (
     <>
       <NextHead>
@@ -86,18 +100,13 @@ export default function Home() {
         <div className="flex flex-col justify-between items-center gap-36">
           <div className="h-20" />
 
-          <div className="flex items-center gap-10">
+          <div {...handle_swipe} className="flex items-center gap-10">
             {isRunning ? null : (
               <div className="bg-gray-100 p-1 flex justify-center items-center rounded-full">
                 <IconChevronLeft
                   color="#909296"
                   cursor="pointer"
-                  onClick={() => {
-                    const next_activity = change_activity(activity, "left")
-
-                    setActivity(next_activity)
-                    restart(change_timer(next_activity), false)
-                  }}
+                  onClick={() => change_activity("left")}
                 />
               </div>
             )}
@@ -117,12 +126,7 @@ export default function Home() {
                 <IconChevronRight
                   color="#909296"
                   cursor="pointer"
-                  onClick={() => {
-                    const next_activity = change_activity(activity, "right")
-
-                    setActivity(next_activity)
-                    restart(change_timer(next_activity), false)
-                  }}
+                  onClick={() => change_activity("right")}
                 />
               </div>
             )}
