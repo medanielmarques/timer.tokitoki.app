@@ -113,10 +113,10 @@ export default function Home() {
               </div>
             )}
 
-            <div className="flex min-w-[208px] flex-col items-center gap-2">
+            <div className="flex min-w-[208px] flex-col items-center gap-2 md:text-2xl">
               <p>{format_activity(activity)}</p>
 
-              <p className="text-6xl font-bold text-gray-600">
+              <p className="text-6xl font-bold text-gray-600 md:text-8xl">
                 {add_zero_before(minutes)} : {add_zero_before(seconds)}
               </p>
 
@@ -135,16 +135,16 @@ export default function Home() {
           </div>
 
           <button
-            className="flex h-20 w-24 items-center justify-center rounded-2xl bg-gray-600 text-white"
+            className="flex h-20 w-24 items-center justify-center rounded-2xl bg-gray-600 text-white md:h-24 md:w-32"
             onClick={() => {
               play_toggle_timer_sound()
               isRunning ? pause() : resume()
             }}
           >
             {isRunning ? (
-              <IconPlayerPauseFilled size={35} />
+              <IconPlayerPauseFilled className="h-9 w-9 md:h-11 md:w-11" />
             ) : (
-              <IconPlayerPlayFilled size={35} />
+              <IconPlayerPlayFilled className="h-9 w-9 md:h-11 md:w-11" />
             )}
           </button>
         </div>
