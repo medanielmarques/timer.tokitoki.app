@@ -1,17 +1,17 @@
 /** @type {import("prettier").Config} */
 module.exports = {
-  importOrder: ['^components/(.*)$', '^[./]'],
+  importOrder: ["^components/(.*)$", "^[./]"],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
-  arrowParens: 'always',
+  arrowParens: "always",
   printWidth: 80,
   singleQuote: false,
   jsxSingleQuote: false,
   semi: false,
-  trailingComma: 'all',
+  trailingComma: "all",
   tabWidth: 2,
   plugins: [
-    '@trivago/prettier-plugin-sort-imports',
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss",
   ],
-  pluginSearchDirs: false,
 }

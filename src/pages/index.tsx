@@ -96,13 +96,15 @@ export default function Home() {
         )} - Toki - ${format_activity(activity)}`}</title>
       </NextHead>
 
-      <div className="h-screen flex items-center justify-center">
-        <div className="flex flex-col justify-between items-center gap-36">
-          <div className="h-20" />
+      <div className="p-4 pt-2 "></div>
+
+      <div className="flex h-screen items-center justify-center">
+        <div className="flex flex-col items-center justify-between gap-36">
+          <div className="block h-20 md:hidden" />
 
           <div {...handle_swipe} className="flex items-center gap-10">
             {isRunning ? null : (
-              <div className="bg-gray-100 p-1 flex justify-center items-center rounded-full">
+              <div className="flex items-center justify-center rounded-full bg-gray-100 p-1">
                 <IconChevronLeft
                   color="#909296"
                   cursor="pointer"
@@ -111,10 +113,10 @@ export default function Home() {
               </div>
             )}
 
-            <div className="flex flex-col items-center gap-2 min-w-[208px]">
+            <div className="flex min-w-[208px] flex-col items-center gap-2 md:text-2xl">
               <p>{format_activity(activity)}</p>
 
-              <p className="text-gray-600 text-6xl font-bold">
+              <p className="text-6xl font-bold text-gray-600 md:text-8xl">
                 {add_zero_before(minutes)} : {add_zero_before(seconds)}
               </p>
 
@@ -122,7 +124,7 @@ export default function Home() {
             </div>
 
             {isRunning ? null : (
-              <div className="bg-gray-100 p-1 flex justify-center items-center rounded-full">
+              <div className="flex items-center justify-center rounded-full bg-gray-100 p-1">
                 <IconChevronRight
                   color="#909296"
                   cursor="pointer"
@@ -133,16 +135,16 @@ export default function Home() {
           </div>
 
           <button
-            className="rounded-2xl text-white flex items-center justify-center bg-gray-600 w-24 h-20"
+            className="flex h-20 w-24 items-center justify-center rounded-2xl bg-gray-600 text-white md:h-24 md:w-32"
             onClick={() => {
               play_toggle_timer_sound()
               isRunning ? pause() : resume()
             }}
           >
             {isRunning ? (
-              <IconPlayerPauseFilled size={35} />
+              <IconPlayerPauseFilled className="h-9 w-9 md:h-11 md:w-11" />
             ) : (
-              <IconPlayerPlayFilled size={35} />
+              <IconPlayerPlayFilled className="h-9 w-9 md:h-11 md:w-11" />
             )}
           </button>
         </div>
