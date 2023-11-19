@@ -7,9 +7,6 @@ dependencies:
   '@supabase/auth-helpers-nextjs':
     specifier: ^0.8.1
     version: 0.8.1(@supabase/supabase-js@2.38.2)
-  '@supabase/supabase-js':
-    specifier: ^2.38.2
-    version: 2.38.2
   '@t3-oss/env-nextjs':
     specifier: ^0.7.0
     version: 0.7.0(typescript@5.1.6)(zod@3.22.4)

@@ -1,4 +1,5 @@
 import { useSounds } from "@/lib/use-sounds"
+import { supabase } from "@/utils/supabase"
 import { IconMenuDeep, IconUser } from "@tabler/icons-react"
 import {
   IconChevronLeft,
@@ -89,7 +90,11 @@ export default function Home() {
     onSwipedRight: () => change_activity("left"),
   })
 
-  function handle_auth() {}
+  async function sign_in() {
+    await supabase.auth.signInWithOAuth({
+      provider: "discord",
+    })
+  }
 
   return (
     <>
@@ -103,14 +108,11 @@ export default function Home() {
         <div className="flex w-[500px] flex-col justify-start gap-24">
           <div className="flex justify-between p-5">
             <button className="rounded-full text-gray-400">
-              <IconMenuDeep className="h-8 w-8 md:h-8 md:w-8" />
+              <IconMenuDeep className="h-7 w-7 md:h-8 md:w-8" />
             </button>
 
-            <button
-              onClick={handle_auth}
-              className="rounded-full text-gray-400"
-            >
-              <IconUser className="h-8 w-8 md:h-8 md:w-8" />
+            <button onClick={sign_in} className="rounded-full text-gray-400">
+              <IconUser className="h-7 w-7 md:h-8 md:w-8" />
             </button>
           </div>
 
