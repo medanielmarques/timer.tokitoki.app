@@ -1,5 +1,6 @@
 import { useSounds } from "@/lib/use-sounds"
-import { supabase } from "@/utils/supabase"
+import { signIn, signOut } from "@/utils/supabase"
+import { useSession } from "@supabase/auth-helpers-react"
 import { IconMenuDeep, IconUser } from "@tabler/icons-react"
 import {
   IconChevronLeft,
@@ -8,6 +9,7 @@ import {
   IconPlayerPlayFilled,
 } from "@tabler/icons-react"
 import NextHead from "next/head"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useSwipeable } from "react-swipeable"
 import { useTimer } from "react-timer-hook"
@@ -63,6 +65,8 @@ function getTimer(time: number = 60 * 25) {
 }
 
 export default function Home() {
+  const session = useSession()
+
   const [activity, setActivity] = useState<Activity>("pomodoro")
 
   const { minutes, seconds, isRunning, pause, resume, restart } = useTimer({
@@ -90,12 +94,6 @@ export default function Home() {
     onSwipedRight: () => changeActivity("left"),
   })
 
-  async function sign_in() {
-    await supabase.auth.signInWithOAuth({
-      provider: "discord",
-    })
-  }
-
   return (
     <>
       <NextHead>
@@ -108,11 +106,23 @@ export default function Home() {
         <div className="flex w-[500px] flex-col justify-start gap-24">
           <div className="flex justify-between p-5">
             <button className="rounded-full text-gray-400">
-              <IconMenuDeep className="h-7 w-7 md:h-8 md:w-8" />
+              <IconMenuDeep className="h-7 w-7 rotate-180 md:h-8 md:w-8" />
             </button>
 
-            <button onClick={sign_in} className="rounded-full text-gray-400">
-              <IconUser className="h-7 w-7 md:h-8 md:w-8" />
+            <button
+              onClick={() => (session ? signOut() : signIn())}
+              className="relative h-7 w-7 rounded-full text-gray-400 md:h-8 md:w-8"
+            >
+              {session ? (
+                <Image
+                  fill={true}
+                  src={session.user.user_metadata.avatar_url as string}
+                  alt="avatar"
+                  style={{ borderRadius: "9999px" }}
+                />
+              ) : (
+                <IconUser className="h-7 w-7 md:h-8 md:w-8" />
+              )}
             </button>
           </div>
 
