@@ -2,7 +2,6 @@ import { Kysely, PostgresDialect } from "kysely"
 import { NeonDialect } from "kysely-neon"
 import { customAlphabet } from "nanoid"
 import { Pool } from "pg"
-// import { createClient } from "@supabase/supabase-js";
 import ws from "ws"
 
 import { type DB } from "./types"
@@ -25,8 +24,3 @@ export const db = new Kysely<DB>({
 
 export const genId = (size?: number) =>
   customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", size ?? 12)()
-
-// export const supabase = createClient(
-//   process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
-//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ""
-// );
