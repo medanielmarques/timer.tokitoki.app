@@ -1,4 +1,5 @@
 import { useSounds } from "@/lib/use-sounds"
+import { IconMenuDeep, IconUser } from "@tabler/icons-react"
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -88,6 +89,8 @@ export default function Home() {
     onSwipedRight: () => change_activity("left"),
   })
 
+  function handle_auth() {}
+
   return (
     <>
       <NextHead>
@@ -96,57 +99,68 @@ export default function Home() {
         )} - Toki - ${format_activity(activity)}`}</title>
       </NextHead>
 
-      <div className="p-4 pt-2 "></div>
+      <div className=" flex h-screen items-start justify-center">
+        <div className="flex w-[500px] flex-col justify-start gap-24">
+          <div className="flex justify-between p-5">
+            <button className="rounded-full text-gray-400">
+              <IconMenuDeep className="h-8 w-8 md:h-8 md:w-8" />
+            </button>
 
-      <div className="flex h-screen items-center justify-center">
-        <div className="flex flex-col items-center justify-between gap-36">
-          <div className="block h-20 md:hidden" />
-
-          <div {...handle_swipe} className="flex items-center gap-10">
-            {isRunning ? null : (
-              <div className="flex items-center justify-center rounded-full bg-gray-100 p-1">
-                <IconChevronLeft
-                  color="#909296"
-                  cursor="pointer"
-                  onClick={() => change_activity("left")}
-                />
-              </div>
-            )}
-
-            <div className="flex min-w-[208px] flex-col items-center gap-2 md:text-2xl">
-              <p>{format_activity(activity)}</p>
-
-              <p className="text-6xl font-bold text-gray-600 md:text-8xl">
-                {add_zero_before(minutes)} : {add_zero_before(seconds)}
-              </p>
-
-              <div className="h-5" />
-            </div>
-
-            {isRunning ? null : (
-              <div className="flex items-center justify-center rounded-full bg-gray-100 p-1">
-                <IconChevronRight
-                  color="#909296"
-                  cursor="pointer"
-                  onClick={() => change_activity("right")}
-                />
-              </div>
-            )}
+            <button
+              onClick={handle_auth}
+              className="rounded-full text-gray-400"
+            >
+              <IconUser className="h-8 w-8 md:h-8 md:w-8" />
+            </button>
           </div>
 
-          <button
-            className="flex h-20 w-24 items-center justify-center rounded-2xl bg-gray-600 text-white md:h-24 md:w-32"
-            onClick={() => {
-              play_toggle_timer_sound()
-              isRunning ? pause() : resume()
-            }}
-          >
-            {isRunning ? (
-              <IconPlayerPauseFilled className="h-9 w-9 md:h-11 md:w-11" />
-            ) : (
-              <IconPlayerPlayFilled className="h-9 w-9 md:h-11 md:w-11" />
-            )}
-          </button>
+          <div className="flex flex-col items-center justify-between gap-36">
+            <div className="block h-20 md:hidden" />
+
+            <div {...handle_swipe} className="flex items-center gap-10">
+              {isRunning ? null : (
+                <div className="flex items-center justify-center rounded-full bg-gray-100 p-1 text-gray-500">
+                  <IconChevronLeft
+                    className="cursor-pointer"
+                    onClick={() => change_activity("left")}
+                  />
+                </div>
+              )}
+
+              <div className="flex w-[208px] flex-col items-center gap-2 md:w-[333px] md:text-2xl">
+                <p>{format_activity(activity)}</p>
+
+                <p className="text-6xl font-bold text-gray-600 md:text-8xl">
+                  {add_zero_before(minutes)} : {add_zero_before(seconds)}
+                </p>
+
+                <div className="h-5" />
+              </div>
+
+              {isRunning ? null : (
+                <div className="flex items-center justify-center rounded-full bg-gray-100 p-1 text-gray-500">
+                  <IconChevronRight
+                    className="cursor-pointer"
+                    onClick={() => change_activity("right")}
+                  />
+                </div>
+              )}
+            </div>
+
+            <button
+              className="flex h-20 w-24 items-center justify-center rounded-2xl bg-gray-600 text-white md:h-24 md:w-32"
+              onClick={() => {
+                play_toggle_timer_sound()
+                isRunning ? pause() : resume()
+              }}
+            >
+              {isRunning ? (
+                <IconPlayerPauseFilled className="h-9 w-9 md:h-11 md:w-11" />
+              ) : (
+                <IconPlayerPlayFilled className="h-9 w-9 md:h-11 md:w-11" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </>
