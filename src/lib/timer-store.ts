@@ -1,3 +1,4 @@
+import { activitiesDurationDefault } from "@/lib/activities-duration-default"
 import { formatTimer } from "@/lib/timer-utils"
 import { create } from "zustand"
 
@@ -23,12 +24,6 @@ type TimerDefaults = {
   activity: Activity
   timer: number
   formattedTimer: string
-}
-
-const activitiesDurationDefault = {
-  pomodoro: 1000 * 60 * 25,
-  short_break: 1000 * 60 * 5,
-  long_break: 1000 * 60 * 15,
 }
 
 const timerDefaults: TimerDefaults = {
