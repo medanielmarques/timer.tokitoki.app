@@ -6,7 +6,6 @@ type DirectionClicked = "left" | "right"
 
 type TimerStore = {
   activity: Activity
-  formattedTimer: string
   timer: number
   isRunning: boolean
   isTimerFinished: boolean
@@ -76,7 +75,6 @@ export const useTimerStore = create<TimerStore>((set, get) => {
   return {
     activity: timerDefaults.activity,
     timer: timerDefaults.timer,
-    formattedTimer: timerDefaults.formattedTimer,
     isRunning: false,
     isTimerFinished: false,
 
@@ -90,7 +88,6 @@ export const useTimerStore = create<TimerStore>((set, get) => {
         set({
           activity: nextActivity,
           timer: nextTimer,
-          formattedTimer: formatTimer(nextTimer),
         })
       },
 
@@ -102,7 +99,6 @@ export const useTimerStore = create<TimerStore>((set, get) => {
 
           set({
             timer: updatedTimer,
-            formattedTimer: formatTimer(updatedTimer),
           })
         }
       },
@@ -122,8 +118,10 @@ export const useTimerActions = () => useTimerStore((state) => state.actions)
 export const useIsTimerFinished = () =>
   useTimerStore((state) => state.isTimerFinished)
 
-export const useFormattedTimer = () =>
-  useTimerStore((state) => state.formattedTimer)
-
+export const useTimer = () => useTimerStore((state) => state.timer)
+export const useFormattedTimer = (useInTabTitle = false) => {
+  const timer = useTimerStore((state) => state.timer)
+  return formatTimer(timer, useInTabTitle)
+}
 export const useIsRunning = () => useTimerStore((state) => state.isRunning)
 export const useCurrentActivity = () => useTimerStore((state) => state.activity)

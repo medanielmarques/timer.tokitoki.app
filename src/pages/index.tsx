@@ -27,7 +27,7 @@ export default function Home() {
 
   return (
     <>
-      <UpdateTitle />
+      <UpdateTabTitle />
 
       <div className=" flex h-screen items-start justify-center">
         <div className="flex w-[500px] flex-col justify-start gap-24">
@@ -45,15 +45,13 @@ export default function Home() {
   )
 }
 
-function UpdateTitle() {
+function UpdateTabTitle() {
   const activity = useCurrentActivity()
-  const timer = useFormattedTimer()
+  const timer = useFormattedTimer(true)
 
   return (
     <NextHead>
-      <title>{`${timer.replace(/\s/g, "")} - Toki - ${formatActivity(
-        activity,
-      )}`}</title>
+      <title>{`${timer} - Toki - ${formatActivity(activity)}`}</title>
     </NextHead>
   )
 }
@@ -88,8 +86,8 @@ function Header() {
 
 function Timer() {
   const { changeActivity } = useTimerActions()
-  const activity = useCurrentActivity()
   const timer = useFormattedTimer()
+  const activity = useCurrentActivity()
   const isRunning = useIsRunning()
 
   const handleSwipe = useSwipeable({

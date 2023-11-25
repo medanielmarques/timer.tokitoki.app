@@ -30,12 +30,18 @@ export function formatActivity(activity: Activity) {
   }
 }
 
-export function formatTimer(timer: number) {
+export function formatTimer(timer: number, useInTabTitle = false) {
   const addZeroBefore = (timer: number) => ("0" + timer.toString()).slice(-2)
   const minutes = Math.floor(timer / 1000 / 60)
   const seconds = Math.floor(timer / 1000) % 60
 
-  return `${addZeroBefore(minutes)} : ${addZeroBefore(seconds)}`
+  const formattedTimer = `${addZeroBefore(minutes)} : ${addZeroBefore(seconds)}`
+
+  if (useInTabTitle) {
+    return formattedTimer.replace(/\s/g, "")
+  }
+
+  return formattedTimer
 }
 
 export function useCountdown() {
