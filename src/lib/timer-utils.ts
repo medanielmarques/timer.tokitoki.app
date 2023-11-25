@@ -51,11 +51,6 @@ export function useCountdown() {
 
   useEffect(() => {
     if (isRunning) {
-      if (isTimerFinished) {
-        playAlarmSound()
-        // restart()
-      }
-
       const countdownInterval = setInterval(() => {
         countdown()
       }, 1000)

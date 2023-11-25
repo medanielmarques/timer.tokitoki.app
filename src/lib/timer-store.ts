@@ -1,5 +1,5 @@
-import { activitiesDurationDefault } from "@/lib/activities-duration-default"
-import { formatTimer } from "@/lib/timer-utils"
+import { activitiesDurationDefault } from "@/lib/constants"
+import { formatTimer, playAlarmSound } from "@/lib/timer-utils"
 import { create } from "zustand"
 
 export type Activity = "pomodoro" | "short_break" | "long_break"
@@ -91,10 +91,13 @@ export const useTimerStore = create<TimerStore>((set, get) => {
 
         if (timer > 0) {
           const updatedTimer = timer - 1000
-
+          set({ timer: updatedTimer })
+        } else {
           set({
-            timer: updatedTimer,
+            isRunning: false,
+            isTimerFinished: true,
           })
+          get().actions.restart()
         }
       },
 
@@ -102,7 +105,10 @@ export const useTimerStore = create<TimerStore>((set, get) => {
       play: () => set({ isRunning: true }),
 
       restart: () => {
-        // changeTimer(nextActivity), false
+        // não tenho como decidir a próxima atividade aqui,
+        // pois sem o longBreakInterval não dá pra decidir.
+        // Isso vai ser implementado junto com o Settings Menu.
+        playAlarmSound()
       },
     },
   }
