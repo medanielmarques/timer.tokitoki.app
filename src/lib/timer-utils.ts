@@ -1,5 +1,7 @@
+import { activitiesDurationDefault, activityTransitions } from "@/lib/constants"
 import {
   type Activity,
+  type DirectionClicked,
   useIsRunning,
   useIsTimerFinished,
   useTimerActions,
@@ -19,7 +21,25 @@ export function playToggleTimerSound() {
   void toggleTimerSound.play()
 }
 
-export function formatActivity(activity: Activity) {
+export function decideNextTimer(currentActivity: Activity) {
+  switch (currentActivity) {
+    case "pomodoro":
+      return activitiesDurationDefault.pomodoro
+    case "short_break":
+      return activitiesDurationDefault.short_break
+    case "long_break":
+      return activitiesDurationDefault.long_break
+  }
+}
+
+export function decideNextActivity(
+  currentActivity: Activity,
+  directionClicked: DirectionClicked,
+) {
+  return activityTransitions[currentActivity][directionClicked]
+}
+
+export function formatActivityName(activity: Activity) {
   switch (activity) {
     case "pomodoro":
       return "Pomodoro"

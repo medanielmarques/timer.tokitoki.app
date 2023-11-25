@@ -1,16 +1,17 @@
+import { timerDefaults } from "@/lib/constants"
 import {
-  activitiesDurationDefault,
-  activityTransitions,
-  timerDefaults,
-} from "@/lib/constants"
-import { formatTimer, playAlarmSound } from "@/lib/timer-utils"
+  decideNextActivity,
+  decideNextTimer,
+  formatTimer,
+  playAlarmSound,
+} from "@/lib/timer-utils"
 import { create } from "zustand"
 
 export type Activity = "pomodoro" | "short_break" | "long_break"
-type DirectionClicked = "left" | "right"
+export type DirectionClicked = "left" | "right"
 
 type TimerStore = {
-  activity: Activity
+  currentActivity: Activity
   timer: number
   isRunning: boolean
   isTimerFinished: boolean
@@ -24,33 +25,25 @@ type TimerStore = {
   }
 }
 
-function getActivityTimer(activity: Activity) {
-  switch (activity) {
-    case "pomodoro":
-      return activitiesDurationDefault.pomodoro
-    case "short_break":
-      return activitiesDurationDefault.short_break
-    case "long_break":
-      return activitiesDurationDefault.long_break
-  }
-}
-
 export const useTimerStore = create<TimerStore>((set, get) => {
   return {
-    activity: timerDefaults.activity,
+    currentActivity: timerDefaults.activity,
     timer: timerDefaults.timer,
     isRunning: false,
     isTimerFinished: false,
 
     actions: {
       changeActivity: (directionClicked) => {
-        const { activity } = get()
+        const { currentActivity } = get()
 
-        const nextActivity = activityTransitions[activity][directionClicked]
-        const nextTimer = getActivityTimer(nextActivity)
+        const nextActivity = decideNextActivity(
+          currentActivity,
+          directionClicked,
+        )
+        const nextTimer = decideNextTimer(nextActivity)
 
         set({
-          activity: nextActivity,
+          currentActivity: nextActivity,
           timer: nextTimer,
         })
       },
@@ -94,4 +87,5 @@ export const useFormattedTimer = (useInTabTitle = false) => {
   return formatTimer(timer, useInTabTitle)
 }
 export const useIsRunning = () => useTimerStore((state) => state.isRunning)
-export const useCurrentActivity = () => useTimerStore((state) => state.activity)
+export const useCurrentActivity = () =>
+  useTimerStore((state) => state.currentActivity)

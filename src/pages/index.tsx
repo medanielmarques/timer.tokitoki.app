@@ -5,7 +5,7 @@ import {
   useTimerActions,
 } from "@/lib/timer-store"
 import {
-  formatActivity,
+  formatActivityName,
   playToggleTimerSound,
   useCountdown,
 } from "@/lib/timer-utils"
@@ -46,12 +46,14 @@ export default function Home() {
 }
 
 function UpdateTabTitle() {
-  const activity = useCurrentActivity()
+  const currentActivity = useCurrentActivity()
   const timer = useFormattedTimer(true)
 
   return (
     <NextHead>
-      <title>{`${timer} - Toki - ${formatActivity(activity)}`}</title>
+      <title>{`${timer} - Toki - ${formatActivityName(
+        currentActivity,
+      )}`}</title>
     </NextHead>
   )
 }
@@ -87,7 +89,7 @@ function Header() {
 function Timer() {
   const { changeActivity } = useTimerActions()
   const timer = useFormattedTimer()
-  const activity = useCurrentActivity()
+  const currentActivity = useCurrentActivity()
   const isRunning = useIsRunning()
 
   const handleSwipe = useSwipeable({
@@ -107,7 +109,7 @@ function Timer() {
       )}
 
       <div className="flex w-[260px] flex-col items-center gap-2 md:w-[420px] md:text-2xl">
-        <p>{formatActivity(activity)}</p>
+        <p>{formatActivityName(currentActivity)}</p>
 
         <p className="text-6xl font-bold text-gray-600 md:text-8xl">{timer}</p>
 
