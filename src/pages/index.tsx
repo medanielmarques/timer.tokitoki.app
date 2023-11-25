@@ -106,7 +106,7 @@ function Timer() {
         </div>
       )}
 
-      <div className="flex w-[208px] flex-col items-center gap-2 md:w-[333px] md:text-2xl">
+      <div className="flex w-[260px] flex-col items-center gap-2 md:w-[420px] md:text-2xl">
         <p>{formatActivity(activity)}</p>
 
         <p className="text-6xl font-bold text-gray-600 md:text-8xl">{timer}</p>
