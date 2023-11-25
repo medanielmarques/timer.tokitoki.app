@@ -1,4 +1,7 @@
-import { activitiesDurationDefault, activityTransitions } from "@/lib/constants"
+import {
+  activitiesDurationDefault,
+  activityStateTransitions,
+} from "@/lib/constants"
 import {
   type Activity,
   type DirectionClicked,
@@ -36,7 +39,7 @@ export function decideNextActivity(
   currentActivity: Activity,
   directionClicked: DirectionClicked,
 ) {
-  return activityTransitions[currentActivity][directionClicked]
+  return activityStateTransitions[currentActivity][directionClicked]
 }
 
 export function formatActivityName(activity: Activity) {

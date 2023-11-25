@@ -29,7 +29,7 @@ export const timerDefaults: TimerDefaults = {
   formattedTimer: "25 : 00",
 }
 
-type ActivityTransitions = Record<
+type ActivityStateTransitions = Record<
   Activity,
   {
     left: Activity
@@ -37,7 +37,7 @@ type ActivityTransitions = Record<
   }
 >
 
-export const activityTransitions: ActivityTransitions = {
+export const activityStateTransitions: ActivityStateTransitions = {
   pomodoro: {
     left: "long_break",
     right: "short_break",
