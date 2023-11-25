@@ -1,4 +1,8 @@
-import { activitiesDurationDefault } from "@/lib/constants"
+import {
+  activitiesDurationDefault,
+  activityTransitions,
+  timerDefaults,
+} from "@/lib/constants"
 import { formatTimer, playAlarmSound } from "@/lib/timer-utils"
 import { create } from "zustand"
 
@@ -18,41 +22,6 @@ type TimerStore = {
     play: () => void
     restart: () => void
   }
-}
-
-type TimerDefaults = {
-  activity: Activity
-  timer: number
-  formattedTimer: string
-}
-
-const timerDefaults: TimerDefaults = {
-  activity: "pomodoro",
-  timer: activitiesDurationDefault.pomodoro,
-  formattedTimer: "25 : 00",
-}
-
-type ActivityTransitions = Record<
-  Activity,
-  {
-    left: Activity
-    right: Activity
-  }
->
-
-const activityTransitions: ActivityTransitions = {
-  pomodoro: {
-    left: "long_break",
-    right: "short_break",
-  },
-  short_break: {
-    left: "pomodoro",
-    right: "long_break",
-  },
-  long_break: {
-    left: "short_break",
-    right: "pomodoro",
-  },
 }
 
 function getActivityTimer(activity: Activity) {
