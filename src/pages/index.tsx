@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -104,14 +104,41 @@ function SettingsMenu() {
       <SheetTrigger className="rounded-full text-gray-600">
         <MixerHorizontalIcon className="h-6 w-6 md:h-6 md:w-6" />
       </SheetTrigger>
-      <SheetContent side="left" className="w-[400px] sm:w-[540px]">
-        <SheetHeader>
-          <SheetTitle>Are you sure absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
+      <SheetContent side="left" className="flex flex-col gap-10 sm:max-w-md">
+        <SheetHeader className="flex items-center border-b-[1px]">
+          <SheetTitle className="mb-4 text-2xl font-bold">Settings</SheetTitle>
         </SheetHeader>
+
+        <div>
+          {/* <div>Timer (minutes)</div> */}
+
+          <div className="flex items-center justify-center gap-6">
+            <p className="text-lg font-bold">Pomodoro</p>
+
+            <div className="flex items-center gap-4">
+              <Button
+                variant="default"
+                className="h-10 w-10 bg-gray-600 font-bold hover:bg-gray-500"
+              >
+                -5
+              </Button>
+
+              <Input
+                className="h-10 w-20 text-center"
+                type="number"
+                value={25}
+                onChange={() => {}}
+              />
+
+              <Button
+                variant="default"
+                className="h-10 w-10 bg-gray-600 font-bold hover:bg-gray-500"
+              >
+                +5
+              </Button>
+            </div>
+          </div>
+        </div>
       </SheetContent>
     </Sheet>
   )
