@@ -1,4 +1,5 @@
 import {
+  type DirectionClicked,
   useCurrentActivity,
   useFormattedTimer,
   useIsRunning,
@@ -30,7 +31,7 @@ export default function Home() {
       <UpdateTabTitle />
 
       <div className=" flex h-screen items-start justify-center">
-        <div className="flex w-[500px] flex-col justify-start gap-24">
+        <div className="flex w-[600px] flex-col justify-start gap-24">
           <Header />
 
           <div className="flex flex-col items-center justify-between gap-36">
@@ -99,14 +100,7 @@ function Timer() {
 
   return (
     <div {...handleSwipe} className="flex items-center gap-10">
-      {isRunning ? null : (
-        <div className="flex items-center justify-center rounded-full bg-gray-100 p-1 text-gray-500">
-          <IconChevronLeft
-            className="cursor-pointer"
-            onClick={() => changeActivity("left")}
-          />
-        </div>
-      )}
+      {isRunning ? null : <ChangeActivityButton direction="left" />}
 
       <div className="flex w-[260px] flex-col items-center gap-2 md:w-[420px] md:text-2xl">
         <p>{formatActivityName(currentActivity)}</p>
@@ -116,15 +110,25 @@ function Timer() {
         <div className="h-5" />
       </div>
 
-      {isRunning ? null : (
-        <div className="flex items-center justify-center rounded-full bg-gray-100 p-1 text-gray-500">
-          <IconChevronRight
-            className="cursor-pointer"
-            onClick={() => changeActivity("right")}
-          />
-        </div>
-      )}
+      {isRunning ? null : <ChangeActivityButton direction="right" />}
     </div>
+  )
+}
+
+function ChangeActivityButton({ direction }: { direction: DirectionClicked }) {
+  const { changeActivity } = useTimerActions()
+
+  return (
+    <button
+      className="flex items-center justify-center rounded-full bg-gray-100 p-1 text-gray-500"
+      onClick={() => changeActivity(direction)}
+    >
+      {direction === "left" ? (
+        <IconChevronLeft className="cursor-pointer" />
+      ) : (
+        <IconChevronRight className="cursor-pointer" />
+      )}
+    </button>
   )
 }
 
@@ -134,7 +138,7 @@ function PlayPauseButton() {
 
   return (
     <button
-      className="flex h-20 w-24 items-center justify-center rounded-2xl bg-gray-600 text-white md:h-24 md:w-32"
+      className="flex h-20 w-24 items-center justify-center rounded-3xl bg-gray-600 text-white md:h-24 md:w-32"
       onClick={() => {
         playToggleTimerSound()
         isRunning ? pause() : play()
