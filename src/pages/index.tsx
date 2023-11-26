@@ -21,6 +21,7 @@ import {
 } from "@/lib/timer-utils"
 import { signIn, signOut } from "@/utils/supabase"
 import {
+  ClockIcon,
   ExitIcon,
   MixerHorizontalIcon,
   PersonIcon,
@@ -101,7 +102,7 @@ function SignInButton() {
 function SettingsMenu() {
   return (
     <Sheet>
-      <SheetTrigger className="rounded-full text-gray-600">
+      <SheetTrigger className="flex w-9 items-center justify-center text-gray-600">
         <MixerHorizontalIcon className="h-6 w-6 md:h-6 md:w-6" />
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col gap-10 sm:max-w-md">
@@ -109,30 +110,33 @@ function SettingsMenu() {
           <SheetTitle className="mb-4 text-2xl font-bold">Settings</SheetTitle>
         </SheetHeader>
 
-        <div>
-          {/* <div>Timer (minutes)</div> */}
+        <div className="flex flex-col gap-6 px-8">
+          <div className="flex items-center gap-2">
+            <ClockIcon />
+            <p className="text-lg">Timer (minutes)</p>
+          </div>
 
-          <div className="flex items-center justify-center gap-6">
+          <div className="flex items-center justify-between gap-6">
             <p className="text-lg font-bold">Pomodoro</p>
 
             <div className="flex items-center gap-4">
               <Button
-                variant="default"
-                className="h-10 w-10 bg-gray-600 font-bold hover:bg-gray-500"
+                variant="outline"
+                className="h-10 w-11 text-base font-bold"
               >
                 -5
               </Button>
 
               <Input
-                className="h-10 w-20 text-center"
+                className="h-10 w-20 text-center text-base"
                 type="number"
                 value={25}
                 onChange={() => {}}
               />
 
               <Button
-                variant="default"
-                className="h-10 w-10 bg-gray-600 font-bold hover:bg-gray-500"
+                variant="outline"
+                className="h-10 w-11 text-base font-bold"
               >
                 +5
               </Button>
