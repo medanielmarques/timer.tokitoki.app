@@ -1,32 +1,34 @@
 import { type Activity } from "@/lib/timer-store"
 
-const activitiesDurationDev = {
+const activityDurationDev = {
   pomodoro: 1000 * 4,
-  short_break: 1000 * 2,
-  long_break: 1000 * 3,
+  shortBreak: 1000 * 2,
+  longBreak: 1000 * 3,
 }
 
-const activitiesDurationProd = {
+const activityDurationProd = {
   pomodoro: 1000 * 60 * 25,
-  short_break: 1000 * 60 * 5,
-  long_break: 1000 * 60 * 15,
+  shortBreak: 1000 * 60 * 5,
+  longBreak: 1000 * 60 * 15,
 }
 
-export const activitiesDurationDefault =
-  process.env.NODE_ENV === "production"
-    ? activitiesDurationProd
-    : activitiesDurationDev
+export const activityDuration =
+  process.env.NODE_ENV !== "production"
+    ? activityDurationProd
+    : activityDurationDev
 
 type TimerDefaults = {
   activity: Activity
-  timer: number
+  activityDuration: typeof activityDuration
   formattedTimer: string
+  longBreakInterval: number
 }
 
 export const timerDefaults: TimerDefaults = {
   activity: "pomodoro",
-  timer: activitiesDurationDefault.pomodoro,
+  activityDuration,
   formattedTimer: "25 : 00",
+  longBreakInterval: 3,
 }
 
 type ActivityStateTransitions = Record<
@@ -39,15 +41,15 @@ type ActivityStateTransitions = Record<
 
 export const activityStateTransitions: ActivityStateTransitions = {
   pomodoro: {
-    left: "long_break",
-    right: "short_break",
+    left: "longBreak",
+    right: "shortBreak",
   },
-  short_break: {
+  shortBreak: {
     left: "pomodoro",
-    right: "long_break",
+    right: "longBreak",
   },
-  long_break: {
-    left: "short_break",
+  longBreak: {
+    left: "shortBreak",
     right: "pomodoro",
   },
 }

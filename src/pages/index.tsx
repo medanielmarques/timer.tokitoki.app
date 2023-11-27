@@ -12,10 +12,13 @@ import {
   useCurrentActivity,
   useFormattedTimer,
   useIsRunning,
+  useSettingsActions,
   useTimerActions,
 } from "@/lib/timer-store"
 import {
   formatActivityName,
+  milsToMins,
+  minsToMils,
   playToggleTimerSound,
   useCountdown,
 } from "@/lib/timer-utils"
@@ -100,6 +103,8 @@ function SignInButton() {
 }
 
 function SettingsMenu() {
+  const settingsActions = useSettingsActions()
+
   return (
     <Sheet>
       <SheetTrigger className="flex w-9 items-center justify-center text-gray-600">
@@ -123,20 +128,38 @@ function SettingsMenu() {
               <Button
                 variant="outline"
                 className="h-10 w-11 text-base font-bold"
+                // onClick={() => {
+                //   settingsActions.changeActivityDuration(
+                //     settings.pomodoroDuration - minsToMils(5),
+                //     "pomodoro",
+                //   )
+                // }}
               >
                 -5
               </Button>
 
               <Input
-                className="h-10 w-20 text-center text-base"
-                type="number"
-                value={25}
-                onChange={() => {}}
+                className="h-10 w-16 text-center text-base font-medium"
+                type="text"
+                // value={milsToMins(settings.pomodoroDuration)}
+                maxLength={4}
+                onChange={(e) => {
+                  settingsActions.changeActivityDuration(
+                    minsToMils(Number(e.target.value)),
+                    "pomodoro",
+                  )
+                }}
               />
 
               <Button
                 variant="outline"
                 className="h-10 w-11 text-base font-bold"
+                // onClick={() => {
+                //   settingsActions.changeActivityDuration(
+                //     settings.pomodoroDuration + minsToMils(5),
+                //     "pomodoro",
+                //   )
+                // }}
               >
                 +5
               </Button>

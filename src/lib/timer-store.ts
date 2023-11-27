@@ -7,7 +7,7 @@ import {
 } from "@/lib/timer-utils"
 import { create } from "zustand"
 
-export type Activity = "pomodoro" | "short_break" | "long_break"
+export type Activity = "pomodoro" | "shortBreak" | "longBreak"
 export type DirectionClicked = "left" | "right"
 
 type TimerStore = {
@@ -15,8 +15,18 @@ type TimerStore = {
   timer: number
   isRunning: boolean
   isTimerFinished: boolean
+  pomodoro: number
+  shortBreak: number
+  longBreak: number
+  longBreakInterval: number
+
+  settingsActions: {
+    changeActivityDuration: (newDuration: number, activity: Activity) => void
+    changeLongBreakInterval: (newInterval: number) => void
+  }
 
   actions: {
+    getTimer: () => number
     changeActivity: (directionClicked: DirectionClicked) => void
     countdown: () => void
     pause: () => void
@@ -28,11 +38,28 @@ type TimerStore = {
 export const useTimerStore = create<TimerStore>((set, get) => {
   return {
     currentActivity: timerDefaults.activity,
-    timer: timerDefaults.timer,
+    timer: timerDefaults.activityDuration[timerDefaults.activity],
     isRunning: false,
     isTimerFinished: false,
 
+    pomodoro: timerDefaults.activityDuration.pomodoro,
+    shortBreak: timerDefaults.activityDuration.shortBreak,
+    longBreak: timerDefaults.activityDuration.longBreak,
+    longBreakInterval: timerDefaults.longBreakInterval,
+
+    settingsActions: {
+      changeActivityDuration: (newDuration: number, activity: Activity) => {
+        set({ [activity]: newDuration })
+      },
+
+      changeLongBreakInterval: (newInterval: number) => {
+        set({ longBreakInterval: newInterval })
+      },
+    },
+
     actions: {
+      getTimer: () => get()[get().currentActivity],
+
       changeActivity: (directionClicked) => {
         const { currentActivity } = get()
 
@@ -77,15 +104,17 @@ export const useTimerStore = create<TimerStore>((set, get) => {
 })
 
 export const useTimerActions = () => useTimerStore((state) => state.actions)
+export const useSettingsActions = () =>
+  useTimerStore((state) => state.settingsActions)
 
 export const useIsTimerFinished = () =>
   useTimerStore((state) => state.isTimerFinished)
 
-export const useTimer = () => useTimerStore((state) => state.timer)
 export const useFormattedTimer = (useInTabTitle = false) => {
   const timer = useTimerStore((state) => state.timer)
   return formatTimer(timer, useInTabTitle)
 }
+
 export const useIsRunning = () => useTimerStore((state) => state.isRunning)
 export const useCurrentActivity = () =>
   useTimerStore((state) => state.currentActivity)

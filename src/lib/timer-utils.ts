@@ -1,7 +1,4 @@
-import {
-  activitiesDurationDefault,
-  activityStateTransitions,
-} from "@/lib/constants"
+import { activityDuration, activityStateTransitions } from "@/lib/constants"
 import {
   type Activity,
   type DirectionClicked,
@@ -27,11 +24,11 @@ export function playToggleTimerSound() {
 export function decideNextTimer(currentActivity: Activity) {
   switch (currentActivity) {
     case "pomodoro":
-      return activitiesDurationDefault.pomodoro
-    case "short_break":
-      return activitiesDurationDefault.short_break
-    case "long_break":
-      return activitiesDurationDefault.long_break
+      return activityDuration.pomodoro
+    case "shortBreak":
+      return activityDuration.shortBreak
+    case "longBreak":
+      return activityDuration.longBreak
   }
 }
 
@@ -46,9 +43,9 @@ export function formatActivityName(activity: Activity) {
   switch (activity) {
     case "pomodoro":
       return "Pomodoro"
-    case "short_break":
+    case "shortBreak":
       return "Short Break"
-    case "long_break":
+    case "longBreak":
       return "Long Break"
   }
 }
@@ -67,6 +64,14 @@ export function formatTimer(timer: number, useInTabTitle = false) {
   return formattedTimer
 }
 
+export function milsToMins(mils: number) {
+  return mils / 1000 / 60
+}
+
+export function minsToMils(mins: number) {
+  return mins * 1000 * 60
+}
+
 export function useCountdown() {
   const { countdown } = useTimerActions()
   const isRunning = useIsRunning()
@@ -80,5 +85,10 @@ export function useCountdown() {
 
       return () => clearInterval(countdownInterval)
     }
-  }, [countdown, isRunning, isTimerFinished])
+  }, [
+    countdown,
+    isRunning,
+    isTimerFinished,
+    // settings
+  ])
 }
