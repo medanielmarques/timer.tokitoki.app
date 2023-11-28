@@ -110,6 +110,8 @@ export const useSettingsActions = () =>
 export const useIsTimerFinished = () =>
   useTimerStore((state) => state.isTimerFinished)
 
+export const useTimer = () => useTimerStore((state) => state.timer)
+
 export const useFormattedTimer = (useInTabTitle = false) => {
   const timer = useTimerStore((state) => state.timer)
   return formatTimer(timer, useInTabTitle)
@@ -118,3 +120,12 @@ export const useFormattedTimer = (useInTabTitle = false) => {
 export const useIsRunning = () => useTimerStore((state) => state.isRunning)
 export const useCurrentActivity = () =>
   useTimerStore((state) => state.currentActivity)
+
+export const usePomodoroDuration = () =>
+  useTimerStore((state) => state.pomodoro)
+
+export const useShortBreakDuration = () =>
+  useTimerStore((state) => state.shortBreak)
+
+export const useLongBreakDuration = () =>
+  useTimerStore((state) => state.longBreak)

@@ -7,12 +7,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { timerDefaults } from "@/lib/constants"
 import {
   type DirectionClicked,
   useCurrentActivity,
   useFormattedTimer,
   useIsRunning,
+  usePomodoroDuration,
   useSettingsActions,
+  useTimer,
   useTimerActions,
 } from "@/lib/timer-store"
 import {
@@ -23,6 +26,7 @@ import {
   useCountdown,
 } from "@/lib/timer-utils"
 import { signIn, signOut } from "@/utils/supabase"
+import { useLocalStorage } from "@mantine/hooks"
 import {
   ClockIcon,
   ExitIcon,
@@ -37,11 +41,22 @@ import {
   IconPlayerPlayFilled,
 } from "@tabler/icons-react"
 import NextHead from "next/head"
-import Image from "next/image"
+import { useEffect } from "react"
 import { useSwipeable } from "react-swipeable"
 
 export default function Home() {
   useCountdown()
+  const settingsActions = useSettingsActions()
+  const [timer, setTimer] = useLocalStorage({
+    key: "timer",
+    defaultValue: timerDefaults.activityDuration.pomodoro,
+  })
+
+  useEffect(() => {
+    !timer && setTimer(timer ?? 25)
+
+    settingsActions.changeActivityDuration(timer, "pomodoro")
+  }, [timer, setTimer, settingsActions])
 
   return (
     <>
@@ -103,7 +118,13 @@ function SignInButton() {
 }
 
 function SettingsMenu() {
+  const pomodoroDuration = usePomodoroDuration()
   const settingsActions = useSettingsActions()
+
+  const [_, setLocalStorageTimer] = useLocalStorage({
+    key: "timer",
+    defaultValue: timerDefaults.activityDuration.pomodoro,
+  })
 
   return (
     <Sheet>
@@ -128,12 +149,16 @@ function SettingsMenu() {
               <Button
                 variant="outline"
                 className="h-10 w-11 text-base font-bold"
-                // onClick={() => {
-                //   settingsActions.changeActivityDuration(
-                //     settings.pomodoroDuration - minsToMils(5),
-                //     "pomodoro",
-                //   )
-                // }}
+                onClick={() => {
+                  const newDuration = pomodoroDuration - minsToMils(5)
+
+                  settingsActions.changeActivityDuration(
+                    newDuration,
+                    "pomodoro",
+                  )
+
+                  setLocalStorageTimer(newDuration)
+                }}
               >
                 -5
               </Button>
@@ -141,7 +166,7 @@ function SettingsMenu() {
               <Input
                 className="h-10 w-16 text-center text-base font-medium"
                 type="text"
-                // value={milsToMins(settings.pomodoroDuration)}
+                value={milsToMins(pomodoroDuration)}
                 maxLength={4}
                 onChange={(e) => {
                   settingsActions.changeActivityDuration(
@@ -154,12 +179,16 @@ function SettingsMenu() {
               <Button
                 variant="outline"
                 className="h-10 w-11 text-base font-bold"
-                // onClick={() => {
-                //   settingsActions.changeActivityDuration(
-                //     settings.pomodoroDuration + minsToMils(5),
-                //     "pomodoro",
-                //   )
-                // }}
+                onClick={() => {
+                  const newDuration = pomodoroDuration + minsToMils(5)
+
+                  settingsActions.changeActivityDuration(
+                    newDuration,
+                    "pomodoro",
+                  )
+
+                  setLocalStorageTimer(newDuration)
+                }}
               >
                 +5
               </Button>
