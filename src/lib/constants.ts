@@ -1,10 +1,13 @@
 import { type Activity } from "@/lib/timer-store"
+import { getActivityDurationFromLocalStorage } from "@/lib/timer-utils"
 
 const activityDurationDev = {
   pomodoro: 1000 * 4,
   shortBreak: 1000 * 2,
   longBreak: 1000 * 3,
 }
+
+export type ActivityDuration = typeof activityDurationDev
 
 const activityDurationProd = {
   pomodoro: 1000 * 60 * 25,
@@ -13,7 +16,7 @@ const activityDurationProd = {
 }
 
 export const activityDuration =
-  process.env.NODE_ENV !== "production"
+  getActivityDurationFromLocalStorage() ?? process.env.NODE_ENV !== "production"
     ? activityDurationProd
     : activityDurationDev
 

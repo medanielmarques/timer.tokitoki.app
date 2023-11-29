@@ -1,11 +1,19 @@
-import { activityDuration, activityStateTransitions } from "@/lib/constants"
+import {
+  type ActivityDuration,
+  activityDuration,
+  activityStateTransitions,
+  timerDefaults,
+} from "@/lib/constants"
 import {
   type Activity,
   type DirectionClicked,
+  useCurrentActivity,
   useIsRunning,
   useIsTimerFinished,
+  useSettingsActions,
   useTimerActions,
 } from "@/lib/timer-store"
+import { useLocalStorage } from "@mantine/hooks"
 import { useEffect } from "react"
 
 const bubble = "../audio/bubble.mp3"
@@ -85,10 +93,40 @@ export function useCountdown() {
 
       return () => clearInterval(countdownInterval)
     }
+  }, [countdown, isRunning, isTimerFinished])
+}
+
+export function useLocalStorageTimer() {
+  const settingsActions = useSettingsActions()
+  const timerActions = useTimerActions()
+  const currentActivity = useCurrentActivity()
+
+  const [localStorageTimer, setLocalStorageTimer] = useLocalStorage({
+    key: "timerDuration",
+    defaultValue: timerDefaults.activityDuration,
+  })
+
+  useEffect(() => {
+    timerActions.changeTimer(
+      localStorageTimer?.[currentActivity] ??
+        timerDefaults.activityDuration[currentActivity],
+    )
   }, [
-    countdown,
-    isRunning,
-    isTimerFinished,
-    // settings
+    localStorageTimer,
+    setLocalStorageTimer,
+    settingsActions,
+    timerActions,
+    currentActivity,
   ])
+
+  return [localStorageTimer, setLocalStorageTimer]
+}
+
+export function getActivityDurationFromLocalStorage() {
+  if (typeof window !== "undefined") {
+    const activityDuration = localStorage.getItem("timerDuration")
+    if (activityDuration) {
+      return JSON.parse(activityDuration) as ActivityDuration
+    }
+  }
 }

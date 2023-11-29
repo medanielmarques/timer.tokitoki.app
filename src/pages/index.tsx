@@ -1,37 +1,20 @@
+import { SettingsMenu } from "@/components/settings-menu"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import { timerDefaults, timerDurationLimit } from "@/lib/constants"
 import {
   type DirectionClicked,
   useCurrentActivity,
   useFormattedTimer,
   useIsRunning,
-  usePomodoroDuration,
-  useSettingsActions,
   useTimerActions,
 } from "@/lib/timer-store"
 import {
   formatActivityName,
-  milsToMins,
-  minsToMils,
   playToggleTimerSound,
   useCountdown,
+  useLocalStorageTimer,
 } from "@/lib/timer-utils"
 import { signIn, signOut } from "@/utils/supabase"
-import { useLocalStorage } from "@mantine/hooks"
-import {
-  ClockIcon,
-  ExitIcon,
-  MixerHorizontalIcon,
-  PersonIcon,
-} from "@radix-ui/react-icons"
+import { ExitIcon, PersonIcon } from "@radix-ui/react-icons"
 import { useSession } from "@supabase/auth-helpers-react"
 import {
   IconChevronLeft,
@@ -40,35 +23,10 @@ import {
   IconPlayerPlayFilled,
 } from "@tabler/icons-react"
 import NextHead from "next/head"
-import { useEffect } from "react"
 import { useSwipeable } from "react-swipeable"
 
 export default function Home() {
   useCountdown()
-  const settingsActions = useSettingsActions()
-  const timerActions = useTimerActions()
-
-  const currentActivity = useCurrentActivity()
-
-  const [localStorageTimer, setLocalStorageTimer] = useLocalStorage({
-    key: "timerDuration",
-    defaultValue: timerDefaults.activityDuration,
-  })
-
-  useEffect(() => {
-    timerActions.changeTimer(localStorageTimer?.[currentActivity] ?? 0)
-
-    // settingsActions.changeActivityDuration(
-    //   localStorageTimer?.[currentActivity] ?? 0,
-    //   "pomodoro",
-    // )
-  }, [
-    localStorageTimer,
-    setLocalStorageTimer,
-    settingsActions,
-    timerActions,
-    currentActivity,
-  ])
 
   return (
     <>
@@ -103,9 +61,11 @@ function TabTitleTimer() {
 }
 
 function Header() {
+  const [_, setLocalStorageTimer] = useLocalStorageTimer()
+
   return (
     <div className="flex justify-between p-5">
-      <SettingsMenu />
+      <SettingsMenu setLocalStorageTimer={setLocalStorageTimer} />
       <SignInButton />
     </div>
   )
@@ -126,101 +86,6 @@ function SignInButton() {
         </>
       )}
     </Button>
-  )
-}
-
-function SettingsMenu() {
-  const pomodoroDuration = usePomodoroDuration()
-  const settingsActions = useSettingsActions()
-
-  const [localStorageTimer, setLocalStorageTimer] = useLocalStorage({
-    key: "timerDuration",
-    defaultValue: timerDefaults.activityDuration,
-  })
-
-  return (
-    <Sheet>
-      <SheetTrigger className="flex w-9 items-center justify-center text-gray-600">
-        <MixerHorizontalIcon className="h-6 w-6 md:h-6 md:w-6" />
-      </SheetTrigger>
-      <SheetContent side="left" className="flex flex-col gap-10 sm:max-w-md">
-        <SheetHeader className="flex items-center border-b-[1px]">
-          <SheetTitle className="mb-4 text-2xl font-bold">Settings</SheetTitle>
-        </SheetHeader>
-
-        <div className="flex flex-col gap-6 px-8">
-          <div className="flex items-center gap-2">
-            <ClockIcon />
-            <p className="text-lg">Timer (minutes)</p>
-          </div>
-
-          <div className="flex items-center justify-between gap-6">
-            <p className="text-lg font-bold">Pomodoro</p>
-
-            <div className="flex items-center gap-4">
-              <Button
-                variant="outline"
-                className="h-10 w-11 text-base font-bold"
-                onClick={() => {
-                  const newDuration = pomodoroDuration - minsToMils(5)
-
-                  if (newDuration < timerDurationLimit.lowest) return
-
-                  settingsActions.changeActivityDuration(
-                    newDuration,
-                    "pomodoro",
-                  )
-
-                  localStorageTimer &&
-                    setLocalStorageTimer({
-                      ...localStorageTimer,
-                      pomodoro: newDuration,
-                    })
-                }}
-              >
-                -5
-              </Button>
-
-              <Input
-                className="h-10 w-16 text-center text-base font-medium"
-                type="text"
-                value={milsToMins(pomodoroDuration)}
-                maxLength={3}
-                onChange={(e) => {
-                  settingsActions.changeActivityDuration(
-                    minsToMils(Number(e.target.value)),
-                    "pomodoro",
-                  )
-                }}
-              />
-
-              <Button
-                variant="outline"
-                className="h-10 w-11 text-base font-bold"
-                onClick={() => {
-                  const newDuration = pomodoroDuration + minsToMils(5)
-
-                  if (newDuration > timerDurationLimit.highest) return
-
-                  settingsActions.changeActivityDuration(
-                    newDuration,
-                    "pomodoro",
-                  )
-
-                  localStorageTimer &&
-                    setLocalStorageTimer({
-                      ...localStorageTimer,
-                      pomodoro: newDuration,
-                    })
-                }}
-              >
-                +5
-              </Button>
-            </div>
-          </div>
-        </div>
-      </SheetContent>
-    </Sheet>
   )
 }
 
