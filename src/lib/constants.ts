@@ -1,5 +1,4 @@
 import { type Activity } from "@/lib/timer-store"
-import { getActivityDurationFromLocalStorage } from "@/lib/timer-utils"
 
 const activityDurationDev = {
   pomodoro: 1000 * 4,
@@ -13,6 +12,15 @@ const activityDurationProd = {
   pomodoro: 1000 * 60 * 25,
   shortBreak: 1000 * 60 * 5,
   longBreak: 1000 * 60 * 15,
+}
+
+function getActivityDurationFromLocalStorage() {
+  if (typeof window !== "undefined") {
+    const activityDuration = localStorage.getItem("timerDuration")
+    if (activityDuration) {
+      return JSON.parse(activityDuration) as ActivityDuration
+    }
+  }
 }
 
 export const activityDuration =

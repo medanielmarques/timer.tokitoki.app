@@ -1,5 +1,4 @@
 import {
-  type ActivityDuration,
   activityDuration,
   activityStateTransitions,
   timerDefaults,
@@ -59,7 +58,7 @@ export function formatActivityName(activity: Activity) {
 }
 
 export function formatTimer(timer: number, useInTabTitle = false) {
-  const addZeroBefore = (timer: number) => ("0" + timer.toString()).slice(-2)
+  const addZeroBefore = (timer: number) => ("0" + timer.toString()).slice(-3)
   const minutes = Math.floor(timer / 1000 / 60)
   const seconds = Math.floor(timer / 1000) % 60
 
@@ -111,6 +110,22 @@ export function useLocalStorageTimer() {
       localStorageTimer?.[currentActivity] ??
         timerDefaults.activityDuration[currentActivity],
     )
+
+    settingsActions.changeActivityTimer(
+      localStorageTimer?.pomodoro ?? timerDefaults.activityDuration.pomodoro,
+      "pomodoro",
+    )
+
+    settingsActions.changeActivityTimer(
+      localStorageTimer?.shortBreak ??
+        timerDefaults.activityDuration.shortBreak,
+      "shortBreak",
+    )
+
+    settingsActions.changeActivityTimer(
+      localStorageTimer?.longBreak ?? timerDefaults.activityDuration.longBreak,
+      "longBreak",
+    )
   }, [
     localStorageTimer,
     setLocalStorageTimer,
@@ -120,13 +135,4 @@ export function useLocalStorageTimer() {
   ])
 
   return [localStorageTimer, setLocalStorageTimer]
-}
-
-export function getActivityDurationFromLocalStorage() {
-  if (typeof window !== "undefined") {
-    const activityDuration = localStorage.getItem("timerDuration")
-    if (activityDuration) {
-      return JSON.parse(activityDuration) as ActivityDuration
-    }
-  }
 }

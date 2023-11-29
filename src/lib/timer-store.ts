@@ -23,6 +23,7 @@ type TimerStore = {
   settingsActions: {
     changeActivityDuration: (newDuration: number, activity: Activity) => void
     changeLongBreakInterval: (newInterval: number) => void
+    changeActivityTimer: (newTimer: number, activity: Activity) => void
   }
 
   actions: {
@@ -49,12 +50,16 @@ export const useTimerStore = create<TimerStore>((set, get) => {
     longBreakInterval: timerDefaults.longBreakInterval,
 
     settingsActions: {
-      changeActivityDuration: (newDuration: number, activity: Activity) => {
+      changeActivityDuration: (newDuration, activity) => {
         set({ [activity]: newDuration })
       },
 
-      changeLongBreakInterval: (newInterval: number) => {
+      changeLongBreakInterval: (newInterval) => {
         set({ longBreakInterval: newInterval })
+      },
+
+      changeActivityTimer: (newTimer, activity) => {
+        set({ [activity]: newTimer })
       },
     },
 
