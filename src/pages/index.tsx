@@ -7,7 +7,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { timerDefaults } from "@/lib/constants"
+import { timerDefaults, timerDurationLimit } from "@/lib/constants"
 import {
   type DirectionClicked,
   useCurrentActivity,
@@ -15,7 +15,6 @@ import {
   useIsRunning,
   usePomodoroDuration,
   useSettingsActions,
-  useTimer,
   useTimerActions,
 } from "@/lib/timer-store"
 import {
@@ -47,16 +46,29 @@ import { useSwipeable } from "react-swipeable"
 export default function Home() {
   useCountdown()
   const settingsActions = useSettingsActions()
-  const [timer, setTimer] = useLocalStorage({
-    key: "timer",
-    defaultValue: timerDefaults.activityDuration.pomodoro,
+  const timerActions = useTimerActions()
+
+  const currentActivity = useCurrentActivity()
+
+  const [localStorageTimer, setLocalStorageTimer] = useLocalStorage({
+    key: "timerDuration",
+    defaultValue: timerDefaults.activityDuration,
   })
 
   useEffect(() => {
-    !timer && setTimer(timer ?? 25)
+    timerActions.changeTimer(localStorageTimer?.[currentActivity] ?? 0)
 
-    settingsActions.changeActivityDuration(timer, "pomodoro")
-  }, [timer, setTimer, settingsActions])
+    // settingsActions.changeActivityDuration(
+    //   localStorageTimer?.[currentActivity] ?? 0,
+    //   "pomodoro",
+    // )
+  }, [
+    localStorageTimer,
+    setLocalStorageTimer,
+    settingsActions,
+    timerActions,
+    currentActivity,
+  ])
 
   return (
     <>
@@ -81,11 +93,11 @@ function TabTitleTimer() {
   const currentActivity = useCurrentActivity()
   const timer = useFormattedTimer(true)
 
+  const title = `${timer} - Toki - ${formatActivityName(currentActivity)}`
+
   return (
     <NextHead>
-      <title>{`${timer} - Toki - ${formatActivityName(
-        currentActivity,
-      )}`}</title>
+      <title>{title}</title>
     </NextHead>
   )
 }
@@ -121,9 +133,9 @@ function SettingsMenu() {
   const pomodoroDuration = usePomodoroDuration()
   const settingsActions = useSettingsActions()
 
-  const [_, setLocalStorageTimer] = useLocalStorage({
-    key: "timer",
-    defaultValue: timerDefaults.activityDuration.pomodoro,
+  const [localStorageTimer, setLocalStorageTimer] = useLocalStorage({
+    key: "timerDuration",
+    defaultValue: timerDefaults.activityDuration,
   })
 
   return (
@@ -152,12 +164,18 @@ function SettingsMenu() {
                 onClick={() => {
                   const newDuration = pomodoroDuration - minsToMils(5)
 
+                  if (newDuration < timerDurationLimit.lowest) return
+
                   settingsActions.changeActivityDuration(
                     newDuration,
                     "pomodoro",
                   )
 
-                  setLocalStorageTimer(newDuration)
+                  localStorageTimer &&
+                    setLocalStorageTimer({
+                      ...localStorageTimer,
+                      pomodoro: newDuration,
+                    })
                 }}
               >
                 -5
@@ -167,7 +185,7 @@ function SettingsMenu() {
                 className="h-10 w-16 text-center text-base font-medium"
                 type="text"
                 value={milsToMins(pomodoroDuration)}
-                maxLength={4}
+                maxLength={3}
                 onChange={(e) => {
                   settingsActions.changeActivityDuration(
                     minsToMils(Number(e.target.value)),
@@ -182,12 +200,18 @@ function SettingsMenu() {
                 onClick={() => {
                   const newDuration = pomodoroDuration + minsToMils(5)
 
+                  if (newDuration > timerDurationLimit.highest) return
+
                   settingsActions.changeActivityDuration(
                     newDuration,
                     "pomodoro",
                   )
 
-                  setLocalStorageTimer(newDuration)
+                  localStorageTimer &&
+                    setLocalStorageTimer({
+                      ...localStorageTimer,
+                      pomodoro: newDuration,
+                    })
                 }}
               >
                 +5

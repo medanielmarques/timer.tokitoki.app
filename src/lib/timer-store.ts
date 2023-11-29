@@ -27,6 +27,7 @@ type TimerStore = {
 
   actions: {
     getTimer: () => number
+    changeTimer: (newTimer: number) => void
     changeActivity: (directionClicked: DirectionClicked) => void
     countdown: () => void
     pause: () => void
@@ -59,6 +60,10 @@ export const useTimerStore = create<TimerStore>((set, get) => {
 
     actions: {
       getTimer: () => get()[get().currentActivity],
+
+      changeTimer: (newTimer: number) => {
+        set({ timer: newTimer })
+      },
 
       changeActivity: (directionClicked) => {
         const { currentActivity } = get()

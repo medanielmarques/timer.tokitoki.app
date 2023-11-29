@@ -31,6 +31,11 @@ export const timerDefaults: TimerDefaults = {
   longBreakInterval: 3,
 }
 
+export const timerDurationLimit = {
+  lowest: 1000 * 60 * 5,
+  highest: 1000 * 60 * 999,
+}
+
 type ActivityStateTransitions = Record<
   Activity,
   {
