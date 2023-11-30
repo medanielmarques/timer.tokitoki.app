@@ -106,10 +106,14 @@ function SettingsMenuChangeActivityDuration({
           value={milsToMins(activityDuration)}
           maxLength={3}
           onChange={(e) => {
-            settingsActions.changeActivityDuration(
-              minsToMils(Number(e.target.value)),
-              activity,
-            )
+            const newDuration = minsToMils(Number(e.target.value))
+
+            settingsActions.changeActivityDuration(newDuration, activity)
+
+            setLocalStorageTimer((current) => ({
+              ...current,
+              [activity]: newDuration,
+            }))
           }}
         />
 

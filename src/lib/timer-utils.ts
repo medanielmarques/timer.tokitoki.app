@@ -58,7 +58,11 @@ export function formatActivityName(activity: Activity) {
 }
 
 export function formatTimer(timer: number, useInTabTitle = false) {
-  const addZeroBefore = (timer: number) => ("0" + timer.toString()).slice(-3)
+  const addZeroBefore = (value: number) => {
+    const length = value >= 100 ? 3 : 2
+    return ("0".repeat(length) + value).slice(-length)
+  }
+
   const minutes = Math.floor(timer / 1000 / 60)
   const seconds = Math.floor(timer / 1000) % 60
 
