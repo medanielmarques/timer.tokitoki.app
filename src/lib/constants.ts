@@ -24,9 +24,7 @@ function getActivityDurationFromLocalStorage() {
 }
 
 export const activityDuration =
-  getActivityDurationFromLocalStorage() ?? process.env.NODE_ENV !== "production"
-    ? activityDurationProd
-    : activityDurationDev
+  getActivityDurationFromLocalStorage() ?? activityDurationProd
 
 type TimerDefaults = {
   activity: Activity

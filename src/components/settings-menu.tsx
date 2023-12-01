@@ -75,13 +75,13 @@ function SettingsMenuChangeActivityDuration({
   activityDuration: number
   setLocalStorageTimer: () => void
 }) {
-  const settingsActions = useSettingsActions()
+  const { changeActivityDuration } = useSettingsActions()
 
   function handleClick(action: "sum" | "subtract") {
     const sumOrSubtractFive = action === "sum" ? 5 : -5
     const newDuration = activityDuration + minsToMils(sumOrSubtractFive)
 
-    settingsActions.changeActivityDuration(newDuration, activity)
+    changeActivityDuration(newDuration, activity)
 
     setLocalStorageTimer((current) => ({
       ...current,
@@ -108,7 +108,7 @@ function SettingsMenuChangeActivityDuration({
           onChange={(e) => {
             const newDuration = minsToMils(Number(e.target.value))
 
-            settingsActions.changeActivityDuration(newDuration, activity)
+            changeActivityDuration(newDuration, activity)
 
             setLocalStorageTimer((current) => ({
               ...current,
