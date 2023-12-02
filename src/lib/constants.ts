@@ -1,12 +1,12 @@
 import { type Activity } from "@/lib/timer-store"
 
-const activityDurationDev = {
-  pomodoro: 1000 * 4,
+export const activityDurationDev = {
+  pomodoro: 1000 * 5,
   shortBreak: 1000 * 2,
   longBreak: 1000 * 3,
 }
 
-const activityDurationProd = {
+export const activityDurationProd = {
   pomodoro: 1000 * 60 * 25,
   shortBreak: 1000 * 60 * 5,
   longBreak: 1000 * 60 * 15,

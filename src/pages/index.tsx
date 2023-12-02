@@ -1,3 +1,4 @@
+import { DevModeTimer } from "@/components/dev-mode-timer"
 import { SettingsMenu } from "@/components/settings-menu"
 import { Button } from "@/components/ui/button"
 import {
@@ -65,7 +66,13 @@ function Header() {
 
   return (
     <div className="flex justify-between p-5">
-      <SettingsMenu setLocalStorageSettings={setLocalStorageSettings} />
+      <div className="flex items-center gap-2">
+        <SettingsMenu setLocalStorageSettings={setLocalStorageSettings} />
+
+        {process.env.NODE_ENV === "development" && (
+          <DevModeTimer setLocalStorageSettings={setLocalStorageSettings} />
+        )}
+      </div>
       <SignInButton />
     </div>
   )
@@ -78,11 +85,13 @@ function SignInButton() {
     <Button onClick={() => (session ? signOut() : signIn())} variant="outline">
       {session ? (
         <>
-          <ExitIcon className="mr-2 h-4 w-4" /> Sign out
+          <ExitIcon className="mr-2 h-4 w-4" />
+          <span>Sign out</span>
         </>
       ) : (
         <>
-          <PersonIcon className="mr-2 h-4 w-4" /> Sign In
+          <PersonIcon className="mr-2 h-4 w-4" />
+          <span>Sign in</span>
         </>
       )}
     </Button>
