@@ -11,7 +11,7 @@ import {
   formatActivityName,
   playToggleTimerSound,
   useCountdown,
-  useLocalStorageTimer,
+  useLocalStorageSettings,
 } from "@/lib/timer-utils"
 import { signIn, signOut } from "@/utils/supabase"
 import { ExitIcon, PersonIcon } from "@radix-ui/react-icons"
@@ -61,11 +61,11 @@ function TabTitleTimer() {
 }
 
 function Header() {
-  const [_, setLocalStorageTimer] = useLocalStorageTimer()
+  const [, setLocalStorageSettings] = useLocalStorageSettings()
 
   return (
     <div className="flex justify-between p-5">
-      <SettingsMenu setLocalStorageTimer={setLocalStorageTimer} />
+      <SettingsMenu setLocalStorageSettings={setLocalStorageSettings} />
       <SignInButton />
     </div>
   )

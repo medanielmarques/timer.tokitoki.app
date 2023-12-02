@@ -14,29 +14,21 @@ const activityDurationProd = {
   longBreak: 1000 * 60 * 15,
 }
 
-function getActivityDurationFromLocalStorage() {
-  if (typeof window !== "undefined") {
-    const activityDuration = localStorage.getItem("timerDuration")
-    if (activityDuration) {
-      return JSON.parse(activityDuration) as ActivityDuration
-    }
+export const activityDuration = activityDurationProd
+
+export type TimerDefaults = {
+  defaultActivity: Activity
+  activityDuration: {
+    pomodoro: number
+    shortBreak: number
+    longBreak: number
   }
-}
-
-export const activityDuration =
-  getActivityDurationFromLocalStorage() ?? activityDurationProd
-
-type TimerDefaults = {
-  activity: Activity
-  activityDuration: typeof activityDuration
-  formattedTimer: string
   longBreakInterval: number
 }
 
 export const timerDefaults: TimerDefaults = {
-  activity: "pomodoro",
+  defaultActivity: "pomodoro",
   activityDuration,
-  formattedTimer: "25 : 00",
   longBreakInterval: 3,
 }
 

@@ -99,44 +99,46 @@ export function useCountdown() {
   }, [countdown, isRunning, isTimerFinished])
 }
 
-export function useLocalStorageTimer() {
+export function useLocalStorageSettings() {
   const settingsActions = useSettingsActions()
   const timerActions = useTimerActions()
   const currentActivity = useCurrentActivity()
 
-  const [localStorageTimer, setLocalStorageTimer] = useLocalStorage({
-    key: "timerDuration",
-    defaultValue: timerDefaults.activityDuration,
+  const [localStorageSettings, setLocalStorageSettings] = useLocalStorage({
+    key: "toki-settings",
+    defaultValue: timerDefaults,
   })
 
   useEffect(() => {
     timerActions.changeTimer(
-      localStorageTimer?.[currentActivity] ??
+      localStorageSettings?.activityDuration[currentActivity] ??
         timerDefaults.activityDuration[currentActivity],
     )
 
     settingsActions.changeActivityTimer(
-      localStorageTimer?.pomodoro ?? timerDefaults.activityDuration.pomodoro,
+      localStorageSettings?.activityDuration.pomodoro ??
+        timerDefaults.activityDuration.pomodoro,
       "pomodoro",
     )
 
     settingsActions.changeActivityTimer(
-      localStorageTimer?.shortBreak ??
+      localStorageSettings?.activityDuration.shortBreak ??
         timerDefaults.activityDuration.shortBreak,
       "shortBreak",
     )
 
     settingsActions.changeActivityTimer(
-      localStorageTimer?.longBreak ?? timerDefaults.activityDuration.longBreak,
+      localStorageSettings?.activityDuration.longBreak ??
+        timerDefaults.activityDuration.longBreak,
       "longBreak",
     )
   }, [
-    localStorageTimer,
-    setLocalStorageTimer,
+    localStorageSettings,
+    setLocalStorageSettings,
     settingsActions,
     timerActions,
     currentActivity,
   ])
 
-  return [localStorageTimer, setLocalStorageTimer]
+  return [localStorageSettings, setLocalStorageSettings]
 }

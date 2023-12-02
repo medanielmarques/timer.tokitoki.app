@@ -39,8 +39,8 @@ type TimerStore = {
 
 export const useTimerStore = create<TimerStore>((set, get) => {
   return {
-    currentActivity: timerDefaults.activity,
-    timer: timerDefaults.activityDuration[timerDefaults.activity],
+    currentActivity: timerDefaults.defaultActivity,
+    timer: timerDefaults.activityDuration[timerDefaults.defaultActivity],
     isRunning: false,
     isTimerFinished: false,
 

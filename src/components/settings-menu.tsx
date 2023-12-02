@@ -19,9 +19,9 @@ import { formatActivityName, milsToMins, minsToMils } from "@/lib/timer-utils"
 import { ClockIcon, MixerHorizontalIcon } from "@radix-ui/react-icons"
 
 export function SettingsMenu({
-  setLocalStorageTimer,
+  setLocalStorageSettings,
 }: {
-  setLocalStorageTimer: () => void
+  setLocalStorageSettings: () => void
 }) {
   const pomodoroDuration = usePomodoroDuration()
   const shortBreakDuration = useShortBreakDuration()
@@ -46,19 +46,19 @@ export function SettingsMenu({
           <SettingsMenuChangeActivityDuration
             activity="pomodoro"
             activityDuration={pomodoroDuration}
-            setLocalStorageTimer={setLocalStorageTimer}
+            setLocalStorageSettings={setLocalStorageSettings}
           />
 
           <SettingsMenuChangeActivityDuration
             activity="shortBreak"
             activityDuration={shortBreakDuration}
-            setLocalStorageTimer={setLocalStorageTimer}
+            setLocalStorageSettings={setLocalStorageSettings}
           />
 
           <SettingsMenuChangeActivityDuration
             activity="longBreak"
             activityDuration={longBreakDuration}
-            setLocalStorageTimer={setLocalStorageTimer}
+            setLocalStorageSettings={setLocalStorageSettings}
           />
         </div>
       </SheetContent>
@@ -69,11 +69,11 @@ export function SettingsMenu({
 function SettingsMenuChangeActivityDuration({
   activity,
   activityDuration,
-  setLocalStorageTimer,
+  setLocalStorageSettings,
 }: {
   activity: Activity
   activityDuration: number
-  setLocalStorageTimer: () => void
+  setLocalStorageSettings: () => void
 }) {
   const { changeActivityDuration } = useSettingsActions()
 
@@ -83,9 +83,12 @@ function SettingsMenuChangeActivityDuration({
 
     changeActivityDuration(newDuration, activity)
 
-    setLocalStorageTimer((current) => ({
+    setLocalStorageSettings((current) => ({
       ...current,
-      [activity]: newDuration,
+      activityDuration: {
+        ...current.activityDuration,
+        [activity]: newDuration,
+      },
     }))
   }
 
@@ -110,9 +113,12 @@ function SettingsMenuChangeActivityDuration({
 
             changeActivityDuration(newDuration, activity)
 
-            setLocalStorageTimer((current) => ({
+            setLocalStorageSettings((current) => ({
               ...current,
-              [activity]: newDuration,
+              activityDuration: {
+                ...current.activityDuration,
+                [activity]: newDuration,
+              },
             }))
           }}
         />
