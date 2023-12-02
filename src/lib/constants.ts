@@ -1,9 +1,9 @@
 import { type Activity } from "@/lib/timer-store"
 
 export const activityDurationDev = {
-  pomodoro: 1000 * 5,
-  shortBreak: 1000 * 2,
-  longBreak: 1000 * 3,
+  pomodoro: 1000 * 3,
+  shortBreak: 1000 * 1,
+  longBreak: 1000 * 2,
 }
 
 export const activityDurationProd = {
