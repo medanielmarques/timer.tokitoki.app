@@ -99,14 +99,14 @@ function SignInButton() {
 }
 
 function Timer() {
-  const { changeActivity } = useTimerActions()
+  const { changeCurrentActivity } = useTimerActions()
   const timer = useFormattedTimer()
   const currentActivity = useCurrentActivity()
   const isRunning = useIsRunning()
 
   const handleSwipe = useSwipeable({
-    onSwipedLeft: () => !isRunning && changeActivity("right"),
-    onSwipedRight: () => !isRunning && changeActivity("left"),
+    onSwipedLeft: () => !isRunning && changeCurrentActivity("right"),
+    onSwipedRight: () => !isRunning && changeCurrentActivity("left"),
   })
 
   return (
@@ -127,12 +127,12 @@ function Timer() {
 }
 
 function ChangeActivityButton({ direction }: { direction: DirectionClicked }) {
-  const { changeActivity } = useTimerActions()
+  const { changeCurrentActivity } = useTimerActions()
 
   return (
     <button
       className="flex items-center justify-center rounded-full bg-gray-100 p-1 text-gray-500"
-      onClick={() => changeActivity(direction)}
+      onClick={() => changeCurrentActivity(direction)}
     >
       {direction === "left" ? (
         <IconChevronLeft className="cursor-pointer" />

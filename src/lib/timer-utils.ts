@@ -112,22 +112,26 @@ export function useLocalStorageSettings() {
   useEffect(() => {
     if (localStorageSettings) {
       timerActions.changeTimer(
-        localStorageSettings?.activityDuration[currentActivity],
+        localStorageSettings.activityDuration[currentActivity],
       )
 
       settingsActions.changeActivityTimer(
-        localStorageSettings?.activityDuration.pomodoro,
+        localStorageSettings.activityDuration.pomodoro,
         "pomodoro",
       )
 
       settingsActions.changeActivityTimer(
-        localStorageSettings?.activityDuration.shortBreak,
+        localStorageSettings.activityDuration.shortBreak,
         "shortBreak",
       )
 
       settingsActions.changeActivityTimer(
-        localStorageSettings?.activityDuration.longBreak,
+        localStorageSettings.activityDuration.longBreak,
         "longBreak",
+      )
+
+      settingsActions.changeLongBreakIntervalCount(
+        localStorageSettings.longBreakIntervalCount,
       )
     }
   }, [

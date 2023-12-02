@@ -23,6 +23,7 @@ export type TimerDefaults = {
   }
   longBreakInterval: number
   longBreakIntervalCount: number
+  autoStart: boolean
 }
 
 export const timerDefaults: TimerDefaults = {
@@ -30,6 +31,7 @@ export const timerDefaults: TimerDefaults = {
   activityDuration,
   longBreakInterval: 3,
   longBreakIntervalCount: 0,
+  autoStart: false,
 }
 
 export const timerDurationLimit = {

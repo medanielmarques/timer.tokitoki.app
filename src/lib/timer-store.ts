@@ -22,17 +22,21 @@ type TimerStore = {
   shortBreak: number
   longBreak: number
   longBreakInterval: number
+  autoStart: boolean
 
   settingsActions: {
     changeActivityDuration: (newDuration: number, activity: Activity) => void
     changeLongBreakInterval: (newInterval: number) => void
+    changeLongBreakIntervalCount: (newCount: number) => void
+    updateLongBreakIntervalCount: () => void
     changeActivityTimer: (newTimer: number, activity: Activity) => void
+    changeAutoStart: (autoStart: boolean) => void
   }
 
   actions: {
     getTimer: () => number
     changeTimer: (newTimer: number) => void
-    changeActivity: (directionClicked: DirectionClicked) => void
+    changeCurrentActivity: (directionClicked: DirectionClicked) => void
     countdown: () => void
     pause: () => void
     play: () => void
@@ -46,12 +50,13 @@ export const useTimerStore = create<TimerStore>((set, get) => {
     timer: timerDefaults.activityDuration[timerDefaults.defaultActivity],
     isRunning: false,
     isTimerFinished: false,
-    longBreakIntervalCount: 0,
 
     pomodoro: timerDefaults.activityDuration.pomodoro,
     shortBreak: timerDefaults.activityDuration.shortBreak,
     longBreak: timerDefaults.activityDuration.longBreak,
     longBreakInterval: timerDefaults.longBreakInterval,
+    longBreakIntervalCount: timerDefaults.longBreakIntervalCount,
+    autoStart: timerDefaults.autoStart,
 
     settingsActions: {
       changeActivityDuration: (newDuration, activity) => {
@@ -62,8 +67,20 @@ export const useTimerStore = create<TimerStore>((set, get) => {
         set({ longBreakInterval: newInterval })
       },
 
+      changeLongBreakIntervalCount: (newCount) => {
+        set({ longBreakIntervalCount: newCount })
+      },
+
+      updateLongBreakIntervalCount: () => {
+        set({ longBreakIntervalCount: get().longBreakIntervalCount + 1 })
+      },
+
       changeActivityTimer: (newTimer, activity) => {
         set({ [activity]: newTimer })
+      },
+
+      changeAutoStart(autoStart) {
+        set({ autoStart })
       },
     },
 
@@ -74,7 +91,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
         set({ timer: newTimer })
       },
 
-      changeActivity: (directionClicked) => {
+      changeCurrentActivity: (directionClicked) => {
         const { currentActivity } = get()
 
         const nextActivity = decideNextActivity(
@@ -91,33 +108,40 @@ export const useTimerStore = create<TimerStore>((set, get) => {
 
       countdown: () => {
         const { timer } = get()
+        console.log(get().longBreakIntervalCount)
 
         if (timer > 0) {
           const updatedTimer = timer - 1000
           set({ timer: updatedTimer })
         } else {
-          const newLongBreakIntervalCount = get().longBreakIntervalCount + 1
+          playAlarmSound()
+          const { currentActivity, longBreakIntervalCount, autoStart } = get()
+          const { restart } = get().actions
+
+          if (currentActivity === "pomodoro") {
+            const newLongBreakIntervalCount = longBreakIntervalCount + 1
+
+            set({ longBreakIntervalCount: newLongBreakIntervalCount })
+
+            const settings = localStorage.getItem("toki-settings")
+            if (!settings) return null
+
+            const parsedSettings = JSON.parse(settings) as TimerStore
+            localStorage.setItem(
+              "toki-settings",
+              JSON.stringify({
+                ...parsedSettings,
+                longBreakIntervalCount: newLongBreakIntervalCount,
+              }),
+            )
+          }
 
           set({
             isRunning: false,
             isTimerFinished: true,
-            longBreakIntervalCount: newLongBreakIntervalCount,
           })
 
-          const settings = localStorage.getItem("toki-settings")
-          const parsedSettings =
-            settings && (JSON.parse(settings) as TimerStore)
-          localStorage.setItem(
-            "toki-settings",
-            JSON.stringify({
-              ...parsedSettings,
-              longBreakIntervalCount: newLongBreakIntervalCount,
-            }),
-          )
-
-          // if(autoStart) {
-          //   get().actions.restart()
-          // }
+          if (autoStart) restart()
         }
       },
 
@@ -139,11 +163,24 @@ export const useTimerStore = create<TimerStore>((set, get) => {
 
         const shouldNextActivityBeLongBreak =
           currentActivity === "pomodoro" &&
-          longBreakIntervalCount < longBreakInterval
+          longBreakIntervalCount === longBreakInterval
 
         if (shouldNextActivityBeLongBreak) {
           nextActivity = "longBreak"
           nextTimer = decideNextTimer(nextActivity)
+          set({ longBreakIntervalCount: 0 })
+
+          const settings = localStorage.getItem("toki-settings")
+          if (!settings) return null
+
+          const parsedSettings = JSON.parse(settings) as TimerStore
+          localStorage.setItem(
+            "toki-settings",
+            JSON.stringify({
+              ...parsedSettings,
+              longBreakIntervalCount: 0,
+            }),
+          )
         } else {
           nextActivity = decideNextActivity(currentActivity, "right")
           nextTimer = decideNextTimer(nextActivity)
@@ -188,3 +225,6 @@ export const useShortBreakDuration = () =>
 
 export const useLongBreakDuration = () =>
   useTimerStore((state) => state.longBreak)
+
+export const useLongBreakInterval = () =>
+  useTimerStore((state) => state.longBreakInterval)
