@@ -5,11 +5,11 @@ import {
   useCurrentActivity,
   useFormattedTimer,
   useIsRunning,
+  useIsTimerFinished,
   useTimerActions,
 } from "@/lib/timer-store"
 import {
   formatActivityName,
-  playToggleTimerSound,
   useCountdown,
   useLocalStorageSettings,
 } from "@/lib/timer-utils"
@@ -135,16 +135,22 @@ function ChangeActivityButton({ direction }: { direction: DirectionClicked }) {
 }
 
 function PlayPauseButton() {
-  const { play, pause } = useTimerActions()
+  const { play, pause, restart } = useTimerActions()
   const isRunning = useIsRunning()
+  const isTimerFinished = useIsTimerFinished()
+
+  function handleClick() {
+    if (isTimerFinished) {
+      restart()
+    } else {
+      isRunning ? pause() : play()
+    }
+  }
 
   return (
     <button
       className="flex h-20 w-24 items-center justify-center rounded-3xl bg-gray-600 text-white md:h-24 md:w-32"
-      onClick={() => {
-        playToggleTimerSound()
-        isRunning ? pause() : play()
-      }}
+      onClick={handleClick}
     >
       {isRunning ? (
         <IconPlayerPauseFilled className="h-9 w-9 md:h-11 md:w-11" />

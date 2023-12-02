@@ -6,8 +6,6 @@ const activityDurationDev = {
   longBreak: 1000 * 3,
 }
 
-export type ActivityDuration = typeof activityDurationDev
-
 const activityDurationProd = {
   pomodoro: 1000 * 60 * 25,
   shortBreak: 1000 * 60 * 5,
@@ -24,12 +22,14 @@ export type TimerDefaults = {
     longBreak: number
   }
   longBreakInterval: number
+  longBreakIntervalCount: number
 }
 
 export const timerDefaults: TimerDefaults = {
   defaultActivity: "pomodoro",
   activityDuration,
   longBreakInterval: 3,
+  longBreakIntervalCount: 0,
 }
 
 export const timerDurationLimit = {

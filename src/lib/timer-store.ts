@@ -4,6 +4,7 @@ import {
   decideNextTimer,
   formatTimer,
   playAlarmSound,
+  playToggleTimerSound,
 } from "@/lib/timer-utils"
 import { create } from "zustand"
 
@@ -15,6 +16,8 @@ type TimerStore = {
   timer: number
   isRunning: boolean
   isTimerFinished: boolean
+  longBreakIntervalCount: number
+
   pomodoro: number
   shortBreak: number
   longBreak: number
@@ -43,6 +46,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
     timer: timerDefaults.activityDuration[timerDefaults.defaultActivity],
     isRunning: false,
     isTimerFinished: false,
+    longBreakIntervalCount: 0,
 
     pomodoro: timerDefaults.activityDuration.pomodoro,
     shortBreak: timerDefaults.activityDuration.shortBreak,
@@ -92,21 +96,66 @@ export const useTimerStore = create<TimerStore>((set, get) => {
           const updatedTimer = timer - 1000
           set({ timer: updatedTimer })
         } else {
+          const newLongBreakIntervalCount = get().longBreakIntervalCount + 1
+
           set({
             isRunning: false,
             isTimerFinished: true,
+            longBreakIntervalCount: newLongBreakIntervalCount,
           })
-          get().actions.restart()
+
+          const settings = localStorage.getItem("toki-settings")
+          const parsedSettings =
+            settings && (JSON.parse(settings) as TimerStore)
+          localStorage.setItem(
+            "toki-settings",
+            JSON.stringify({
+              ...parsedSettings,
+              longBreakIntervalCount: newLongBreakIntervalCount,
+            }),
+          )
+
+          // if(autoStart) {
+          //   get().actions.restart()
+          // }
         }
       },
 
-      pause: () => set({ isRunning: false }),
-      play: () => set({ isRunning: true }),
+      pause: () => {
+        set({ isRunning: false })
+        playToggleTimerSound()
+      },
+      play: () => {
+        set({ isRunning: true })
+        playToggleTimerSound()
+      },
 
       restart: () => {
-        // não tenho como decidir a próxima atividade aqui,
-        // pois sem o longBreakInterval não dá pra decidir.
-        // Isso vai ser implementado junto com o Settings Menu.
+        const { currentActivity, longBreakInterval, longBreakIntervalCount } =
+          get()
+
+        let nextActivity: Activity
+        let nextTimer = 0
+
+        const shouldNextActivityBeLongBreak =
+          currentActivity === "pomodoro" &&
+          longBreakIntervalCount < longBreakInterval
+
+        if (shouldNextActivityBeLongBreak) {
+          nextActivity = "longBreak"
+          nextTimer = decideNextTimer(nextActivity)
+        } else {
+          nextActivity = decideNextActivity(currentActivity, "right")
+          nextTimer = decideNextTimer(nextActivity)
+        }
+
+        set({
+          currentActivity: nextActivity,
+          timer: nextTimer,
+          isRunning: true,
+          isTimerFinished: false,
+        })
+
         playAlarmSound()
       },
     },
