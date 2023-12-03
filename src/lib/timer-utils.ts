@@ -28,17 +28,6 @@ export function playToggleTimerSound() {
   void toggleTimerSound.play()
 }
 
-export function decideNextTimer(currentActivity: Activity) {
-  switch (currentActivity) {
-    case "pomodoro":
-      return activityDuration.pomodoro
-    case "shortBreak":
-      return activityDuration.shortBreak
-    case "longBreak":
-      return activityDuration.longBreak
-  }
-}
-
 export function decideNextActivity(
   currentActivity: Activity,
   directionClicked: DirectionClicked,
