@@ -1,18 +1,11 @@
-import {
-  activityDuration,
-  activityStateTransitions,
-  timerDefaults,
-} from "@/lib/constants"
+import { activityStateTransitions } from "@/lib/constants"
 import {
   type Activity,
   type DirectionClicked,
-  useCurrentActivity,
   useIsRunning,
-  useIsTimerFinished,
-  useSettingsActions,
   useTimerActions,
 } from "@/lib/timer-store"
-import { useLocalStorage } from "@mantine/hooks"
+import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { useEffect } from "react"
 
 const bubble = "../audio/bubble.mp3"
@@ -75,61 +68,16 @@ export function minsToMils(mins: number) {
 export function useCountdown() {
   const { countdown } = useTimerActions()
   const isRunning = useIsRunning()
-  const isTimerFinished = useIsTimerFinished()
+
+  const { setLocalStorageSettings } = useLocalStorageSettings()
 
   useEffect(() => {
     if (isRunning) {
       const countdownInterval = setInterval(() => {
-        countdown()
+        countdown(setLocalStorageSettings)
       }, 1000)
 
       return () => clearInterval(countdownInterval)
     }
-  }, [countdown, isRunning, isTimerFinished])
-}
-
-export function useLocalStorageSettings() {
-  const settingsActions = useSettingsActions()
-  const timerActions = useTimerActions()
-  const currentActivity = useCurrentActivity()
-
-  const [localStorageSettings, setLocalStorageSettings] = useLocalStorage({
-    key: "toki-settings",
-    defaultValue: timerDefaults,
-  })
-
-  useEffect(() => {
-    if (localStorageSettings) {
-      timerActions.changeTimer(
-        localStorageSettings.activityDuration[currentActivity],
-      )
-
-      settingsActions.changeActivityTimer(
-        localStorageSettings.activityDuration.pomodoro,
-        "pomodoro",
-      )
-
-      settingsActions.changeActivityTimer(
-        localStorageSettings.activityDuration.shortBreak,
-        "shortBreak",
-      )
-
-      settingsActions.changeActivityTimer(
-        localStorageSettings.activityDuration.longBreak,
-        "longBreak",
-      )
-
-      settingsActions.changeLongBreakIntervalCount(
-        localStorageSettings.longBreakIntervalCount,
-      )
-    }
-  }, [
-    localStorageSettings,
-    setLocalStorageSettings,
-    settingsActions,
-    timerActions,
-    currentActivity,
-  ])
-
-  return [localStorageSettings, setLocalStorageSettings]
+  }, [countdown, isRunning, setLocalStorageSettings])
 }

@@ -1,9 +1,11 @@
 import { activityDurationDev, activityDurationProd } from "@/lib/constants"
 import { useTimer } from "@/lib/timer-store"
+import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { TimerIcon } from "@radix-ui/react-icons"
 
-export function DevModeTimer({ setLocalStorageSettings }) {
+export function DevModeTimer() {
   const timer = useTimer()
+  const { setLocalStorageSettings } = useLocalStorageSettings()
 
   const activityDuration =
     timer === activityDurationDev.pomodoro

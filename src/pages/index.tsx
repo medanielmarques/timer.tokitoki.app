@@ -6,14 +6,9 @@ import {
   useCurrentActivity,
   useFormattedTimer,
   useIsRunning,
-  useIsTimerFinished,
   useTimerActions,
 } from "@/lib/timer-store"
-import {
-  formatActivityName,
-  useCountdown,
-  useLocalStorageSettings,
-} from "@/lib/timer-utils"
+import { formatActivityName, useCountdown } from "@/lib/timer-utils"
 import { signIn, signOut } from "@/utils/supabase"
 import { ExitIcon, PersonIcon } from "@radix-ui/react-icons"
 import { useSession } from "@supabase/auth-helpers-react"
@@ -62,16 +57,12 @@ function TabTitleTimer() {
 }
 
 function Header() {
-  const [, setLocalStorageSettings] = useLocalStorageSettings()
-
   return (
     <div className="flex justify-between p-5">
       <div className="flex items-center gap-2">
-        <SettingsMenu setLocalStorageSettings={setLocalStorageSettings} />
+        <SettingsMenu />
 
-        {process.env.NODE_ENV === "development" && (
-          <DevModeTimer setLocalStorageSettings={setLocalStorageSettings} />
-        )}
+        {process.env.NODE_ENV === "development" && <DevModeTimer />}
       </div>
       <SignInButton />
     </div>

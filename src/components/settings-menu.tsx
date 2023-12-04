@@ -16,13 +16,10 @@ import {
   useShortBreakDuration,
 } from "@/lib/timer-store"
 import { formatActivityName, milsToMins, minsToMils } from "@/lib/timer-utils"
+import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { ClockIcon, MixerHorizontalIcon } from "@radix-ui/react-icons"
 
-export function SettingsMenu({
-  setLocalStorageSettings,
-}: {
-  setLocalStorageSettings: () => void
-}) {
+export function SettingsMenu() {
   const pomodoroDuration = usePomodoroDuration()
   const shortBreakDuration = useShortBreakDuration()
   const longBreakDuration = useLongBreakDuration()
@@ -46,19 +43,16 @@ export function SettingsMenu({
           <SettingsMenuChangeActivityDuration
             activity="pomodoro"
             activityDuration={pomodoroDuration}
-            setLocalStorageSettings={setLocalStorageSettings}
           />
 
           <SettingsMenuChangeActivityDuration
             activity="shortBreak"
             activityDuration={shortBreakDuration}
-            setLocalStorageSettings={setLocalStorageSettings}
           />
 
           <SettingsMenuChangeActivityDuration
             activity="longBreak"
             activityDuration={longBreakDuration}
-            setLocalStorageSettings={setLocalStorageSettings}
           />
         </div>
       </SheetContent>
@@ -69,13 +63,12 @@ export function SettingsMenu({
 function SettingsMenuChangeActivityDuration({
   activity,
   activityDuration,
-  setLocalStorageSettings,
 }: {
   activity: Activity
   activityDuration: number
-  setLocalStorageSettings: () => void
 }) {
   const { changeActivityDuration } = useSettingsActions()
+  const { setLocalStorageSettings } = useLocalStorageSettings()
 
   function handleClick(action: "sum" | "subtract") {
     const sumOrSubtractFive = action === "sum" ? 5 : -5
