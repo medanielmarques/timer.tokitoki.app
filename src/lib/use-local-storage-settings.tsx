@@ -54,8 +54,6 @@ export function LocalStorageSettingsProvider({
         "longBreak",
       )
 
-      console.log(localStorageSettings, "here")
-
       settingsActions.changeLongBreakIntervalCount(
         localStorageSettings.longBreakIntervalCount,
       )

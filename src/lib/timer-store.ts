@@ -120,7 +120,6 @@ export const useTimerStore = create<TimerStore>((set, get) => {
           let nextTimer = 0
 
           // update long break interval count
-          console.log({ longBreakIntervalCount, currentActivity })
           if (currentActivity === "pomodoro") {
             newLongBreakIntervalCount = longBreakIntervalCount + 1
 
@@ -137,7 +136,16 @@ export const useTimerStore = create<TimerStore>((set, get) => {
                 longBreakIntervalCount: 0,
               }))
 
-              set({ longBreakIntervalCount: 0 })
+              nextTimer = get()?.[nextActivity]
+
+              set({
+                currentActivity: nextActivity,
+                timer: nextTimer,
+              })
+
+              if (autoStart) set({ isRunning: true })
+
+              return
             } else {
               set({ longBreakIntervalCount: newLongBreakIntervalCount })
 
@@ -145,19 +153,23 @@ export const useTimerStore = create<TimerStore>((set, get) => {
                 ...current,
                 longBreakIntervalCount: newLongBreakIntervalCount,
               }))
+
+              nextActivity = "shortBreak"
+              nextTimer = get()?.[nextActivity]
+
+              set({
+                currentActivity: nextActivity,
+                timer: nextTimer,
+              })
+
+              if (autoStart) set({ isRunning: true })
+
+              return
             }
           }
           // update long break interval count
 
-          switch (currentActivity) {
-            case "pomodoro":
-              nextActivity = "shortBreak"
-              break
-            default:
-              nextActivity = "pomodoro"
-              break
-          }
-
+          nextActivity = "pomodoro"
           nextTimer = get()?.[nextActivity]
 
           set({
