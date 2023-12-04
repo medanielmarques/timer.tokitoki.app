@@ -17,6 +17,14 @@
       }
     },
     {
+      "label": "Launch Toki Development terminals without Docker",
+      "dependsOn": ["toki-app", "prisma-studio"],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
       "label": "toki-app",
       "type": "shell",
       "command": "pnpm dev",
