@@ -1,9 +1,11 @@
+import { activityStateTransitions } from "@/lib/constants"
 import {
   type Activity,
+  type DirectionClicked,
   useIsRunning,
-  useIsTimerFinished,
   useTimerActions,
 } from "@/lib/timer-store"
+import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { useEffect } from "react"
 
 const bubble = "../audio/bubble.mp3"
@@ -19,19 +21,30 @@ export function playToggleTimerSound() {
   void toggleTimerSound.play()
 }
 
-export function formatActivity(activity: Activity) {
+export function decideNextActivity(
+  currentActivity: Activity,
+  directionClicked: DirectionClicked,
+) {
+  return activityStateTransitions[currentActivity][directionClicked]
+}
+
+export function formatActivityName(activity: Activity) {
   switch (activity) {
     case "pomodoro":
       return "Pomodoro"
-    case "short_break":
+    case "shortBreak":
       return "Short Break"
-    case "long_break":
+    case "longBreak":
       return "Long Break"
   }
 }
 
 export function formatTimer(timer: number, useInTabTitle = false) {
-  const addZeroBefore = (timer: number) => ("0" + timer.toString()).slice(-2)
+  const addZeroBefore = (value: number) => {
+    const length = value >= 100 ? 3 : 2
+    return ("0".repeat(length) + value).slice(-length)
+  }
+
   const minutes = Math.floor(timer / 1000 / 60)
   const seconds = Math.floor(timer / 1000) % 60
 
@@ -44,18 +57,27 @@ export function formatTimer(timer: number, useInTabTitle = false) {
   return formattedTimer
 }
 
+export function milsToMins(mils: number) {
+  return mils / 1000 / 60
+}
+
+export function minsToMils(mins: number) {
+  return mins * 1000 * 60
+}
+
 export function useCountdown() {
   const { countdown } = useTimerActions()
   const isRunning = useIsRunning()
-  const isTimerFinished = useIsTimerFinished()
+
+  const { setLocalStorageSettings } = useLocalStorageSettings()
 
   useEffect(() => {
     if (isRunning) {
       const countdownInterval = setInterval(() => {
-        countdown()
+        countdown(setLocalStorageSettings)
       }, 1000)
 
       return () => clearInterval(countdownInterval)
     }
-  }, [countdown, isRunning, isTimerFinished])
+  }, [countdown, isRunning, setLocalStorageSettings])
 }

@@ -1,3 +1,4 @@
+import { LocalStorageSettingsProvider } from "@/lib/use-local-storage-settings"
 import { api } from "@/utils/api"
 import { supabase } from "@/utils/supabase"
 import { SessionContextProvider } from "@supabase/auth-helpers-react"
@@ -12,7 +13,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <main className={montserrat.className}>
       <SessionContextProvider supabaseClient={supabase}>
-        <Component {...pageProps} />
+        <LocalStorageSettingsProvider>
+          <Component {...pageProps} />
+        </LocalStorageSettingsProvider>
       </SessionContextProvider>
     </main>
   )
