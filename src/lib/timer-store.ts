@@ -1,15 +1,17 @@
-import { timerDefaults } from "@/lib/constants"
+import { type TimerDefaults, timerDefaults } from "@/lib/constants"
 import {
   decideNextActivity,
   formatTimer,
   playAlarmSound,
   playToggleTimerSound,
 } from "@/lib/timer-utils"
-import { type SettingsContextType } from "@/lib/use-local-storage-settings"
+import { type SetLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { create } from "zustand"
 
 export type Activity = "pomodoro" | "shortBreak" | "longBreak"
 export type DirectionClicked = "left" | "right"
+
+type MakeOptional<T> = { [K in keyof T]?: T[K] }
 
 type TimerStore = {
   currentActivity: Activity
@@ -35,11 +37,23 @@ type TimerStore = {
     getTimer: () => number
     changeTimer: (newTimer: number) => void
     changeCurrentActivity: (directionClicked: DirectionClicked) => void
-    countdown: (
-      settingsActions: SettingsContextType["setLocalStorageSettings"],
-    ) => void
+    decrementTimer: () => void
     pause: () => void
     play: () => void
+    countdown: (settingsActions: SetLocalStorageSettings) => void
+    handleActivityEnd: (settingsActions: SetLocalStorageSettings) => void
+    handleBreakEnd: (settingsActions: SetLocalStorageSettings) => void
+
+    handlePomodoroEnd: (
+      settingsActions: SetLocalStorageSettings,
+      newLongBreakIntervalCount: number,
+    ) => void
+
+    transitionToActivity: (
+      nextActivity: Activity,
+      settingsActions: SetLocalStorageSettings,
+      newSettings?: MakeOptional<TimerDefaults>,
+    ) => void
   }
 }
 
@@ -100,87 +114,86 @@ export const useTimerStore = create<TimerStore>((set, get) => {
         })
       },
 
-      countdown: (setLocalStorageSettings) => {
+      decrementTimer: () => {
         const { timer } = get()
+        const updatedTimer = timer - 1000
+        set({ timer: updatedTimer })
+      },
+
+      handleActivityEnd: (setLocalStorageSettings) => {
+        const { currentActivity, longBreakIntervalCount } = get()
+        const { handleBreakEnd, handlePomodoroEnd } = get().actions
+
+        playAlarmSound()
+        set({ isRunning: false })
+
+        if (currentActivity === "pomodoro") {
+          const newLongBreakIntervalCount = longBreakIntervalCount + 1
+          handlePomodoroEnd(setLocalStorageSettings, newLongBreakIntervalCount)
+        } else {
+          handleBreakEnd(setLocalStorageSettings)
+        }
+      },
+
+      handlePomodoroEnd: (
+        setLocalStorageSettings,
+        newLongBreakIntervalCount,
+      ) => {
+        const { longBreakInterval } = get()
+        const { transitionToActivity } = get().actions
+
+        const shouldNextActivityBeLongBreak =
+          newLongBreakIntervalCount === longBreakInterval
+
+        if (shouldNextActivityBeLongBreak) {
+          set({ longBreakIntervalCount: 0 })
+          transitionToActivity("longBreak", setLocalStorageSettings, {
+            longBreakIntervalCount: 0,
+          })
+        } else {
+          set({ longBreakIntervalCount: newLongBreakIntervalCount })
+          transitionToActivity("shortBreak", setLocalStorageSettings, {
+            longBreakIntervalCount: newLongBreakIntervalCount,
+          })
+        }
+      },
+
+      handleBreakEnd: (setLocalStorageSettings) => {
+        const { transitionToActivity } = get().actions
+        transitionToActivity("pomodoro", setLocalStorageSettings)
+      },
+
+      transitionToActivity: (
+        nextActivity,
+        setLocalStorageSettings,
+        newSettings,
+      ) => {
+        const { autoStart } = get()
+        const nextTimer = get()?.[nextActivity]
+
+        setLocalStorageSettings((currentSettings) => ({
+          ...currentSettings,
+          ...newSettings,
+        }))
+
+        set({
+          currentActivity: nextActivity,
+          timer: nextTimer,
+        })
+
+        autoStart && set({ isRunning: true })
+      },
+
+      countdown: (setLocalStorageSettings) => {
+        console.log(1234234234)
+
+        const { timer } = get()
+        const { decrementTimer, handleActivityEnd } = get().actions
 
         if (timer > 0) {
-          const updatedTimer = timer - 1000
-          set({ timer: updatedTimer })
+          decrementTimer()
         } else {
-          playAlarmSound()
-
-          set({ isRunning: false })
-
-          const {
-            longBreakInterval,
-            currentActivity,
-            longBreakIntervalCount,
-            autoStart,
-          } = get()
-
-          let newLongBreakIntervalCount = 0
-          let nextActivity: Activity
-          let nextTimer = 0
-
-          // update long break interval count
-          if (currentActivity === "pomodoro") {
-            newLongBreakIntervalCount = longBreakIntervalCount + 1
-
-            const shouldNextActivityBeLongBreak =
-              currentActivity === "pomodoro" &&
-              newLongBreakIntervalCount === longBreakInterval
-
-            if (shouldNextActivityBeLongBreak) {
-              nextActivity = "longBreak"
-              nextTimer = get()?.[nextActivity]
-
-              setLocalStorageSettings((current) => ({
-                ...current,
-                longBreakIntervalCount: 0,
-              }))
-
-              nextTimer = get()?.[nextActivity]
-
-              set({
-                currentActivity: nextActivity,
-                timer: nextTimer,
-              })
-
-              if (autoStart) set({ isRunning: true })
-
-              return
-            } else {
-              set({ longBreakIntervalCount: newLongBreakIntervalCount })
-
-              setLocalStorageSettings((current) => ({
-                ...current,
-                longBreakIntervalCount: newLongBreakIntervalCount,
-              }))
-
-              nextActivity = "shortBreak"
-              nextTimer = get()?.[nextActivity]
-
-              set({
-                currentActivity: nextActivity,
-                timer: nextTimer,
-              })
-
-              if (autoStart) set({ isRunning: true })
-
-              return
-            }
-          }
-          // update long break interval count
-
-          nextActivity = "pomodoro"
-          nextTimer = get()?.[nextActivity]
-
-          set({
-            currentActivity: nextActivity,
-            timer: nextTimer,
-          })
-
-          if (autoStart) set({ isRunning: true })
+          handleActivityEnd(setLocalStorageSettings)
         }
       },
 
@@ -197,6 +210,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
 })
 
 export const useTimerActions = () => useTimerStore((state) => state.actions)
+
 export const useSettingsActions = () =>
   useTimerStore((state) => state.settingsActions)
 
@@ -208,6 +222,7 @@ export const useFormattedTimer = (useInTabTitle = false) => {
 }
 
 export const useIsRunning = () => useTimerStore((state) => state.isRunning)
+
 export const useCurrentActivity = () =>
   useTimerStore((state) => state.currentActivity)
 

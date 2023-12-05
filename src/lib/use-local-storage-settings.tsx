@@ -7,11 +7,13 @@ import {
 import { useLocalStorage } from "@mantine/hooks"
 import { type ReactNode, createContext, useContext, useEffect } from "react"
 
-export type SettingsContextType = {
+export type SetLocalStorageSettings = (
+  val: TimerDefaults | ((prevState: TimerDefaults) => TimerDefaults),
+) => void
+
+type SettingsContextType = {
   localStorageSettings: TimerDefaults | undefined
-  setLocalStorageSettings: (
-    val: TimerDefaults | ((prevState: TimerDefaults) => TimerDefaults),
-  ) => void
+  setLocalStorageSettings: SetLocalStorageSettings
 }
 
 const SettingsContext = createContext<SettingsContextType>({
