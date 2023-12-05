@@ -5,6 +5,7 @@ import {
   playAlarmSound,
   playToggleTimerSound,
 } from "@/lib/timer-utils"
+import { type SettingsContextType } from "@/lib/use-local-storage-settings"
 import { create } from "zustand"
 
 export type Activity = "pomodoro" | "shortBreak" | "longBreak"
@@ -34,7 +35,9 @@ type TimerStore = {
     getTimer: () => number
     changeTimer: (newTimer: number) => void
     changeCurrentActivity: (directionClicked: DirectionClicked) => void
-    countdown: () => void
+    countdown: (
+      settingsActions: SettingsContextType["setLocalStorageSettings"],
+    ) => void
     pause: () => void
     play: () => void
   }

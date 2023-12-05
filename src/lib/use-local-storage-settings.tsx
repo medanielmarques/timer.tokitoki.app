@@ -1,4 +1,4 @@
-import { timerDefaults } from "@/lib/constants"
+import { type TimerDefaults, timerDefaults } from "@/lib/constants"
 import {
   useCurrentActivity,
   useSettingsActions,
@@ -7,9 +7,11 @@ import {
 import { useLocalStorage } from "@mantine/hooks"
 import { type ReactNode, createContext, useContext, useEffect } from "react"
 
-type SettingsContextType = {
-  localStorageSettings: typeof timerDefaults | undefined
-  setLocalStorageSettings: (current: typeof timerDefaults) => void
+export type SettingsContextType = {
+  localStorageSettings: TimerDefaults | undefined
+  setLocalStorageSettings: (
+    val: TimerDefaults | ((prevState: TimerDefaults) => TimerDefaults),
+  ) => void
 }
 
 const SettingsContext = createContext<SettingsContextType>({
