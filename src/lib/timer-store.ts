@@ -27,6 +27,7 @@ type TimerStore = {
 
   settingsActions: {
     changeActivityDuration: (newDuration: number, activity: Activity) => void
+    changeCurrentActivity: (directionClicked: DirectionClicked) => void
     changeLongBreakInterval: (newInterval: number) => void
     changeLongBreakIntervalCount: (newCount: number) => void
     changeActivityTimer: (newTimer: number, activity: Activity) => void
@@ -36,7 +37,6 @@ type TimerStore = {
   actions: {
     getTimer: () => number
     changeTimer: (newTimer: number) => void
-    changeCurrentActivity: (directionClicked: DirectionClicked) => void
     decrementTimer: () => void
     pause: () => void
     play: () => void
@@ -75,6 +75,21 @@ export const useTimerStore = create<TimerStore>((set, get) => {
         set({ [activity]: newDuration })
       },
 
+      changeCurrentActivity: (directionClicked) => {
+        const { currentActivity } = get()
+
+        const nextActivity = decideNextActivity(
+          currentActivity,
+          directionClicked,
+        )
+        const nextTimer = get()?.[nextActivity]
+
+        set({
+          currentActivity: nextActivity,
+          timer: nextTimer,
+        })
+      },
+
       changeLongBreakInterval: (newInterval) => {
         set({ longBreakInterval: newInterval })
       },
@@ -97,21 +112,6 @@ export const useTimerStore = create<TimerStore>((set, get) => {
 
       changeTimer: (newTimer: number) => {
         set({ timer: newTimer })
-      },
-
-      changeCurrentActivity: (directionClicked) => {
-        const { currentActivity } = get()
-
-        const nextActivity = decideNextActivity(
-          currentActivity,
-          directionClicked,
-        )
-        const nextTimer = get()?.[nextActivity]
-
-        set({
-          currentActivity: nextActivity,
-          timer: nextTimer,
-        })
       },
 
       decrementTimer: () => {

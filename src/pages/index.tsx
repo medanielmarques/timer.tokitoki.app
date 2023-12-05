@@ -6,6 +6,7 @@ import {
   useCurrentActivity,
   useFormattedTimer,
   useIsRunning,
+  useSettingsActions,
   useTimerActions,
 } from "@/lib/timer-store"
 import { formatActivityName, useCountdown } from "@/lib/timer-utils"
@@ -90,7 +91,7 @@ function SignInButton() {
 }
 
 function Timer() {
-  const { changeCurrentActivity } = useTimerActions()
+  const { changeCurrentActivity } = useSettingsActions()
   const timer = useFormattedTimer()
   const currentActivity = useCurrentActivity()
   const isRunning = useIsRunning()
@@ -118,7 +119,7 @@ function Timer() {
 }
 
 function ChangeActivityButton({ direction }: { direction: DirectionClicked }) {
-  const { changeCurrentActivity } = useTimerActions()
+  const { changeCurrentActivity } = useSettingsActions()
 
   return (
     <button
