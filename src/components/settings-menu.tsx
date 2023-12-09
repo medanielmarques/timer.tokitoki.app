@@ -85,6 +85,20 @@ function SettingsMenuChangeActivityDuration({
     }))
   }
 
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const newDuration = minsToMils(Number(e.target.value))
+
+    changeActivityDuration(newDuration, activity)
+
+    setLocalStorageSettings((current) => ({
+      ...current,
+      activityDuration: {
+        ...current.activityDuration,
+        [activity]: newDuration,
+      },
+    }))
+  }
+
   return (
     <div className="flex items-center justify-between">
       <p className="text-lg font-bold">{formatActivityName(activity)}</p>
@@ -101,19 +115,7 @@ function SettingsMenuChangeActivityDuration({
           type="text"
           value={milsToMins(activityDuration)}
           maxLength={3}
-          onChange={(e) => {
-            const newDuration = minsToMils(Number(e.target.value))
-
-            changeActivityDuration(newDuration, activity)
-
-            setLocalStorageSettings((current) => ({
-              ...current,
-              activityDuration: {
-                ...current.activityDuration,
-                [activity]: newDuration,
-              },
-            }))
-          }}
+          onChange={handleInputChange}
         />
 
         <DurationButton

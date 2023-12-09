@@ -1,4 +1,4 @@
-import { activityStateTransitions } from "@/lib/constants"
+import { Activities, activityStateTransitions } from "@/lib/constants"
 import {
   type Activity,
   type DirectionClicked,
@@ -30,11 +30,11 @@ export function decideNextActivity(
 
 export function formatActivityName(activity: Activity) {
   switch (activity) {
-    case "pomodoro":
+    case Activities.POMODORO:
       return "Pomodoro"
-    case "shortBreak":
+    case Activities.SHORT_BREAK:
       return "Short Break"
-    case "longBreak":
+    case Activities.LONG_BREAK:
       return "Long Break"
   }
 }
