@@ -185,8 +185,6 @@ export const useTimerStore = create<TimerStore>((set, get) => {
       },
 
       countdown: (setLocalStorageSettings) => {
-        console.log(1234234234)
-
         const { timer } = get()
         const { decrementTimer, handleActivityEnd } = get().actions
 
