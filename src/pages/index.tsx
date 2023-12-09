@@ -6,6 +6,7 @@ import {
   useCurrentActivity,
   useFormattedTimer,
   useIsRunning,
+  useSettingsActions,
   useTimerActions,
 } from "@/lib/timer-store"
 import { formatActivityName, useCountdown } from "@/lib/timer-utils"
@@ -71,26 +72,27 @@ function Header() {
 
 function SignInButton() {
   const session = useSession()
+  const isSignedIn = !!session
+
+  const icon = isSignedIn ? (
+    <ExitIcon className="mr-2 h-4 w-4" />
+  ) : (
+    <PersonIcon className="mr-2 h-4 w-4" />
+  )
+  const text = isSignedIn ? "Sign out" : "Sign in"
+
+  const handleClick = () => (isSignedIn ? signOut() : signIn())
 
   return (
-    <Button onClick={() => (session ? signOut() : signIn())} variant="outline">
-      {session ? (
-        <>
-          <ExitIcon className="mr-2 h-4 w-4" />
-          <span>Sign out</span>
-        </>
-      ) : (
-        <>
-          <PersonIcon className="mr-2 h-4 w-4" />
-          <span>Sign in</span>
-        </>
-      )}
+    <Button onClick={handleClick} variant="outline">
+      {icon}
+      <span>{text}</span>
     </Button>
   )
 }
 
 function Timer() {
-  const { changeCurrentActivity } = useTimerActions()
+  const { changeCurrentActivity } = useSettingsActions()
   const timer = useFormattedTimer()
   const currentActivity = useCurrentActivity()
   const isRunning = useIsRunning()
@@ -100,36 +102,43 @@ function Timer() {
     onSwipedRight: () => !isRunning && changeCurrentActivity("left"),
   })
 
+  const activityName = formatActivityName(currentActivity)
+
   return (
     <div {...handleSwipe} className="flex items-center gap-10">
-      {isRunning ? null : <ChangeActivityButton direction="left" />}
+      {!isRunning && <ChangeActivityButton direction="left" />}
 
       <div className="flex w-[260px] flex-col items-center gap-2 md:w-[420px] md:text-2xl">
-        <p>{formatActivityName(currentActivity)}</p>
-
+        <p>{activityName}</p>
         <p className="text-6xl font-bold text-gray-600 md:text-8xl">{timer}</p>
-
         <div className="h-5" />
       </div>
 
-      {isRunning ? null : <ChangeActivityButton direction="right" />}
+      {!isRunning && <ChangeActivityButton direction="right" />}
     </div>
   )
 }
 
 function ChangeActivityButton({ direction }: { direction: DirectionClicked }) {
-  const { changeCurrentActivity } = useTimerActions()
+  const { changeCurrentActivity } = useSettingsActions()
+
+  const icon =
+    direction === "left" ? (
+      <IconChevronLeft className="cursor-pointer" />
+    ) : (
+      <IconChevronRight className="cursor-pointer" />
+    )
+
+  function handleClick() {
+    changeCurrentActivity(direction)
+  }
 
   return (
     <button
       className="flex items-center justify-center rounded-full bg-gray-100 p-1 text-gray-500"
-      onClick={() => changeCurrentActivity(direction)}
+      onClick={handleClick}
     >
-      {direction === "left" ? (
-        <IconChevronLeft className="cursor-pointer" />
-      ) : (
-        <IconChevronRight className="cursor-pointer" />
-      )}
+      {icon}
     </button>
   )
 }
@@ -138,16 +147,22 @@ function PlayPauseButton() {
   const { play, pause } = useTimerActions()
   const isRunning = useIsRunning()
 
+  function handleClick() {
+    return isRunning ? pause() : play()
+  }
+
+  const icon = isRunning ? (
+    <IconPlayerPauseFilled className="h-9 w-9 md:h-11 md:w-11" />
+  ) : (
+    <IconPlayerPlayFilled className="h-9 w-9 md:h-11 md:w-11" />
+  )
+
   return (
     <button
       className="flex h-20 w-24 items-center justify-center rounded-3xl bg-gray-600 text-white md:h-24 md:w-32"
-      onClick={() => (isRunning ? pause() : play())}
+      onClick={handleClick}
     >
-      {isRunning ? (
-        <IconPlayerPauseFilled className="h-9 w-9 md:h-11 md:w-11" />
-      ) : (
-        <IconPlayerPlayFilled className="h-9 w-9 md:h-11 md:w-11" />
-      )}
+      {icon}
     </button>
   )
 }

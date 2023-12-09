@@ -1,4 +1,4 @@
-import { activityStateTransitions } from "@/lib/constants"
+import { Activities, activityStateTransitions } from "@/lib/constants"
 import {
   type Activity,
   type DirectionClicked,
@@ -8,16 +8,16 @@ import {
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { useEffect } from "react"
 
-const bubble = "../audio/bubble.mp3"
-const toggleTimer = "../audio/toggle-timer.mp3"
+const AUDIO_BUBBLE = "../audio/bubble.mp3"
+const AUDIO_TOGGLE_TIMER = "../audio/toggle-timer.mp3"
 
 export function playAlarmSound() {
-  const alarmSound = new Audio(bubble)
+  const alarmSound = new Audio(AUDIO_BUBBLE)
   void alarmSound.play()
 }
 
 export function playToggleTimerSound() {
-  const toggleTimerSound = new Audio(toggleTimer)
+  const toggleTimerSound = new Audio(AUDIO_TOGGLE_TIMER)
   void toggleTimerSound.play()
 }
 
@@ -30,11 +30,11 @@ export function decideNextActivity(
 
 export function formatActivityName(activity: Activity) {
   switch (activity) {
-    case "pomodoro":
+    case Activities.POMODORO:
       return "Pomodoro"
-    case "shortBreak":
+    case Activities.SHORT_BREAK:
       return "Short Break"
-    case "longBreak":
+    case Activities.LONG_BREAK:
       return "Long Break"
   }
 }
@@ -68,7 +68,6 @@ export function minsToMils(mins: number) {
 export function useCountdown() {
   const { countdown } = useTimerActions()
   const isRunning = useIsRunning()
-
   const { setLocalStorageSettings } = useLocalStorageSettings()
 
   useEffect(() => {

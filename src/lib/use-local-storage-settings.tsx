@@ -1,4 +1,4 @@
-import { timerDefaults } from "@/lib/constants"
+import { type TimerDefaults, timerDefaults } from "@/lib/constants"
 import {
   useCurrentActivity,
   useSettingsActions,
@@ -7,9 +7,13 @@ import {
 import { useLocalStorage } from "@mantine/hooks"
 import { type ReactNode, createContext, useContext, useEffect } from "react"
 
+export type SetLocalStorageSettings = (
+  val: TimerDefaults | ((prevState: TimerDefaults) => TimerDefaults),
+) => void
+
 type SettingsContextType = {
-  localStorageSettings: typeof timerDefaults | undefined
-  setLocalStorageSettings: (current: typeof timerDefaults) => void
+  localStorageSettings: TimerDefaults | undefined
+  setLocalStorageSettings: SetLocalStorageSettings
 }
 
 const SettingsContext = createContext<SettingsContextType>({
@@ -34,30 +38,30 @@ export function LocalStorageSettingsProvider({
   })
 
   useEffect(() => {
-    if (localStorageSettings) {
-      timerActions.changeTimer(
-        localStorageSettings.activityDuration[currentActivity],
-      )
+    if (!localStorageSettings) return
 
-      settingsActions.changeActivityTimer(
-        localStorageSettings.activityDuration.pomodoro,
-        "pomodoro",
-      )
+    timerActions.changeTimer(
+      localStorageSettings.activityDuration[currentActivity],
+    )
 
-      settingsActions.changeActivityTimer(
-        localStorageSettings.activityDuration.shortBreak,
-        "shortBreak",
-      )
+    settingsActions.changeActivityTimer(
+      localStorageSettings.activityDuration.pomodoro,
+      "pomodoro",
+    )
 
-      settingsActions.changeActivityTimer(
-        localStorageSettings.activityDuration.longBreak,
-        "longBreak",
-      )
+    settingsActions.changeActivityTimer(
+      localStorageSettings.activityDuration.shortBreak,
+      "shortBreak",
+    )
 
-      settingsActions.changeLongBreakIntervalCount(
-        localStorageSettings.longBreakIntervalCount,
-      )
-    }
+    settingsActions.changeActivityTimer(
+      localStorageSettings.activityDuration.longBreak,
+      "longBreak",
+    )
+
+    settingsActions.changeLongBreakIntervalCount(
+      localStorageSettings.longBreakIntervalCount,
+    )
   }, [
     localStorageSettings,
     setLocalStorageSettings,
