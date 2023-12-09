@@ -24,6 +24,7 @@ type TimerStore = {
   longBreak: number
   longBreakInterval: number
   autoStart: boolean
+  autoPlayBackgroundSound: boolean
 
   settingsActions: {
     changeActivityDuration: (newDuration: number, activity: Activity) => void
@@ -69,6 +70,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
     longBreakInterval: timerDefaults.longBreakInterval,
     longBreakIntervalCount: timerDefaults.longBreakIntervalCount,
     autoStart: timerDefaults.autoStart,
+    autoPlayBackgroundSound: true,
 
     settingsActions: {
       changeActivityDuration: (newDuration, activity) => {
@@ -235,3 +237,6 @@ export const useLongBreakDuration = () =>
 
 export const useLongBreakInterval = () =>
   useTimerStore((state) => state.longBreakInterval)
+
+export const useAutoPlayBackgroundSound = () =>
+  useTimerStore((state) => state.autoPlayBackgroundSound)

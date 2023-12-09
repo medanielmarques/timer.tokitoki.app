@@ -26,9 +26,10 @@ export function SettingsMenu() {
 
   return (
     <Sheet>
-      <SheetTrigger className="flex w-9 items-center justify-center text-gray-600">
+      <SheetTrigger className="flex w-9 items-center justify-center text-gray-600 hover:text-accent-foreground">
         <MixerHorizontalIcon className="h-6 w-6 md:h-6 md:w-6" />
       </SheetTrigger>
+
       <SheetContent side="left" className="flex flex-col gap-10 sm:max-w-md">
         <SheetHeader className="flex items-center border-b-[1px]">
           <SheetTitle className="mb-4 text-2xl font-bold">Settings</SheetTitle>

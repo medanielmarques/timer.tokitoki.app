@@ -10,6 +10,7 @@ import {
   useTimerActions,
 } from "@/lib/timer-store"
 import { formatActivityName, useCountdown } from "@/lib/timer-utils"
+import { useBackgroundSound } from "@/lib/use-bg-sound"
 import { signIn, signOut } from "@/utils/supabase"
 import { ExitIcon, PersonIcon } from "@radix-ui/react-icons"
 import { useSession } from "@supabase/auth-helpers-react"
@@ -20,6 +21,7 @@ import {
   IconPlayerPlayFilled,
 } from "@tabler/icons-react"
 import NextHead from "next/head"
+import { Headphones } from "react-feather"
 import { useSwipeable } from "react-swipeable"
 
 export default function Home() {
@@ -58,10 +60,20 @@ function TabTitleTimer() {
 }
 
 function Header() {
+  useBackgroundSound()
+
   return (
     <div className="flex justify-between p-5">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center">
         <SettingsMenu />
+
+        <Button
+          // onClick={}
+          variant="ghost"
+          className="text-gray-500 hover:bg-transparent"
+        >
+          <Headphones className="h-6 w-6 md:h-6 md:w-6" />
+        </Button>
 
         {process.env.NODE_ENV === "development" && <DevModeTimer />}
       </div>
