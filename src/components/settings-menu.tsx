@@ -104,48 +104,31 @@ function SettingsMenuChangeActivityDuration({
     <div className="flex items-center justify-between">
       <p className="text-lg font-bold">{formatActivityName(activity)}</p>
 
-      <div className="flex items-center gap-4">
-        <DurationButton
-          label="-5"
-          handleClick={() => handleClick("subtract")}
+      <div className="flex">
+        <Button
+          variant="outline"
+          className="h-11 rounded-br-none rounded-tr-none border-[1.5px] border-gray-300 text-xl font-medium"
+          onClick={() => handleClick("subtract")}
           disabled={activityDuration <= timerDurationLimit.lowest}
-        />
-
+        >
+          -
+        </Button>
         <Input
-          className="h-10 w-16 text-center text-base font-medium"
           type="text"
+          className="h-11 w-16 rounded-none border-[1.5px] border-x-0 border-gray-300 text-center text-lg font-semibold"
           value={milsToMins(activityDuration)}
           maxLength={3}
           onChange={handleInputChange}
         />
-
-        <DurationButton
-          label="+5"
-          handleClick={() => handleClick("sum")}
+        <Button
+          variant="outline"
+          className="h-11 rounded-bl-none rounded-ss-none border-[1.5px] border-gray-300 text-xl font-medium"
+          onClick={() => handleClick("sum")}
           disabled={activityDuration >= timerDurationLimit.highest}
-        />
+        >
+          <p>+</p>
+        </Button>
       </div>
     </div>
-  )
-}
-
-function DurationButton({
-  label,
-  handleClick,
-  disabled,
-}: {
-  label: string
-  handleClick: () => void
-  disabled: boolean
-}) {
-  return (
-    <Button
-      variant="outline"
-      className="h-10 w-11 text-base font-bold"
-      disabled={disabled}
-      onClick={handleClick}
-    >
-      {label}
-    </Button>
   )
 }
