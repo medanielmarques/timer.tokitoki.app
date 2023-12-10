@@ -1,40 +1,60 @@
 import { Activities } from "@/lib/constants"
 import {
+  type BackgroundSound,
   useAutoPlayBackgroundSound,
   useCurrentActivity,
+  useCurrentBackgroundSound,
   useIsRunning,
 } from "@/lib/timer-store"
 import { useEffect, useState } from "react"
+import useSound from "use-sound"
 
-const AUDIO_WHITE_NOISE = "../audio/underwater-white-noise.mp3"
-let audio: HTMLAudioElement | null = null
+const AUDIO_UNDERWATER_WHITE_NOISE = "../audio/underwater.mp3"
+const AUDIO_BIRDS = "../audio/birds.mp3"
 
-if (typeof window !== "undefined") {
-  audio = new Audio(AUDIO_WHITE_NOISE)
+const backgroundSounds: Record<BackgroundSound, string> = {
+  underwater: AUDIO_UNDERWATER_WHITE_NOISE,
+  birds: AUDIO_BIRDS,
 }
 
 export function useBackgroundSound() {
   const isRunning = useIsRunning()
   const autoPlay = useAutoPlayBackgroundSound()
   const currentActivity = useCurrentActivity()
+  const currentBackgroundSound = useCurrentBackgroundSound()
   const [isPlaying, setIsPlaying] = useState(false)
 
-  useEffect(() => {
-    if (!audio) return
+  const [play, { stop }] = useSound(backgroundSounds[currentBackgroundSound], {
+    volume: 0.5,
+  })
 
-    audio.loop = true
-    audio.volume = 0.5
+  useEffect(() => {
+    if (isRunning && isPlaying) {
+      play()
+    }
 
     if (!isRunning && isPlaying) {
       setIsPlaying(false)
-      audio.pause()
+      stop()
     }
 
     if (currentActivity !== Activities.POMODORO) return
 
-    if (isRunning && autoPlay && !isPlaying) {
+    if (isRunning && !isPlaying) {
       setIsPlaying(true)
-      void audio.play()
+      play()
     }
-  }, [isRunning, isPlaying, autoPlay, currentActivity])
+
+    return () => {
+      if (isPlaying) stop()
+    }
+  }, [
+    isRunning,
+    isPlaying,
+    stop,
+    play,
+    autoPlay,
+    currentActivity,
+    currentBackgroundSound,
+  ])
 }

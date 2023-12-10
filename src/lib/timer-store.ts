@@ -13,6 +13,8 @@ export type DirectionClicked = "left" | "right"
 
 type MakeOptional<T> = { [K in keyof T]?: T[K] }
 
+export type BackgroundSound = "underwater" | "birds"
+
 type TimerStore = {
   currentActivity: Activity
   timer: number
@@ -26,6 +28,8 @@ type TimerStore = {
   autoStart: boolean
   autoPlayBackgroundSound: boolean
 
+  currentBackgroundSound: BackgroundSound
+
   settingsActions: {
     changeActivityDuration: (newDuration: number, activity: Activity) => void
     changeCurrentActivity: (directionClicked: DirectionClicked) => void
@@ -33,6 +37,8 @@ type TimerStore = {
     changeLongBreakIntervalCount: (newCount: number) => void
     changeActivityTimer: (newTimer: number, activity: Activity) => void
     changeAutoStart: (autoStart: boolean) => void
+
+    changeBackgroundSound: (backgroundSound: BackgroundSound) => void
   }
 
   actions: {
@@ -72,6 +78,8 @@ export const useTimerStore = create<TimerStore>((set, get) => {
     autoStart: timerDefaults.autoStart,
     autoPlayBackgroundSound: true,
 
+    currentBackgroundSound: "underwater",
+
     settingsActions: {
       changeActivityDuration: (newDuration, activity) => {
         set({ [activity]: newDuration })
@@ -104,8 +112,12 @@ export const useTimerStore = create<TimerStore>((set, get) => {
         set({ [activity]: newTimer })
       },
 
-      changeAutoStart(autoStart) {
+      changeAutoStart: (autoStart) => {
         set({ autoStart })
+      },
+
+      changeBackgroundSound: (backgroundSound) => {
+        set({ currentBackgroundSound: backgroundSound })
       },
     },
 
@@ -240,3 +252,6 @@ export const useLongBreakInterval = () =>
 
 export const useAutoPlayBackgroundSound = () =>
   useTimerStore((state) => state.autoPlayBackgroundSound)
+
+export const useCurrentBackgroundSound = () =>
+  useTimerStore((state) => state.currentBackgroundSound)

@@ -2,6 +2,14 @@ import { DevModeTimer } from "@/components/dev-mode-timer"
 import { SettingsMenu } from "@/components/settings-menu"
 import { Button } from "@/components/ui/button"
 import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
   type DirectionClicked,
   useCurrentActivity,
   useFormattedTimer,
@@ -12,6 +20,7 @@ import {
 import { formatActivityName, useCountdown } from "@/lib/timer-utils"
 import { useBackgroundSound } from "@/lib/use-bg-sound"
 import { signIn, signOut } from "@/utils/supabase"
+import { type DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import { ExitIcon, PersonIcon } from "@radix-ui/react-icons"
 import { useSession } from "@supabase/auth-helpers-react"
 import {
@@ -21,6 +30,7 @@ import {
   IconPlayerPlayFilled,
 } from "@tabler/icons-react"
 import NextHead from "next/head"
+import { useState } from "react"
 import { Headphones } from "react-feather"
 import { useSwipeable } from "react-swipeable"
 
@@ -59,23 +69,60 @@ function TabTitleTimer() {
   )
 }
 
+type Checked = DropdownMenuCheckboxItemProps["checked"]
+
+function BackGroundSoundMenu() {
+  const [showStatusBar, setShowStatusBar] = useState<Checked>(true)
+  const [showActivityBar, setShowActivityBar] = useState<Checked>(false)
+  const { changeBackgroundSound } = useSettingsActions()
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="text-gray-500 hover:text-accent-foreground">
+        <Headphones className="h-6 w-6 md:h-6 md:w-6" />
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent className="w-40 px-2 text-center">
+        <DropdownMenuLabel>Background Sound</DropdownMenuLabel>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuCheckboxItem
+          checked={showStatusBar}
+          // onCheckedChange={setShowStatusBar}
+          onCheckedChange={() => {
+            if (showStatusBar) return
+            changeBackgroundSound("underwater")
+          }}
+        >
+          Underwater
+        </DropdownMenuCheckboxItem>
+
+        <DropdownMenuCheckboxItem
+          checked={showActivityBar}
+          // onCheckedChange={setShowActivityBar}
+          onCheckedChange={() => {
+            if (showActivityBar) return
+            changeBackgroundSound("birds")
+          }}
+        >
+          Birds
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
 function Header() {
   useBackgroundSound()
 
   return (
     <div className="flex justify-between p-5">
-      <div className="flex items-center">
+      <div className="flex items-center gap-4">
         <SettingsMenu />
+        <BackGroundSoundMenu />
 
-        <Button
-          // onClick={}
-          variant="ghost"
-          className="text-gray-500 hover:bg-transparent"
-        >
-          <Headphones className="h-6 w-6 md:h-6 md:w-6" />
-        </Button>
-
-        {process.env.NODE_ENV === "development" && <DevModeTimer />}
+        {/* {process.env.NODE_ENV === "development" && <DevModeTimer />} */}
       </div>
       <SignInButton />
     </div>
