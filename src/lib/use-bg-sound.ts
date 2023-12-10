@@ -20,20 +20,21 @@ export function useBackgroundSound() {
   const [isPlaying, setIsPlaying] = useState(false)
 
   useEffect(() => {
-    if (currentActivity !== Activities.POMODORO) return
     if (!audio) return
 
     audio.loop = true
     audio.volume = 0.5
 
-    if (isRunning && autoPlay && !isPlaying) {
-      setIsPlaying(true)
-      void audio.play()
-    }
-
     if (!isRunning && isPlaying) {
       setIsPlaying(false)
       audio.pause()
+    }
+
+    if (currentActivity !== Activities.POMODORO) return
+
+    if (isRunning && autoPlay && !isPlaying) {
+      setIsPlaying(true)
+      void audio.play()
     }
   }, [isRunning, isPlaying, autoPlay, currentActivity])
 }
