@@ -1,20 +1,7 @@
+import { BackGroundSoundsMenu } from "@/components/bg-sounds-menu"
 import { DevModeTimer } from "@/components/dev-mode-timer"
 import { SettingsMenu } from "@/components/settings-menu"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 import {
   type DirectionClicked,
   useCurrentActivity,
@@ -26,7 +13,7 @@ import {
 import { formatActivityName, useCountdown } from "@/lib/timer-utils"
 import { useBackgroundSound } from "@/lib/use-bg-sound"
 import { signIn, signOut } from "@/utils/supabase"
-import { ExitIcon, InfoCircledIcon, PersonIcon } from "@radix-ui/react-icons"
+import { ExitIcon, PersonIcon } from "@radix-ui/react-icons"
 import { useSession } from "@supabase/auth-helpers-react"
 import {
   IconChevronLeft,
@@ -35,8 +22,6 @@ import {
   IconPlayerPlayFilled,
 } from "@tabler/icons-react"
 import NextHead from "next/head"
-import { useState } from "react"
-import { Headphones } from "react-feather"
 import { useSwipeable } from "react-swipeable"
 
 export default function Home() {
@@ -74,67 +59,6 @@ function TabTitleTimer() {
   )
 }
 
-function BackGroundSoundMenu() {
-  const [isUnderwaterSoundActive, setIsUnderwaterSoundActive] = useState(true)
-  const [isBirdsSoundActive, setIsBirdsSoundActive] = useState(false)
-  const { changeBackgroundSound } = useSettingsActions()
-
-  function toggleSounds() {
-    setIsUnderwaterSoundActive((prev) => !prev)
-    setIsBirdsSoundActive((prev) => !prev)
-  }
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="text-gray-500 hover:text-accent-foreground">
-        <Headphones className="h-6 w-6 md:h-6 md:w-6" />
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent className="w-48 px-2 text-center">
-        <DropdownMenuLabel className="flex items-center justify-center gap-3">
-          <p>Background Sound</p>
-
-          <TooltipProvider delayDuration={300}>
-            <Tooltip>
-              <TooltipTrigger>
-                <InfoCircledIcon className="h-5 w-5 text-gray-600" />
-              </TooltipTrigger>
-
-              <TooltipContent>
-                <p>Background sound only plays when the timer is active</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </DropdownMenuLabel>
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuCheckboxItem
-          checked={isUnderwaterSoundActive}
-          onCheckedChange={() => {
-            if (isUnderwaterSoundActive) return
-            toggleSounds()
-            changeBackgroundSound("underwater")
-          }}
-        >
-          Underwater
-        </DropdownMenuCheckboxItem>
-
-        <DropdownMenuCheckboxItem
-          checked={isBirdsSoundActive}
-          onCheckedChange={() => {
-            if (isBirdsSoundActive) return
-            toggleSounds()
-            changeBackgroundSound("birds")
-          }}
-        >
-          Birds
-        </DropdownMenuCheckboxItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
-
 function Header() {
   useBackgroundSound()
 
@@ -142,7 +66,7 @@ function Header() {
     <div className="flex justify-between p-5">
       <div className="flex items-center gap-4">
         <SettingsMenu />
-        <BackGroundSoundMenu />
+        <BackGroundSoundsMenu />
 
         {/* {process.env.NODE_ENV === "development" && <DevModeTimer />} */}
       </div>
