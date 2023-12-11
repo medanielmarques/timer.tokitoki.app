@@ -11,7 +11,6 @@ import {
   useTimerActions,
 } from "@/lib/timer-store"
 import { formatActivityName, useCountdown } from "@/lib/timer-utils"
-import { useBackgroundSound } from "@/lib/use-bg-sound"
 import { signIn, signOut } from "@/utils/supabase"
 import { ExitIcon, PersonIcon } from "@radix-ui/react-icons"
 import { useSession } from "@supabase/auth-helpers-react"
@@ -60,15 +59,13 @@ function TabTitleTimer() {
 }
 
 function Header() {
-  useBackgroundSound()
-
   return (
     <div className="flex justify-between p-5">
       <div className="flex items-center gap-4">
         <SettingsMenu />
         <BackGroundSoundsMenu />
 
-        {/* {process.env.NODE_ENV === "development" && <DevModeTimer />} */}
+        {process.env.NODE_ENV === "development" && <DevModeTimer />}
       </div>
       <SignInButton />
     </div>

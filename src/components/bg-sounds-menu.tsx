@@ -13,11 +13,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { useSettingsActions } from "@/lib/timer-store"
+import { useBackgroundSound } from "@/lib/use-bg-sound"
 import { InfoCircledIcon } from "@radix-ui/react-icons"
 import { useState } from "react"
 import { Headphones } from "react-feather"
 
 export function BackGroundSoundsMenu() {
+  useBackgroundSound()
+
   const [isUnderwaterSoundActive, setIsUnderwaterSoundActive] = useState(true)
   const [isBirdsSoundActive, setIsBirdsSoundActive] = useState(false)
   const { changeBackgroundSound } = useSettingsActions()
