@@ -10,6 +10,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import {
   type DirectionClicked,
   useCurrentActivity,
   useFormattedTimer,
@@ -20,8 +26,7 @@ import {
 import { formatActivityName, useCountdown } from "@/lib/timer-utils"
 import { useBackgroundSound } from "@/lib/use-bg-sound"
 import { signIn, signOut } from "@/utils/supabase"
-import { type DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
-import { ExitIcon, PersonIcon } from "@radix-ui/react-icons"
+import { ExitIcon, InfoCircledIcon, PersonIcon } from "@radix-ui/react-icons"
 import { useSession } from "@supabase/auth-helpers-react"
 import {
   IconChevronLeft,
@@ -85,8 +90,22 @@ function BackGroundSoundMenu() {
         <Headphones className="h-6 w-6 md:h-6 md:w-6" />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-40 px-2 text-center">
-        <DropdownMenuLabel>Background Sound</DropdownMenuLabel>
+      <DropdownMenuContent className="w-48 px-2 text-center">
+        <DropdownMenuLabel className="flex items-center justify-center gap-3">
+          <p>Background Sound</p>
+
+          <TooltipProvider delayDuration={300}>
+            <Tooltip>
+              <TooltipTrigger>
+                <InfoCircledIcon className="h-5 w-5 text-gray-600" />
+              </TooltipTrigger>
+
+              <TooltipContent>
+                <p>Background sound only plays when the timer is active</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 
