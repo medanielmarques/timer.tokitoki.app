@@ -69,12 +69,15 @@ function TabTitleTimer() {
   )
 }
 
-type Checked = DropdownMenuCheckboxItemProps["checked"]
-
 function BackGroundSoundMenu() {
-  const [showStatusBar, setShowStatusBar] = useState<Checked>(true)
-  const [showActivityBar, setShowActivityBar] = useState<Checked>(false)
+  const [isUnderwaterSoundActive, setIsUnderwaterSoundActive] = useState(true)
+  const [isBirdsSoundActive, setIsBirdsSoundActive] = useState(false)
   const { changeBackgroundSound } = useSettingsActions()
+
+  function toggleSounds() {
+    setIsUnderwaterSoundActive((prev) => !prev)
+    setIsBirdsSoundActive((prev) => !prev)
+  }
 
   return (
     <DropdownMenu>
@@ -88,10 +91,10 @@ function BackGroundSoundMenu() {
         <DropdownMenuSeparator />
 
         <DropdownMenuCheckboxItem
-          checked={showStatusBar}
-          // onCheckedChange={setShowStatusBar}
+          checked={isUnderwaterSoundActive}
           onCheckedChange={() => {
-            if (showStatusBar) return
+            if (isUnderwaterSoundActive) return
+            toggleSounds()
             changeBackgroundSound("underwater")
           }}
         >
@@ -99,10 +102,10 @@ function BackGroundSoundMenu() {
         </DropdownMenuCheckboxItem>
 
         <DropdownMenuCheckboxItem
-          checked={showActivityBar}
-          // onCheckedChange={setShowActivityBar}
+          checked={isBirdsSoundActive}
           onCheckedChange={() => {
-            if (showActivityBar) return
+            if (isBirdsSoundActive) return
+            toggleSounds()
             changeBackgroundSound("birds")
           }}
         >
