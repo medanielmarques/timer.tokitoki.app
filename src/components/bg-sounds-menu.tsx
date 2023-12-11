@@ -12,22 +12,51 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { useSettingsActions } from "@/lib/timer-store"
+import { type BackgroundSound, useSettingsActions } from "@/lib/timer-store"
 import { useBackgroundSound } from "@/lib/use-bg-sound"
 import { InfoCircledIcon } from "@radix-ui/react-icons"
 import { useState } from "react"
 import { Headphones } from "react-feather"
 
+type Sound = {
+  name: string
+  value: BackgroundSound
+  checked: boolean
+}
+
 export function BackGroundSoundsMenu() {
   useBackgroundSound()
-
-  const [isUnderwaterSoundActive, setIsUnderwaterSoundActive] = useState(true)
-  const [isBirdsSoundActive, setIsBirdsSoundActive] = useState(false)
   const { changeBackgroundSound } = useSettingsActions()
 
-  function toggleSounds() {
-    setIsUnderwaterSoundActive((prev) => !prev)
-    setIsBirdsSoundActive((prev) => !prev)
+  const [sounds, setSounds] = useState<Sound[]>([
+    {
+      name: "Underwater",
+      value: "underwater",
+      checked: false,
+    },
+    {
+      name: "Birds",
+      value: "birds",
+      checked: false,
+    },
+    {
+      name: "Off",
+      value: "off",
+      checked: false,
+    },
+  ])
+
+  function handleOnCheckedChange(sound: Sound) {
+    if (sound.checked) return
+
+    setSounds(
+      sounds.map((prevSound) => ({
+        ...prevSound,
+        checked: prevSound.value === sound.value ? true : false,
+      })),
+    )
+
+    changeBackgroundSound(sound.value)
   }
 
   return (
@@ -55,27 +84,15 @@ export function BackGroundSoundsMenu() {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuCheckboxItem
-          checked={isUnderwaterSoundActive}
-          onCheckedChange={() => {
-            if (isUnderwaterSoundActive) return
-            toggleSounds()
-            changeBackgroundSound("underwater")
-          }}
-        >
-          White Noise
-        </DropdownMenuCheckboxItem>
-
-        <DropdownMenuCheckboxItem
-          checked={isBirdsSoundActive}
-          onCheckedChange={() => {
-            if (isBirdsSoundActive) return
-            toggleSounds()
-            changeBackgroundSound("birds")
-          }}
-        >
-          Birds
-        </DropdownMenuCheckboxItem>
+        {sounds.map((sound) => (
+          <DropdownMenuCheckboxItem
+            key={sound.value}
+            checked={sound.checked}
+            onCheckedChange={() => handleOnCheckedChange(sound)}
+          >
+            {sound.name}
+          </DropdownMenuCheckboxItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -1,7 +1,6 @@
 import { Activities } from "@/lib/constants"
 import {
   type BackgroundSound,
-  useAutoPlayBackgroundSound,
   useCurrentActivity,
   useCurrentBackgroundSound,
   useIsRunning,
@@ -15,11 +14,11 @@ const AUDIO_BIRDS = "../audio/birds.mp3"
 const backgroundSounds: Record<BackgroundSound, string> = {
   underwater: AUDIO_UNDERWATER_WHITE_NOISE,
   birds: AUDIO_BIRDS,
+  off: "",
 }
 
 export function useBackgroundSound() {
   const isRunning = useIsRunning()
-  const autoPlay = useAutoPlayBackgroundSound()
   const currentActivity = useCurrentActivity()
   const currentBackgroundSound = useCurrentBackgroundSound()
   const [isPlaying, setIsPlaying] = useState(false)
@@ -29,6 +28,8 @@ export function useBackgroundSound() {
   })
 
   useEffect(() => {
+    if (currentBackgroundSound === "off") return
+
     if (isRunning && isPlaying) {
       play()
     }
@@ -53,7 +54,6 @@ export function useBackgroundSound() {
     isPlaying,
     stop,
     play,
-    autoPlay,
     currentActivity,
     currentBackgroundSound,
   ])

@@ -13,7 +13,7 @@ export type DirectionClicked = "left" | "right"
 
 type MakeOptional<T> = { [K in keyof T]?: T[K] }
 
-export type BackgroundSound = "underwater" | "birds"
+export type BackgroundSound = "underwater" | "birds" | "off"
 
 type TimerStore = {
   currentActivity: Activity
@@ -26,7 +26,6 @@ type TimerStore = {
   longBreak: number
   longBreakInterval: number
   autoStart: boolean
-  autoPlayBackgroundSound: boolean
 
   currentBackgroundSound: BackgroundSound
 
@@ -76,7 +75,6 @@ export const useTimerStore = create<TimerStore>((set, get) => {
     longBreakInterval: timerDefaults.longBreakInterval,
     longBreakIntervalCount: timerDefaults.longBreakIntervalCount,
     autoStart: timerDefaults.autoStart,
-    autoPlayBackgroundSound: true,
 
     currentBackgroundSound: "underwater",
 
@@ -249,9 +247,6 @@ export const useLongBreakDuration = () =>
 
 export const useLongBreakInterval = () =>
   useTimerStore((state) => state.longBreakInterval)
-
-export const useAutoPlayBackgroundSound = () =>
-  useTimerStore((state) => state.autoPlayBackgroundSound)
 
 export const useCurrentBackgroundSound = () =>
   useTimerStore((state) => state.currentBackgroundSound)
