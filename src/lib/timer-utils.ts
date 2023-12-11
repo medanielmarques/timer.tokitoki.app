@@ -8,11 +8,11 @@ import {
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { useEffect } from "react"
 
-const AUDIO_BUBBLE = "../audio/bubble.mp3"
+const AUDIO_ALARM = "../audio/alarm.mp3"
 const AUDIO_TOGGLE_TIMER = "../audio/toggle-timer.mp3"
 
 export function playAlarmSound() {
-  const alarmSound = new Audio(AUDIO_BUBBLE)
+  const alarmSound = new Audio(AUDIO_ALARM)
   void alarmSound.play()
 }
 

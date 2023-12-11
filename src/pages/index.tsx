@@ -1,3 +1,4 @@
+import { BackGroundSoundsMenu } from "@/components/bg-sounds-menu"
 import { DevModeTimer } from "@/components/dev-mode-timer"
 import { SettingsMenu } from "@/components/settings-menu"
 import { Button } from "@/components/ui/button"
@@ -60,8 +61,9 @@ function TabTitleTimer() {
 function Header() {
   return (
     <div className="flex justify-between p-5">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-4">
         <SettingsMenu />
+        <BackGroundSoundsMenu />
 
         {process.env.NODE_ENV === "development" && <DevModeTimer />}
       </div>
