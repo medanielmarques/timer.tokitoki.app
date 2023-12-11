@@ -60,7 +60,7 @@ export function BackGroundSoundsMenu() {
             changeBackgroundSound("underwater")
           }}
         >
-          Underwater
+          White Noise
         </DropdownMenuCheckboxItem>
 
         <DropdownMenuCheckboxItem
