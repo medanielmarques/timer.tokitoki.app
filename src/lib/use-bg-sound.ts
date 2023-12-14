@@ -4,6 +4,7 @@ import {
   useCurrentActivity,
   useCurrentBackgroundSound,
   useIsRunning,
+  useSettingsActions,
 } from "@/lib/timer-store"
 import { useEffect, useState } from "react"
 import useSound from "use-sound"
@@ -17,17 +18,64 @@ const backgroundSounds: Record<BackgroundSound, string> = {
   off: "",
 }
 
+type Sound = {
+  name: string
+  value: BackgroundSound
+  checked: boolean
+}
+
 export function useBackgroundSound() {
   const isRunning = useIsRunning()
   const currentActivity = useCurrentActivity()
   const currentBackgroundSound = useCurrentBackgroundSound()
+  const { changeBackgroundSound } = useSettingsActions()
   const [isPlaying, setIsPlaying] = useState(false)
   const [volume, setVolume] = useState(100)
+  const [sounds, setSounds] = useState<Sound[]>([
+    {
+      name: "Underwater",
+      value: "underwater",
+      checked: false,
+    },
+    {
+      name: "Birds",
+      value: "birds",
+      checked: false,
+    },
+    {
+      name: "Off",
+      value: "off",
+      checked: false,
+    },
+  ])
 
   const [play, { stop }] = useSound(backgroundSounds[currentBackgroundSound], {
     loop: true,
     volume: volume / 100,
   })
+
+  function handleOnCheckedChange(sound: Sound) {
+    if (sound.checked) return
+
+    setSounds(
+      sounds.map((prevSound) => ({
+        ...prevSound,
+        checked: prevSound.value === sound.value ? true : false,
+      })),
+    )
+
+    changeBackgroundSound(sound.value)
+  }
+
+  function increaseVolume() {
+    if (volume === 100) return
+    setVolume((curr) => curr + 10)
+  }
+
+  function decreaseVolume() {
+    if (volume === 0) return
+    setVolume((curr) => curr - 10)
+  }
 
   useEffect(() => {
     if (currentBackgroundSound === "off") return
@@ -60,5 +108,11 @@ export function useBackgroundSound() {
     currentBackgroundSound,
   ])
 
-  return { volume, setVolume }
+  return {
+    volume,
+    increaseVolume,
+    decreaseVolume,
+    sounds,
+    handleOnCheckedChange,
+  }
 }

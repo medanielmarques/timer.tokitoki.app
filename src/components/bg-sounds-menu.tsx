@@ -14,52 +14,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { type BackgroundSound, useSettingsActions } from "@/lib/timer-store"
 import { useBackgroundSound } from "@/lib/use-bg-sound"
 import { InfoCircledIcon } from "@radix-ui/react-icons"
-import { useState } from "react"
 import { Headphones } from "react-feather"
 
-type Sound = {
-  name: string
-  value: BackgroundSound
-  checked: boolean
-}
-
 export function BackGroundSoundsMenu() {
-  const { volume, setVolume } = useBackgroundSound()
-  const { changeBackgroundSound } = useSettingsActions()
-
-  const [sounds, setSounds] = useState<Sound[]>([
-    {
-      name: "Underwater",
-      value: "underwater",
-      checked: false,
-    },
-    {
-      name: "Birds",
-      value: "birds",
-      checked: false,
-    },
-    {
-      name: "Off",
-      value: "off",
-      checked: false,
-    },
-  ])
-
-  function handleOnCheckedChange(sound: Sound) {
-    if (sound.checked) return
-
-    setSounds(
-      sounds.map((prevSound) => ({
-        ...prevSound,
-        checked: prevSound.value === sound.value ? true : false,
-      })),
-    )
-
-    changeBackgroundSound(sound.value)
-  }
+  const {
+    volume,
+    decreaseVolume,
+    increaseVolume,
+    handleOnCheckedChange,
+    sounds,
+  } = useBackgroundSound()
 
   return (
     <DropdownMenu>
@@ -89,7 +55,7 @@ export function BackGroundSoundsMenu() {
         <Button
           variant="outline"
           className="h-11 rounded-br-none rounded-tr-none border-[1.5px] border-gray-300 text-xl font-medium"
-          onClick={() => setVolume((curr) => curr - 10)}
+          onClick={decreaseVolume}
         >
           -
         </Button>
@@ -102,9 +68,9 @@ export function BackGroundSoundsMenu() {
         <Button
           variant="outline"
           className="h-11 rounded-bl-none rounded-ss-none border-[1.5px] border-gray-300 text-xl font-medium"
-          // onClick={() => handleClick("sum")}
+          onClick={increaseVolume}
         >
-          <p>+</p>
+          +
         </Button>
 
         {sounds.map((sound) => (
