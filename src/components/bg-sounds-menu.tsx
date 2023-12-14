@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -6,6 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
 import {
   Tooltip,
   TooltipContent,
@@ -25,7 +27,7 @@ type Sound = {
 }
 
 export function BackGroundSoundsMenu() {
-  useBackgroundSound()
+  const { volume, setVolume } = useBackgroundSound()
   const { changeBackgroundSound } = useSettingsActions()
 
   const [sounds, setSounds] = useState<Sound[]>([
@@ -83,6 +85,27 @@ export function BackGroundSoundsMenu() {
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
+
+        <Button
+          variant="outline"
+          className="h-11 rounded-br-none rounded-tr-none border-[1.5px] border-gray-300 text-xl font-medium"
+          onClick={() => setVolume((curr) => curr - 10)}
+        >
+          -
+        </Button>
+        <Input
+          type="text"
+          className="h-11 w-16 rounded-none border-[1.5px] border-x-0 border-gray-300 text-center text-lg font-semibold"
+          value={volume}
+          onChange={() => {}}
+        />
+        <Button
+          variant="outline"
+          className="h-11 rounded-bl-none rounded-ss-none border-[1.5px] border-gray-300 text-xl font-medium"
+          // onClick={() => handleClick("sum")}
+        >
+          <p>+</p>
+        </Button>
 
         {sounds.map((sound) => (
           <DropdownMenuCheckboxItem

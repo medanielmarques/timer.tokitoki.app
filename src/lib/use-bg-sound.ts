@@ -22,9 +22,11 @@ export function useBackgroundSound() {
   const currentActivity = useCurrentActivity()
   const currentBackgroundSound = useCurrentBackgroundSound()
   const [isPlaying, setIsPlaying] = useState(false)
+  const [volume, setVolume] = useState(100)
 
   const [play, { stop }] = useSound(backgroundSounds[currentBackgroundSound], {
-    volume: 0.5,
+    loop: true,
+    volume: volume / 100,
   })
 
   useEffect(() => {
@@ -57,4 +59,6 @@ export function useBackgroundSound() {
     currentActivity,
     currentBackgroundSound,
   ])
+
+  return { volume, setVolume }
 }
