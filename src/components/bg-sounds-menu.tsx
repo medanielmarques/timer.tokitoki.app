@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -12,23 +13,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { useSettingsActions } from "@/lib/timer-store"
 import { useBackgroundSound } from "@/lib/use-bg-sound"
 import { InfoCircledIcon } from "@radix-ui/react-icons"
-import { useState } from "react"
-import { Headphones } from "react-feather"
+import { Headphones, Volume1, Volume2 } from "react-feather"
 
 export function BackGroundSoundsMenu() {
-  useBackgroundSound()
-
-  const [isUnderwaterSoundActive, setIsUnderwaterSoundActive] = useState(true)
-  const [isBirdsSoundActive, setIsBirdsSoundActive] = useState(false)
-  const { changeBackgroundSound } = useSettingsActions()
-
-  function toggleSounds() {
-    setIsUnderwaterSoundActive((prev) => !prev)
-    setIsBirdsSoundActive((prev) => !prev)
-  }
+  const {
+    volume,
+    decreaseVolume,
+    increaseVolume,
+    handleOnCheckedChange,
+    sounds,
+  } = useBackgroundSound()
 
   return (
     <DropdownMenu>
@@ -55,27 +51,40 @@ export function BackGroundSoundsMenu() {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuCheckboxItem
-          checked={isUnderwaterSoundActive}
-          onCheckedChange={() => {
-            if (isUnderwaterSoundActive) return
-            toggleSounds()
-            changeBackgroundSound("underwater")
-          }}
-        >
-          White Noise
-        </DropdownMenuCheckboxItem>
+        {sounds.map((sound) => (
+          <DropdownMenuCheckboxItem
+            className="text-base"
+            key={sound.value}
+            checked={sound.checked}
+            onCheckedChange={() => handleOnCheckedChange(sound)}
+          >
+            {sound.name}
+          </DropdownMenuCheckboxItem>
+        ))}
 
-        <DropdownMenuCheckboxItem
-          checked={isBirdsSoundActive}
-          onCheckedChange={() => {
-            if (isBirdsSoundActive) return
-            toggleSounds()
-            changeBackgroundSound("birds")
-          }}
-        >
-          Birds
-        </DropdownMenuCheckboxItem>
+        <DropdownMenuSeparator />
+
+        <div className="flex-center gap-4">
+          <Button
+            variant="ghost"
+            className="w-13 h-10 font-medium text-gray-500"
+            onClick={decreaseVolume}
+            disabled={volume === 0}
+          >
+            <Volume1 className="h-5 w-5" />
+          </Button>
+
+          <p className="text-lg font-semibold text-gray-600">{volume}</p>
+
+          <Button
+            variant="ghost"
+            className="w-13 h-10 font-medium text-gray-500"
+            onClick={increaseVolume}
+            disabled={volume === 10}
+          >
+            <Volume2 className="h-5 w-5" />
+          </Button>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   )

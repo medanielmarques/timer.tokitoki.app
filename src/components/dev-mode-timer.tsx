@@ -20,8 +20,8 @@ export function DevModeTimer() {
   }
 
   return (
-    <button className="text-gray-400" onClick={handleDevModeTimer}>
-      <TimerIcon className="h-4 w-4" />
+    <button className="text-gray-500" onClick={handleDevModeTimer}>
+      <TimerIcon className="h-6 w-6" />
     </button>
   )
 }
