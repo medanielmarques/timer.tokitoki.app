@@ -7,7 +7,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
 import {
   Tooltip,
   TooltipContent,
@@ -16,7 +15,7 @@ import {
 } from "@/components/ui/tooltip"
 import { useBackgroundSound } from "@/lib/use-bg-sound"
 import { InfoCircledIcon } from "@radix-ui/react-icons"
-import { Headphones } from "react-feather"
+import { Headphones, Volume1, Volume2 } from "react-feather"
 
 export function BackGroundSoundsMenu() {
   const {
@@ -52,29 +51,9 @@ export function BackGroundSoundsMenu() {
 
         <DropdownMenuSeparator />
 
-        <Button
-          variant="outline"
-          className="h-11 rounded-br-none rounded-tr-none border-[1.5px] border-gray-300 text-xl font-medium"
-          onClick={decreaseVolume}
-        >
-          -
-        </Button>
-        <Input
-          type="text"
-          className="h-11 w-16 rounded-none border-[1.5px] border-x-0 border-gray-300 text-center text-lg font-semibold"
-          value={volume}
-          onChange={() => {}}
-        />
-        <Button
-          variant="outline"
-          className="h-11 rounded-bl-none rounded-ss-none border-[1.5px] border-gray-300 text-xl font-medium"
-          onClick={increaseVolume}
-        >
-          +
-        </Button>
-
         {sounds.map((sound) => (
           <DropdownMenuCheckboxItem
+            className="text-base"
             key={sound.value}
             checked={sound.checked}
             onCheckedChange={() => handleOnCheckedChange(sound)}
@@ -82,6 +61,30 @@ export function BackGroundSoundsMenu() {
             {sound.name}
           </DropdownMenuCheckboxItem>
         ))}
+
+        <DropdownMenuSeparator />
+
+        <div className="flex-center gap-4">
+          <Button
+            variant="ghost"
+            className="w-13 h-10 font-medium text-gray-500"
+            onClick={decreaseVolume}
+            disabled={volume === 0}
+          >
+            <Volume1 className="h-5 w-5" />
+          </Button>
+
+          <p className="text-lg font-semibold text-gray-600">{volume}</p>
+
+          <Button
+            variant="ghost"
+            className="w-13 h-10 font-medium text-gray-500"
+            onClick={increaseVolume}
+            disabled={volume === 10}
+          >
+            <Volume2 className="h-5 w-5" />
+          </Button>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   )

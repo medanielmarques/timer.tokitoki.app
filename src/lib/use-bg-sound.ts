@@ -30,7 +30,7 @@ export function useBackgroundSound() {
   const currentBackgroundSound = useCurrentBackgroundSound()
   const { changeBackgroundSound } = useSettingsActions()
   const [isPlaying, setIsPlaying] = useState(false)
-  const [volume, setVolume] = useState(100)
+  const [volume, setVolume] = useState(5)
   const [sounds, setSounds] = useState<Sound[]>([
     {
       name: "Underwater",
@@ -45,13 +45,13 @@ export function useBackgroundSound() {
     {
       name: "Off",
       value: "off",
-      checked: false,
+      checked: true,
     },
   ])
 
   const [play, { stop }] = useSound(backgroundSounds[currentBackgroundSound], {
     loop: true,
-    volume: volume / 100,
+    volume: volume / 10,
   })
 
   function handleOnCheckedChange(sound: Sound) {
@@ -68,13 +68,13 @@ export function useBackgroundSound() {
   }
 
   function increaseVolume() {
-    if (volume === 100) return
-    setVolume((curr) => curr + 10)
+    if (volume === 10) return
+    setVolume((curr) => curr + 1)
   }
 
   function decreaseVolume() {
     if (volume === 0) return
-    setVolume((curr) => curr - 10)
+    setVolume((curr) => curr - 1)
   }
 
   useEffect(() => {
