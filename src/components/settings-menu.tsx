@@ -10,22 +10,35 @@ import {
 import { timerDurationLimit } from "@/lib/constants"
 import {
   type Activity,
+  useIsRunning,
   useLongBreakDuration,
   usePomodoroDuration,
   useSettingsActions,
   useShortBreakDuration,
+  useTimerActions,
 } from "@/lib/timer-store"
 import { formatActivityName, milsToMins, minsToMils } from "@/lib/timer-utils"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { ClockIcon, MixerHorizontalIcon } from "@radix-ui/react-icons"
+import { useState } from "react"
 
 export function SettingsMenu() {
   const pomodoroDuration = usePomodoroDuration()
   const shortBreakDuration = useShortBreakDuration()
   const longBreakDuration = useLongBreakDuration()
+  const isRunning = useIsRunning()
+  const { play, pause } = useTimerActions()
+  const [wasTimerRunning, setWasTimerRunning] = useState(false)
+
+  function handleOpenChange(open: boolean) {
+    if (!isRunning && !wasTimerRunning) return
+
+    setWasTimerRunning(open ? true : false)
+    open ? pause({ playSound: false }) : play({ playSound: false })
+  }
 
   return (
-    <Sheet>
+    <Sheet onOpenChange={handleOpenChange}>
       <SheetTrigger className="flex w-9 items-center justify-center text-gray-600 hover:text-accent-foreground">
         <MixerHorizontalIcon className="h-6 w-6 md:h-6 md:w-6" />
       </SheetTrigger>

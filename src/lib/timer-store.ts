@@ -44,8 +44,8 @@ type TimerStore = {
     getTimer: () => number
     changeTimer: (newTimer: number) => void
     decrementTimer: () => void
-    pause: () => void
-    play: () => void
+    pause: ({ playSound }?: { playSound?: boolean }) => void
+    play: ({ playSound }?: { playSound?: boolean }) => void
     countdown: (settingsActions: SetLocalStorageSettings) => void
     handleActivityEnd: (settingsActions: SetLocalStorageSettings) => void
     handleBreakEnd: (settingsActions: SetLocalStorageSettings) => void
@@ -207,13 +207,14 @@ export const useTimerStore = create<TimerStore>((set, get) => {
         }
       },
 
-      pause: () => {
-        set({ isRunning: false })
-        playToggleTimerSound()
-      },
-      play: () => {
+      play: ({ playSound = true } = {}) => {
         set({ isRunning: true })
-        playToggleTimerSound()
+        playSound && playToggleTimerSound()
+      },
+
+      pause: ({ playSound = true } = {}) => {
+        set({ isRunning: false })
+        playSound && playToggleTimerSound()
       },
     },
   }
