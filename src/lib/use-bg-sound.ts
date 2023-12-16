@@ -15,7 +15,7 @@ const AUDIO_BIRDS = "../audio/birds.mp3"
 const backgroundSounds: Record<BackgroundSound, string> = {
   underwater: AUDIO_UNDERWATER_WHITE_NOISE,
   birds: AUDIO_BIRDS,
-  off: "",
+  off: AUDIO_UNDERWATER_WHITE_NOISE,
 }
 
 type Sound = {
@@ -52,6 +52,7 @@ export function useBackgroundSound() {
   const [play, { stop }] = useSound(backgroundSounds[currentBackgroundSound], {
     loop: true,
     volume: volume / 10,
+    soundEnabled: currentBackgroundSound !== "off",
   })
 
   function handleOnCheckedChange(sound: Sound) {
@@ -78,26 +79,28 @@ export function useBackgroundSound() {
   }
 
   useEffect(() => {
-    if (currentBackgroundSound === "off") return
+    const shouldPlayBackgroundSound =
+      currentActivity === Activities.POMODORO &&
+      currentBackgroundSound !== "off"
 
-    if (isRunning && isPlaying) {
-      play()
+    if (!shouldPlayBackgroundSound) {
+      setIsPlaying(false)
+      stop()
+      return () => {
+        isPlaying && stop()
+      }
     }
 
-    if (!isRunning && isPlaying) {
+    if (isRunning) {
+      setIsPlaying(true)
+      play()
+    } else if (isPlaying) {
       setIsPlaying(false)
       stop()
     }
 
-    if (currentActivity !== Activities.POMODORO) return
-
-    if (isRunning && !isPlaying) {
-      setIsPlaying(true)
-      play()
-    }
-
     return () => {
-      if (isPlaying) stop()
+      isPlaying && stop()
     }
   }, [
     isRunning,

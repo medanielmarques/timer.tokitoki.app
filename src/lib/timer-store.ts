@@ -76,7 +76,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
     longBreakIntervalCount: timerDefaults.longBreakIntervalCount,
     autoStart: timerDefaults.autoStart,
 
-    currentBackgroundSound: "underwater",
+    currentBackgroundSound: "off",
 
     settingsActions: {
       changeActivityDuration: (newDuration, activity) => {
