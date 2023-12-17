@@ -30,12 +30,11 @@ export default function Home() {
     <>
       <TabTitleTimer />
 
-      <div className=" flex h-screen items-start justify-center">
-        <div className="flex w-[600px] flex-col justify-start gap-24">
+      <div className=" flex h-screen justify-center md:items-start">
+        <div className="flex w-[600px] flex-col justify-between md:justify-start">
           <Header />
 
-          <div className="flex flex-col items-center justify-between gap-36">
-            <div className="block h-20 md:hidden" />
+          <div className="mb-[20%] flex flex-col items-center justify-between gap-36 py-[25%] md:my-24 md:mb-0 md:py-0">
             <Timer />
             <PlayPauseButton />
           </div>
@@ -107,7 +106,7 @@ function Timer() {
   const activityName = formatActivityName(currentActivity)
 
   return (
-    <div {...handleSwipe} className="flex items-center gap-10">
+    <div {...handleSwipe} className="flex items-center md:gap-10">
       {!isRunning && <ChangeActivityButton direction="left" />}
 
       <div className="flex w-[260px] flex-col items-center gap-2 md:w-[420px] md:text-2xl">
@@ -124,12 +123,7 @@ function Timer() {
 function ChangeActivityButton({ direction }: { direction: DirectionClicked }) {
   const { changeCurrentActivity } = useSettingsActions()
 
-  const icon =
-    direction === "left" ? (
-      <IconChevronLeft className="cursor-pointer" />
-    ) : (
-      <IconChevronRight className="cursor-pointer" />
-    )
+  const icon = direction === "left" ? <IconChevronLeft /> : <IconChevronRight />
 
   function handleClick() {
     changeCurrentActivity(direction)
