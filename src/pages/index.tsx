@@ -137,7 +137,7 @@ function ChangeActivityButton({ direction }: { direction: DirectionClicked }) {
 
   return (
     <button
-      className="flex items-center justify-center rounded-full bg-gray-100 p-1 text-gray-500"
+      className="flex items-center justify-center rounded-full border border-gray-300 p-1 text-gray-500 hover:bg-gray-100"
       onClick={handleClick}
     >
       {icon}
