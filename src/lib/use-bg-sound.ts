@@ -52,7 +52,6 @@ export function useBackgroundSound() {
   const [play, { stop }] = useSound(backgroundSounds[currentBackgroundSound], {
     loop: true,
     volume: volume / 10,
-    soundEnabled: currentBackgroundSound !== "off",
   })
 
   function handleOnCheckedChange(sound: Sound) {
@@ -85,9 +84,8 @@ export function useBackgroundSound() {
 
     if (!shouldPlayBackgroundSound) {
       setIsPlaying(false)
-      stop()
       return () => {
-        isPlaying && stop()
+        stop()
       }
     }
 
@@ -100,7 +98,7 @@ export function useBackgroundSound() {
     }
 
     return () => {
-      isPlaying && stop()
+      stop()
     }
   }, [
     isRunning,
