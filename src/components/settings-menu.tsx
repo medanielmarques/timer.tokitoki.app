@@ -49,9 +49,9 @@ export function SettingsMenu() {
         </SheetHeader>
 
         <div className="flex flex-col gap-6 px-8">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-center gap-2 md:justify-normal">
             <ClockIcon />
-            <p className="text-lg">Timer (minutes)</p>
+            <p className="text-base md:text-lg">Timer (minutes)</p>
           </div>
 
           <SettingsMenuChangeActivityDuration
@@ -114,13 +114,15 @@ function SettingsMenuChangeActivityDuration({
   }
 
   return (
-    <div className="flex items-center justify-between">
-      <p className="text-lg font-bold">{formatActivityName(activity)}</p>
+    <div className="flex flex-col items-center justify-between gap-2 md:flex-row md:gap-0">
+      <p className="text-base font-bold md:text-lg">
+        {formatActivityName(activity)}
+      </p>
 
       <div className="flex">
         <Button
           variant="outline"
-          className="h-11 rounded-br-none rounded-tr-none border-[1.5px] border-gray-300 text-xl font-medium"
+          className="h-9 rounded-br-none rounded-tr-none border-[1.5px] border-gray-300 text-lg font-medium md:h-11 md:text-xl"
           onClick={() => handleClick("subtract")}
           disabled={activityDuration <= timerDurationLimit.lowest}
         >
@@ -128,14 +130,14 @@ function SettingsMenuChangeActivityDuration({
         </Button>
         <Input
           type="text"
-          className="h-11 w-16 rounded-none border-[1.5px] border-x-0 border-gray-300 text-center text-lg font-semibold"
+          className="h-9 w-16 rounded-none border-[1.5px] border-x-0 border-gray-300 text-center text-base font-semibold md:h-11 md:text-lg"
           value={milsToMins(activityDuration)}
           maxLength={3}
           onChange={handleInputChange}
         />
         <Button
           variant="outline"
-          className="h-11 rounded-bl-none rounded-ss-none border-[1.5px] border-gray-300 text-xl font-medium"
+          className="h-9 rounded-bl-none rounded-ss-none border-[1.5px] border-gray-300 text-lg font-medium md:h-11 md:text-xl"
           onClick={() => handleClick("sum")}
           disabled={activityDuration >= timerDurationLimit.highest}
         >

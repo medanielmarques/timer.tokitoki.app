@@ -32,7 +32,7 @@ export function BackGroundSoundsMenu() {
         <Headphones className="h-6 w-6 md:h-6 md:w-6" />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-48 px-2 text-center">
+      <DropdownMenuContent className="px-2 text-center">
         <DropdownMenuLabel className="flex items-center justify-center gap-3">
           <p>Background Sound</p>
 
@@ -64,7 +64,7 @@ export function BackGroundSoundsMenu() {
 
         <DropdownMenuSeparator />
 
-        <div className="flex-center gap-4">
+        <div className="gap-4 flex-center">
           <Button
             variant="ghost"
             className="w-13 h-10 font-medium text-gray-500"
