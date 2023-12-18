@@ -14,7 +14,7 @@ import {
   type DirectionClicked,
   useCurrentActivity,
   useFormattedTimer,
-  useIsRunning,
+  useIsTimerRunning,
   useSettingsActions,
   useTimerActions,
 } from "@/lib/timer-store"
@@ -57,7 +57,7 @@ export default function Home() {
 
 function CommandMenu() {
   const [open, setOpen] = useState(false)
-  const isRunning = useIsRunning()
+  const isTimerRunning = useIsTimerRunning()
   const { play, pause } = useTimerActions()
   const { changeCurrentActivity } = useSettingsActions()
 
@@ -72,7 +72,7 @@ function CommandMenu() {
         e.key === " " && document.activeElement === document.body
 
       if (shouldTriggerSpacebarShortcut) {
-        isRunning ? pause() : play()
+        isTimerRunning ? pause() : play()
       }
 
       if (e.key === "ArrowLeft" || e.key === "j") {
@@ -84,7 +84,7 @@ function CommandMenu() {
     }
     document.addEventListener("keydown", down)
     return () => document.removeEventListener("keydown", down)
-  }, [isRunning, pause, play, changeCurrentActivity])
+  }, [isTimerRunning, pause, play, changeCurrentActivity])
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
@@ -153,18 +153,18 @@ function Timer() {
   const { changeCurrentActivity } = useSettingsActions()
   const timer = useFormattedTimer()
   const currentActivity = useCurrentActivity()
-  const isRunning = useIsRunning()
+  const isTimerRunning = useIsTimerRunning()
 
   const handleSwipe = useSwipeable({
-    onSwipedLeft: () => !isRunning && changeCurrentActivity("right"),
-    onSwipedRight: () => !isRunning && changeCurrentActivity("left"),
+    onSwipedLeft: () => !isTimerRunning && changeCurrentActivity("right"),
+    onSwipedRight: () => !isTimerRunning && changeCurrentActivity("left"),
   })
 
   const activityName = formatActivityName(currentActivity)
 
   return (
     <div {...handleSwipe} className="flex items-center md:gap-10">
-      {!isRunning && <ChangeActivityButton direction="left" />}
+      {!isTimerRunning && <ChangeActivityButton direction="left" />}
 
       <div className="flex w-[260px] flex-col items-center gap-2 md:w-[420px] md:text-2xl">
         <p>{activityName}</p>
@@ -172,7 +172,7 @@ function Timer() {
         <div className="h-5" />
       </div>
 
-      {!isRunning && <ChangeActivityButton direction="right" />}
+      {!isTimerRunning && <ChangeActivityButton direction="right" />}
     </div>
   )
 }
@@ -198,13 +198,13 @@ function ChangeActivityButton({ direction }: { direction: DirectionClicked }) {
 
 function PlayPauseButton() {
   const { play, pause } = useTimerActions()
-  const isRunning = useIsRunning()
+  const isTimerRunning = useIsTimerRunning()
 
   function handleClick() {
-    return isRunning ? pause() : play()
+    return isTimerRunning ? pause() : play()
   }
 
-  const icon = isRunning ? (
+  const icon = isTimerRunning ? (
     <IconPlayerPauseFilled className="h-9 w-9 md:h-11 md:w-11" />
   ) : (
     <IconPlayerPlayFilled className="h-9 w-9 md:h-11 md:w-11" />

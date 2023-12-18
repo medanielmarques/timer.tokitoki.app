@@ -2,7 +2,7 @@ import { Activities, activityStateTransitions } from "@/lib/constants"
 import {
   type Activity,
   type DirectionClicked,
-  useIsRunning,
+  useIsTimerRunning,
   useTimerActions,
 } from "@/lib/timer-store"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
@@ -67,16 +67,16 @@ export function minsToMils(mins: number) {
 
 export function useCountdown() {
   const { countdown } = useTimerActions()
-  const isRunning = useIsRunning()
+  const isTimerRunning = useIsTimerRunning()
   const { setLocalStorageSettings } = useLocalStorageSettings()
 
   useEffect(() => {
-    if (isRunning) {
+    if (isTimerRunning) {
       const countdownInterval = setInterval(() => {
         countdown(setLocalStorageSettings)
       }, 1000)
 
       return () => clearInterval(countdownInterval)
     }
-  }, [countdown, isRunning, setLocalStorageSettings])
+  }, [countdown, isTimerRunning, setLocalStorageSettings])
 }

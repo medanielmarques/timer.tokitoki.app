@@ -18,7 +18,7 @@ export type BackgroundSound = "underwater" | "birds" | "off"
 type TimerStore = {
   currentActivity: Activity
   timer: number
-  isRunning: boolean
+  isTimerRunning: boolean
   longBreakIntervalCount: number
 
   pomodoro: number
@@ -67,7 +67,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
   return {
     currentActivity: timerDefaults.defaultActivity,
     timer: timerDefaults.activityDuration[timerDefaults.defaultActivity],
-    isRunning: false,
+    isTimerRunning: false,
 
     pomodoro: timerDefaults.activityDuration.pomodoro,
     shortBreak: timerDefaults.activityDuration.shortBreak,
@@ -137,7 +137,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
         const { handleBreakEnd, handlePomodoroEnd } = get().actions
 
         playAlarmSound()
-        set({ isRunning: false })
+        set({ isTimerRunning: false })
 
         if (currentActivity === "pomodoro") {
           const newLongBreakIntervalCount = longBreakIntervalCount + 1
@@ -193,7 +193,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
           timer: nextTimer,
         })
 
-        autoStart && set({ isRunning: true })
+        autoStart && set({ isTimerRunning: true })
       },
 
       countdown: (setLocalStorageSettings) => {
@@ -208,12 +208,12 @@ export const useTimerStore = create<TimerStore>((set, get) => {
       },
 
       play: ({ playSound = true } = {}) => {
-        set({ isRunning: true })
+        set({ isTimerRunning: true })
         playSound && playToggleTimerSound()
       },
 
       pause: ({ playSound = true } = {}) => {
-        set({ isRunning: false })
+        set({ isTimerRunning: false })
         playSound && playToggleTimerSound()
       },
     },
@@ -232,7 +232,8 @@ export const useFormattedTimer = (useInTabTitle = false) => {
   return formatTimer(timer, useInTabTitle)
 }
 
-export const useIsRunning = () => useTimerStore((state) => state.isRunning)
+export const useIsTimerRunning = () =>
+  useTimerStore((state) => state.isTimerRunning)
 
 export const useCurrentActivity = () =>
   useTimerStore((state) => state.currentActivity)

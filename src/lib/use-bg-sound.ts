@@ -3,7 +3,7 @@ import {
   type BackgroundSound,
   useCurrentActivity,
   useCurrentBackgroundSound,
-  useIsRunning,
+  useIsTimerRunning,
   useSettingsActions,
 } from "@/lib/timer-store"
 import { useEffect, useState } from "react"
@@ -25,7 +25,7 @@ type Sound = {
 }
 
 export function useBackgroundSound() {
-  const isRunning = useIsRunning()
+  const isTimerRunning = useIsTimerRunning()
   const currentActivity = useCurrentActivity()
   const currentBackgroundSound = useCurrentBackgroundSound()
   const { changeBackgroundSound } = useSettingsActions()
@@ -89,7 +89,7 @@ export function useBackgroundSound() {
       }
     }
 
-    if (isRunning) {
+    if (isTimerRunning) {
       setIsPlaying(true)
       play()
     } else if (isPlaying) {
@@ -101,7 +101,7 @@ export function useBackgroundSound() {
       stop()
     }
   }, [
-    isRunning,
+    isTimerRunning,
     isPlaying,
     stop,
     play,

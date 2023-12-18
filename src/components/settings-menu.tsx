@@ -10,7 +10,7 @@ import {
 import { timerDurationLimit } from "@/lib/constants"
 import {
   type Activity,
-  useIsRunning,
+  useIsTimerRunning,
   useLongBreakDuration,
   usePomodoroDuration,
   useSettingsActions,
@@ -26,12 +26,12 @@ export function SettingsMenu() {
   const pomodoroDuration = usePomodoroDuration()
   const shortBreakDuration = useShortBreakDuration()
   const longBreakDuration = useLongBreakDuration()
-  const isRunning = useIsRunning()
+  const isTimerRunning = useIsTimerRunning()
   const { play, pause } = useTimerActions()
   const [wasTimerRunning, setWasTimerRunning] = useState(false)
 
   function handleOpenChange(open: boolean) {
-    if (!isRunning && !wasTimerRunning) return
+    if (!isTimerRunning && !wasTimerRunning) return
 
     setWasTimerRunning(open ? true : false)
     open ? pause({ playSound: false }) : play({ playSound: false })
