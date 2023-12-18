@@ -3,6 +3,14 @@ import { DevModeTimer } from "@/components/dev-mode-timer"
 import { SettingsMenu } from "@/components/settings-menu"
 import { Button } from "@/components/ui/button"
 import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
   type DirectionClicked,
   useCurrentActivity,
   useFormattedTimer,
@@ -21,6 +29,7 @@ import {
   IconPlayerPlayFilled,
 } from "@tabler/icons-react"
 import NextHead from "next/head"
+import { useEffect, useState } from "react"
 import { useSwipeable } from "react-swipeable"
 
 export default function Home() {
@@ -34,6 +43,8 @@ export default function Home() {
         <div className="flex w-[600px] flex-col justify-between md:justify-start">
           <Header />
 
+          <CommandMenu />
+
           <div className="mb-[20%] flex flex-col items-center justify-between gap-36 py-[25%] md:my-24 md:mb-0 md:py-0">
             <Timer />
             <PlayPauseButton />
@@ -41,6 +52,52 @@ export default function Home() {
         </div>
       </div>
     </>
+  )
+}
+
+function CommandMenu() {
+  const [open, setOpen] = useState(false)
+  const isRunning = useIsRunning()
+  const { play, pause } = useTimerActions()
+  const { changeCurrentActivity } = useSettingsActions()
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setOpen((open) => !open)
+      }
+
+      const shouldTriggerSpacebarShortcut =
+        e.key === " " && document.activeElement === document.body
+
+      if (shouldTriggerSpacebarShortcut) {
+        isRunning ? pause() : play()
+      }
+
+      if (e.key === "ArrowLeft" || e.key === "j") {
+        changeCurrentActivity("left")
+      }
+      if (e.key === "ArrowRight" || e.key === "k") {
+        changeCurrentActivity("right")
+      }
+    }
+    document.addEventListener("keydown", down)
+    return () => document.removeEventListener("keydown", down)
+  }, [isRunning, pause, play, changeCurrentActivity])
+
+  return (
+    <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="Suggestions">
+          <CommandItem>Calendar</CommandItem>
+          <CommandItem>Search Emoji</CommandItem>
+          <CommandItem>Calculator</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
   )
 }
 
