@@ -29,6 +29,8 @@ export function useBackgroundSound() {
   const currentActivity = useCurrentActivity()
   const currentBackgroundSound = useCurrentBackgroundSound()
   const { changeBackgroundSound } = useSettingsActions()
+
+  const [open, setOpen] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [volume, setVolume] = useState(5)
   const [sounds, setSounds] = useState<Sound[]>([
@@ -78,6 +80,20 @@ export function useBackgroundSound() {
   }
 
   useEffect(() => {
+    const backgroundSoundShortcuts = ["b", "B"]
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (backgroundSoundShortcuts.includes(e.key)) {
+        e.preventDefault()
+        setOpen((curr) => !curr)
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [])
+
+  useEffect(() => {
     const shouldPlayBackgroundSound =
       currentActivity === Activities.POMODORO &&
       currentBackgroundSound !== "off"
@@ -110,6 +126,8 @@ export function useBackgroundSound() {
   ])
 
   return {
+    open,
+    setOpen,
     volume,
     increaseVolume,
     decreaseVolume,

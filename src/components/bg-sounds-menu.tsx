@@ -19,6 +19,8 @@ import { Headphones, Volume1, Volume2 } from "react-feather"
 
 export function BackGroundSoundsMenu() {
   const {
+    open,
+    setOpen,
     volume,
     decreaseVolume,
     increaseVolume,
@@ -27,7 +29,7 @@ export function BackGroundSoundsMenu() {
   } = useBackgroundSound()
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger className="text-gray-500 hover:text-accent-foreground">
         <Headphones className="h-6 w-6 md:h-6 md:w-6" />
       </DropdownMenuTrigger>
