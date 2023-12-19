@@ -20,7 +20,7 @@ import {
 import { formatActivityName, milsToMins, minsToMils } from "@/lib/timer-utils"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { ClockIcon, MixerHorizontalIcon } from "@radix-ui/react-icons"
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 export function SettingsMenu() {
   const pomodoroDuration = usePomodoroDuration()
@@ -28,17 +28,39 @@ export function SettingsMenu() {
   const longBreakDuration = useLongBreakDuration()
   const isTimerRunning = useIsTimerRunning()
   const { play, pause } = useTimerActions()
+
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
   const [wasTimerRunning, setWasTimerRunning] = useState(false)
 
-  function handleOpenChange(open: boolean) {
-    if (!isTimerRunning && !wasTimerRunning) return
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      setIsSheetOpen(open)
+      if (!isTimerRunning && !wasTimerRunning) return
 
-    setWasTimerRunning(open ? true : false)
-    open ? pause({ playSound: false }) : play({ playSound: false })
-  }
+      if (open) {
+        setWasTimerRunning(true)
+        pause({ playSound: false })
+      } else {
+        setWasTimerRunning(false)
+        play({ playSound: false })
+      }
+    },
+    [isTimerRunning, pause, play, wasTimerRunning],
+  )
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "s" || e.key === "S") {
+        e.preventDefault()
+        handleOpenChange(true)
+      }
+    }
+    document.addEventListener("keydown", down)
+    return () => document.removeEventListener("keydown", down)
+  }, [handleOpenChange])
 
   return (
-    <Sheet onOpenChange={handleOpenChange}>
+    <Sheet open={isSheetOpen} onOpenChange={handleOpenChange}>
       <SheetTrigger className="flex w-9 items-center justify-center text-gray-600 hover:text-accent-foreground">
         <MixerHorizontalIcon className="h-6 w-6 md:h-6 md:w-6" />
       </SheetTrigger>

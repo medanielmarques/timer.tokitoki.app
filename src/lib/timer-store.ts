@@ -95,6 +95,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
         set({
           currentActivity: nextActivity,
           timer: nextTimer,
+          isTimerRunning: false,
         })
       },
 

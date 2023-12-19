@@ -72,13 +72,16 @@ function CommandMenu() {
         e.key === " " && document.activeElement === document.body
 
       if (shouldTriggerSpacebarShortcut) {
+        e.preventDefault()
         isTimerRunning ? pause() : play()
       }
 
-      if (e.key === "ArrowLeft" || e.key === "j") {
+      if (e.key === "ArrowLeft" || e.key === "j" || e.key === "J") {
+        e.preventDefault()
         changeCurrentActivity("left")
       }
-      if (e.key === "ArrowRight" || e.key === "k") {
+      if (e.key === "ArrowRight" || e.key === "k" || e.key === "K") {
+        e.preventDefault()
         changeCurrentActivity("right")
       }
     }
