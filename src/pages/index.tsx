@@ -19,6 +19,7 @@ import {
   useTimerActions,
 } from "@/lib/timer-store"
 import { formatActivityName, useCountdown } from "@/lib/timer-utils"
+import { useShortcuts } from "@/lib/use-shortcuts"
 import { signIn, signOut } from "@/utils/supabase"
 import { ExitIcon, PersonIcon } from "@radix-ui/react-icons"
 import { useSession } from "@supabase/auth-helpers-react"
@@ -29,7 +30,7 @@ import {
   IconPlayerPlayFilled,
 } from "@tabler/icons-react"
 import NextHead from "next/head"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useSwipeable } from "react-swipeable"
 
 export default function Home() {
@@ -57,37 +58,8 @@ export default function Home() {
 
 function CommandMenu() {
   const [open, setOpen] = useState(false)
-  const isTimerRunning = useIsTimerRunning()
-  const { play, pause } = useTimerActions()
-  const { changeCurrentActivity } = useSettingsActions()
 
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen((open) => !open)
-      }
-
-      const shouldTriggerSpacebarShortcut =
-        e.key === " " && document.activeElement === document.body
-
-      if (shouldTriggerSpacebarShortcut) {
-        e.preventDefault()
-        isTimerRunning ? pause() : play()
-      }
-
-      if (e.key === "ArrowLeft" || e.key === "j" || e.key === "J") {
-        e.preventDefault()
-        changeCurrentActivity("left")
-      }
-      if (e.key === "ArrowRight" || e.key === "k" || e.key === "K") {
-        e.preventDefault()
-        changeCurrentActivity("right")
-      }
-    }
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
-  }, [isTimerRunning, pause, play, changeCurrentActivity])
+  useShortcuts({ handleOpenChangeCommandCenter: setOpen })
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
