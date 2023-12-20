@@ -1,4 +1,4 @@
-import { Activities } from "@/lib/constants"
+import { Activities, BACKGROUND_SOUNDS, type Sound } from "@/lib/constants"
 import {
   type BackgroundSound,
   useCurrentActivity,
@@ -18,12 +18,6 @@ const backgroundSounds: Record<BackgroundSound, string> = {
   off: AUDIO_UNDERWATER_WHITE_NOISE,
 }
 
-type Sound = {
-  name: string
-  value: BackgroundSound
-  checked: boolean
-}
-
 export function useBackgroundSound() {
   const isTimerRunning = useIsTimerRunning()
   const currentActivity = useCurrentActivity()
@@ -33,23 +27,7 @@ export function useBackgroundSound() {
   const [open, setOpen] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [volume, setVolume] = useState(5)
-  const [sounds, setSounds] = useState<Sound[]>([
-    {
-      name: "Underwater",
-      value: "underwater",
-      checked: false,
-    },
-    {
-      name: "Birds",
-      value: "birds",
-      checked: false,
-    },
-    {
-      name: "Off",
-      value: "off",
-      checked: true,
-    },
-  ])
+  const [sounds, setSounds] = useState<Sound[]>(BACKGROUND_SOUNDS)
 
   const [play, { stop }] = useSound(backgroundSounds[currentBackgroundSound], {
     loop: true,

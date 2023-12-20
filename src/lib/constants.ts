@@ -1,4 +1,4 @@
-import { type Activity } from "@/lib/timer-store"
+import { type Activity, type BackgroundSound } from "@/lib/timer-store"
 
 export const Activities = {
   POMODORO: "pomodoro",
@@ -66,3 +66,27 @@ export const activityStateTransitions: ActivityStateTransitions = {
     right: Activities.POMODORO,
   },
 }
+
+export type Sound = {
+  name: string
+  value: BackgroundSound
+  checked: boolean
+}
+
+export const BACKGROUND_SOUNDS: Sound[] = [
+  {
+    name: "Underwater",
+    value: "underwater",
+    checked: false,
+  },
+  {
+    name: "Birds",
+    value: "birds",
+    checked: false,
+  },
+  {
+    name: "Off",
+    value: "off",
+    checked: true,
+  },
+]
