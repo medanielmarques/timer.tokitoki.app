@@ -8,9 +8,9 @@ export function DevModeTimer() {
   const { setLocalStorageSettings } = useLocalStorageSettings()
 
   const getActivityDuration =
-    timer === ACTIVITY_DURATION.dev.pomodoro
-      ? ACTIVITY_DURATION.prod
-      : ACTIVITY_DURATION.dev
+    timer === ACTIVITY_DURATION.DEV.pomodoro
+      ? ACTIVITY_DURATION.PROD
+      : ACTIVITY_DURATION.DEV
 
   function handleDevModeTimer() {
     setLocalStorageSettings((current) => ({

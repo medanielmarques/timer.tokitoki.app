@@ -146,7 +146,7 @@ function SettingsMenuChangeActivityDuration({
           variant="outline"
           className="h-9 rounded-br-none rounded-tr-none border-[1.5px] border-gray-300 text-lg font-medium md:h-11 md:text-xl"
           onClick={() => handleClick("subtract")}
-          disabled={activityDuration <= TIMER_DURATION_LIMIT.lowest}
+          disabled={activityDuration <= TIMER_DURATION_LIMIT.LOWEST}
         >
           -
         </Button>
@@ -161,7 +161,7 @@ function SettingsMenuChangeActivityDuration({
           variant="outline"
           className="h-9 rounded-bl-none rounded-ss-none border-[1.5px] border-gray-300 text-lg font-medium md:h-11 md:text-xl"
           onClick={() => handleClick("sum")}
-          disabled={activityDuration >= TIMER_DURATION_LIMIT.highest}
+          disabled={activityDuration >= TIMER_DURATION_LIMIT.HIGHEST}
         >
           <p>+</p>
         </Button>

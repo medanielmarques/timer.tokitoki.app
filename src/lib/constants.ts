@@ -7,12 +7,12 @@ export const ACTIVITIES = {
 } as const
 
 export const ACTIVITY_DURATION = {
-  dev: {
+  DEV: {
     pomodoro: 1000 * 3,
     shortBreak: 1000 * 1,
     longBreak: 1000 * 2,
   },
-  prod: {
+  PROD: {
     pomodoro: 1000 * 60 * 25,
     shortBreak: 1000 * 60 * 5,
     longBreak: 1000 * 60 * 15,
@@ -33,15 +33,15 @@ export type TimerDefaults = {
 
 export const TIMER_DEFAULTS: TimerDefaults = {
   defaultActivity: ACTIVITIES.POMODORO,
-  activityDuration: ACTIVITY_DURATION.prod,
+  activityDuration: ACTIVITY_DURATION.PROD,
   longBreakInterval: 3,
   longBreakIntervalCount: 0,
   autoStart: false,
 }
 
 export const TIMER_DURATION_LIMIT = {
-  lowest: 1000 * 60 * 5,
-  highest: 1000 * 60 * 999,
+  LOWEST: 1000 * 60 * 5,
+  HIGHEST: 1000 * 60 * 999,
 }
 
 type ActivityStateTransitions = Record<
