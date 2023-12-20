@@ -90,3 +90,12 @@ export const BACKGROUND_SOUNDS: Sound[] = [
     checked: true,
   },
 ]
+
+const AUDIO_UNDERWATER_WHITE_NOISE = "../audio/underwater.mp3"
+const AUDIO_BIRDS = "../audio/birds.mp3"
+
+export const BACKGROUND_SOUNDS_NAMES: Record<BackgroundSound, string> = {
+  underwater: AUDIO_UNDERWATER_WHITE_NOISE,
+  birds: AUDIO_BIRDS,
+  off: AUDIO_UNDERWATER_WHITE_NOISE,
+}

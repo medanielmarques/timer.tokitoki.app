@@ -13,23 +13,31 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { useBackgroundSound } from "@/lib/use-bg-sound"
+import {
+  useBgSoundActions,
+  useBgSoundSounds,
+  useBgSoundVolume,
+  useIsBgSoundMenuOpen,
+} from "@/lib/bg-sound-store"
+import { useBackgroundSoundEffects } from "@/lib/use-bg-sounds-effects"
 import { InfoCircledIcon } from "@radix-ui/react-icons"
 import { Headphones, Volume1, Volume2 } from "react-feather"
 
 export function BackGroundSoundsMenu() {
+  useBackgroundSoundEffects()
+
+  const isBgSoundMenuOpen = useIsBgSoundMenuOpen()
+  const sounds = useBgSoundSounds()
+  const volume = useBgSoundVolume()
   const {
-    open,
-    setOpen,
-    volume,
+    setIsBgSoundMenuOpen,
+    handleOnCheckedChange,
     decreaseVolume,
     increaseVolume,
-    handleOnCheckedChange,
-    sounds,
-  } = useBackgroundSound()
+  } = useBgSoundActions()
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
+    <DropdownMenu open={isBgSoundMenuOpen} onOpenChange={setIsBgSoundMenuOpen}>
       <DropdownMenuTrigger className="text-gray-500 hover:text-accent-foreground">
         <Headphones className="h-6 w-6 md:h-6 md:w-6" />
       </DropdownMenuTrigger>
