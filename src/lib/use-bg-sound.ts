@@ -1,4 +1,4 @@
-import { Activities, BACKGROUND_SOUNDS, type Sound } from "@/lib/constants"
+import { ACTIVITIES, BACKGROUND_SOUNDS, type Sound } from "@/lib/constants"
 import {
   type BackgroundSound,
   useCurrentActivity,
@@ -73,7 +73,7 @@ export function useBackgroundSound() {
 
   useEffect(() => {
     const shouldPlayBackgroundSound =
-      currentActivity === Activities.POMODORO &&
+      currentActivity === ACTIVITIES.POMODORO &&
       currentBackgroundSound !== "off"
 
     if (!shouldPlayBackgroundSound) {

@@ -1,12 +1,12 @@
 import { type Activity, type BackgroundSound } from "@/lib/timer-store"
 
-export const Activities = {
+export const ACTIVITIES = {
   POMODORO: "pomodoro",
   SHORT_BREAK: "shortBreak",
   LONG_BREAK: "longBreak",
 } as const
 
-export const activityDuration = {
+export const ACTIVITY_DURATION = {
   dev: {
     pomodoro: 1000 * 3,
     shortBreak: 1000 * 1,
@@ -31,15 +31,15 @@ export type TimerDefaults = {
   autoStart: boolean
 }
 
-export const timerDefaults: TimerDefaults = {
-  defaultActivity: Activities.POMODORO,
-  activityDuration: activityDuration.prod,
+export const TIMER_DEFAULTS: TimerDefaults = {
+  defaultActivity: ACTIVITIES.POMODORO,
+  activityDuration: ACTIVITY_DURATION.prod,
   longBreakInterval: 3,
   longBreakIntervalCount: 0,
   autoStart: false,
 }
 
-export const timerDurationLimit = {
+export const TIMER_DURATION_LIMIT = {
   lowest: 1000 * 60 * 5,
   highest: 1000 * 60 * 999,
 }
@@ -52,18 +52,18 @@ type ActivityStateTransitions = Record<
   }
 >
 
-export const activityStateTransitions: ActivityStateTransitions = {
-  [Activities.POMODORO]: {
-    left: Activities.LONG_BREAK,
-    right: Activities.SHORT_BREAK,
+export const ACTIVITY_STATE_TRANSITIONS: ActivityStateTransitions = {
+  [ACTIVITIES.POMODORO]: {
+    left: ACTIVITIES.LONG_BREAK,
+    right: ACTIVITIES.SHORT_BREAK,
   },
-  [Activities.SHORT_BREAK]: {
-    left: Activities.POMODORO,
-    right: Activities.LONG_BREAK,
+  [ACTIVITIES.SHORT_BREAK]: {
+    left: ACTIVITIES.POMODORO,
+    right: ACTIVITIES.LONG_BREAK,
   },
-  [Activities.LONG_BREAK]: {
-    left: Activities.SHORT_BREAK,
-    right: Activities.POMODORO,
+  [ACTIVITIES.LONG_BREAK]: {
+    left: ACTIVITIES.SHORT_BREAK,
+    right: ACTIVITIES.POMODORO,
   },
 }
 

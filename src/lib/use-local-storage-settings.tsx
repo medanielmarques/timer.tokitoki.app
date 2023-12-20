@@ -1,4 +1,4 @@
-import { type TimerDefaults, timerDefaults } from "@/lib/constants"
+import { TIMER_DEFAULTS, type TimerDefaults } from "@/lib/constants"
 import {
   useCurrentActivity,
   useSettingsActions,
@@ -17,7 +17,7 @@ type SettingsContextType = {
 }
 
 const SettingsContext = createContext<SettingsContextType>({
-  localStorageSettings: timerDefaults,
+  localStorageSettings: TIMER_DEFAULTS,
   setLocalStorageSettings: () => {},
 })
 
@@ -34,7 +34,7 @@ export function LocalStorageSettingsProvider({
 
   const [localStorageSettings, setLocalStorageSettings] = useLocalStorage({
     key: "toki-settings",
-    defaultValue: timerDefaults,
+    defaultValue: TIMER_DEFAULTS,
   })
 
   useEffect(() => {

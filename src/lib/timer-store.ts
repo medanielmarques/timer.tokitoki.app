@@ -1,4 +1,4 @@
-import { type TimerDefaults, timerDefaults } from "@/lib/constants"
+import { TIMER_DEFAULTS, type TimerDefaults } from "@/lib/constants"
 import {
   decideNextActivity,
   formatTimer,
@@ -65,16 +65,16 @@ type TimerStore = {
 
 export const useTimerStore = create<TimerStore>((set, get) => {
   return {
-    currentActivity: timerDefaults.defaultActivity,
-    timer: timerDefaults.activityDuration[timerDefaults.defaultActivity],
+    currentActivity: TIMER_DEFAULTS.defaultActivity,
+    timer: TIMER_DEFAULTS.activityDuration[TIMER_DEFAULTS.defaultActivity],
     isTimerRunning: false,
 
-    pomodoro: timerDefaults.activityDuration.pomodoro,
-    shortBreak: timerDefaults.activityDuration.shortBreak,
-    longBreak: timerDefaults.activityDuration.longBreak,
-    longBreakInterval: timerDefaults.longBreakInterval,
-    longBreakIntervalCount: timerDefaults.longBreakIntervalCount,
-    autoStart: timerDefaults.autoStart,
+    pomodoro: TIMER_DEFAULTS.activityDuration.pomodoro,
+    shortBreak: TIMER_DEFAULTS.activityDuration.shortBreak,
+    longBreak: TIMER_DEFAULTS.activityDuration.longBreak,
+    longBreakInterval: TIMER_DEFAULTS.longBreakInterval,
+    longBreakIntervalCount: TIMER_DEFAULTS.longBreakIntervalCount,
+    autoStart: TIMER_DEFAULTS.autoStart,
 
     currentBackgroundSound: "off",
 
