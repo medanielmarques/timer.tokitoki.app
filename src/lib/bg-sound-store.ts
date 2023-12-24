@@ -1,18 +1,8 @@
-import {
-  ACTIVITIES,
-  BACKGROUND_SOUNDS,
-  BACKGROUND_SOUNDS_NAMES,
-} from "@/lib/constants"
-import {
-  type BackgroundSound,
-  useCurrentActivity,
-  useCurrentBackgroundSound,
-  useIsTimerRunning,
-  useTimerStore,
-} from "@/lib/timer-store"
-import { useEffect } from "react"
-import useSound from "use-sound"
+import { BACKGROUND_SOUNDS } from "@/lib/constants"
+import { type BackgroundSound, useTimerStore } from "@/lib/timer-store"
 import { create } from "zustand"
+
+import { useSettingsMenuStore } from "./settings-menu-store"
 
 type Sound = {
   name: string
@@ -21,7 +11,7 @@ type Sound = {
 }
 
 type BackgroundSoundStore = {
-  isBgSoundMenuopen: boolean
+  isBgSoundMenuOpen: boolean
   isPlaying: boolean
   volume: number
   sounds: Sound[]
@@ -31,7 +21,7 @@ type BackgroundSoundStore = {
     handleOnCheckedChange: (sound: Sound) => void
     increaseVolume: () => void
     decreaseVolume: () => void
-    setIsBgSoundMenuOpen: (isBgSoundMenuopen: boolean) => void
+    setIsBgSoundMenuOpen: (isBgSoundMenuOpen: boolean) => void
     handleKeyDown: (e: KeyboardEvent) => void
   }
 }
@@ -41,7 +31,7 @@ export const useBackgroundSoundStore = create<BackgroundSoundStore>(
     const { settingsActions } = useTimerStore.getState()
 
     return {
-      isBgSoundMenuopen: false,
+      isBgSoundMenuOpen: false,
       isPlaying: false,
       volume: 5,
       sounds: BACKGROUND_SOUNDS,
@@ -62,7 +52,7 @@ export const useBackgroundSoundStore = create<BackgroundSoundStore>(
 
         setIsplaying: (isPlaying) => set({ isPlaying }),
 
-        setIsBgSoundMenuOpen: (isBgSoundMenuopen) => set({ isBgSoundMenuopen }),
+        setIsBgSoundMenuOpen: (isBgSoundMenuOpen) => set({ isBgSoundMenuOpen }),
 
         increaseVolume: () => {
           set((state) => ({
@@ -77,11 +67,14 @@ export const useBackgroundSoundStore = create<BackgroundSoundStore>(
         },
 
         handleKeyDown: (e) => {
+          const { isSettingsMenuOpen } = useSettingsMenuStore.getState()
+          if (isSettingsMenuOpen) return
+
           const backgroundSoundShortcuts = ["b", "B"]
 
           if (backgroundSoundShortcuts.includes(e.key)) {
             e.preventDefault()
-            set((state) => ({ isBgSoundMenuopen: !state.isBgSoundMenuopen }))
+            set((state) => ({ isBgSoundMenuOpen: !state.isBgSoundMenuOpen }))
           }
         },
       },
@@ -90,7 +83,7 @@ export const useBackgroundSoundStore = create<BackgroundSoundStore>(
 )
 
 export const useIsBgSoundMenuOpen = () =>
-  useBackgroundSoundStore((state) => state.isBgSoundMenuopen)
+  useBackgroundSoundStore((state) => state.isBgSoundMenuOpen)
 
 export const useBgSoundIsPlaying = () =>
   useBackgroundSoundStore((state) => state.isPlaying)

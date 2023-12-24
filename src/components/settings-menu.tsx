@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sheet"
 import { TIMER_DURATION_LIMIT } from "@/lib/constants"
 import {
-  useIsSheetOpen,
+  useIsSettingsMenuOpen,
   useSettingsMenuActions,
 } from "@/lib/settings-menu-store"
 import {
@@ -28,7 +28,7 @@ export function SettingsMenu() {
   const pomodoroDuration = usePomodoroDuration()
   const shortBreakDuration = useShortBreakDuration()
   const longBreakDuration = useLongBreakDuration()
-  const isSheetOpen = useIsSheetOpen()
+  const isSettingsMenuOpen = useIsSettingsMenuOpen()
   const { handleSheetOpenChange } = useSettingsMenuActions()
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export function SettingsMenu() {
   }, [handleSheetOpenChange])
 
   return (
-    <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
+    <Sheet open={isSettingsMenuOpen} onOpenChange={handleSheetOpenChange}>
       <SheetTrigger className="flex w-9 items-center justify-center text-gray-600 hover:text-accent-foreground">
         <MixerHorizontalIcon className="h-6 w-6 md:h-6 md:w-6" />
       </SheetTrigger>

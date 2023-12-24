@@ -1,29 +1,31 @@
 import { useTimerStore } from "@/lib/timer-store"
 import { create } from "zustand"
 
+import { useBackgroundSoundStore } from "./bg-sound-store"
+
 type SettingsMenuStore = {
-  isSheetOpen: boolean
+  isSettingsMenuOpen: boolean
   wasTimerRunning: boolean
   actions: {
     handleSheetOpenChange: (open: boolean) => void
   }
 }
 
-const useSettingsMenuStore = create<SettingsMenuStore>((set, get) => {
+export const useSettingsMenuStore = create<SettingsMenuStore>((set, get) => {
   return {
-    isSheetOpen: false,
+    isSettingsMenuOpen: false,
     wasTimerRunning: false,
 
     actions: {
       handleSheetOpenChange: (open) => {
+        const { isBgSoundMenuOpen } = useBackgroundSoundStore.getState()
+        if (isBgSoundMenuOpen) return
+
         const { isTimerRunning, actions } = useTimerStore.getState()
-        console.log("handleSheetOpenChange", open)
 
         const { wasTimerRunning } = get()
 
-        console.log({ isTimerRunning, wasTimerRunning })
-
-        set({ isSheetOpen: open })
+        set({ isSettingsMenuOpen: open })
         if (!isTimerRunning && !wasTimerRunning) return
 
         if (open) {
@@ -38,8 +40,8 @@ const useSettingsMenuStore = create<SettingsMenuStore>((set, get) => {
   }
 })
 
-export const useIsSheetOpen = () =>
-  useSettingsMenuStore((state) => state.isSheetOpen)
+export const useIsSettingsMenuOpen = () =>
+  useSettingsMenuStore((state) => state.isSettingsMenuOpen)
 
 export const useWasTimerRunning = () =>
   useSettingsMenuStore((state) => state.wasTimerRunning)
