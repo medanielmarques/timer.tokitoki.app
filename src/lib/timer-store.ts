@@ -21,9 +21,11 @@ type TimerStore = {
   isTimerRunning: boolean
   longBreakIntervalCount: number
 
+  // Duration in milliseconds
   pomodoro: number
   shortBreak: number
   longBreak: number
+
   longBreakInterval: number
   autoStart: boolean
 
@@ -72,6 +74,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
     pomodoro: TIMER_DEFAULTS.activityDuration.pomodoro,
     shortBreak: TIMER_DEFAULTS.activityDuration.shortBreak,
     longBreak: TIMER_DEFAULTS.activityDuration.longBreak,
+
     longBreakInterval: TIMER_DEFAULTS.longBreakInterval,
     longBreakIntervalCount: TIMER_DEFAULTS.longBreakIntervalCount,
     autoStart: TIMER_DEFAULTS.autoStart,
