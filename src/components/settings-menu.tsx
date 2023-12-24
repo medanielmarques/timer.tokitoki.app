@@ -9,58 +9,41 @@ import {
 } from "@/components/ui/sheet"
 import { TIMER_DURATION_LIMIT } from "@/lib/constants"
 import {
+  useIsSheetOpen,
+  useSettingsMenuActions,
+} from "@/lib/settings-menu-store"
+import {
   type Activity,
-  useIsTimerRunning,
   useLongBreakDuration,
   usePomodoroDuration,
   useSettingsActions,
   useShortBreakDuration,
-  useTimerActions,
 } from "@/lib/timer-store"
 import { formatActivityName, milsToMins, minsToMils } from "@/lib/timer-utils"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { ClockIcon, MixerHorizontalIcon } from "@radix-ui/react-icons"
-import { useCallback, useEffect, useState } from "react"
+import { useEffect } from "react"
 
 export function SettingsMenu() {
   const pomodoroDuration = usePomodoroDuration()
   const shortBreakDuration = useShortBreakDuration()
   const longBreakDuration = useLongBreakDuration()
-  const isTimerRunning = useIsTimerRunning()
-  const { play, pause } = useTimerActions()
-
-  const [isSheetOpen, setIsSheetOpen] = useState(false)
-  const [wasTimerRunning, setWasTimerRunning] = useState(false)
-
-  const handleOpenChange = useCallback(
-    (open: boolean) => {
-      setIsSheetOpen(open)
-      if (!isTimerRunning && !wasTimerRunning) return
-
-      if (open) {
-        setWasTimerRunning(true)
-        pause({ playSound: false })
-      } else {
-        setWasTimerRunning(false)
-        play({ playSound: false })
-      }
-    },
-    [isTimerRunning, pause, play, wasTimerRunning],
-  )
+  const isSheetOpen = useIsSheetOpen()
+  const { handleSheetOpenChange } = useSettingsMenuActions()
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "s" || e.key === "S") {
         e.preventDefault()
-        handleOpenChange(true)
+        handleSheetOpenChange(true)
       }
     }
     document.addEventListener("keydown", down)
     return () => document.removeEventListener("keydown", down)
-  }, [handleOpenChange])
+  }, [handleSheetOpenChange])
 
   return (
-    <Sheet open={isSheetOpen} onOpenChange={handleOpenChange}>
+    <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
       <SheetTrigger className="flex w-9 items-center justify-center text-gray-600 hover:text-accent-foreground">
         <MixerHorizontalIcon className="h-6 w-6 md:h-6 md:w-6" />
       </SheetTrigger>
