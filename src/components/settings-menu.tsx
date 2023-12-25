@@ -89,9 +89,9 @@ function SettingsMenuChangeActivityDuration({
   const { changeActivityDuration } = useSettingsActions()
   const { setLocalStorageSettings } = useLocalStorageSettings()
 
-  function handleClick(action: "sum" | "subtract") {
-    const sumOrSubtractFive = action === "sum" ? 5 : -5
-    const newDuration = activityDuration + minsToMils(sumOrSubtractFive)
+  function handleClick(action: "add" | "subtract") {
+    const addOrSubtractFive = action === "add" ? 5 : -5
+    const newDuration = activityDuration + minsToMils(addOrSubtractFive)
 
     changeActivityDuration(newDuration, activity)
 
@@ -143,7 +143,7 @@ function SettingsMenuChangeActivityDuration({
         <Button
           variant="outline"
           className="h-9 rounded-bl-none rounded-ss-none border-[1.5px] border-gray-300 text-lg font-medium md:h-11 md:text-xl"
-          onClick={() => handleClick("sum")}
+          onClick={() => handleClick("add")}
           disabled={activityDuration >= TIMER_DURATION_LIMIT.HIGHEST}
         >
           <p>+</p>
