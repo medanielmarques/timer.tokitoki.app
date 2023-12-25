@@ -1,3 +1,4 @@
+import { SHORTCUT_KEYS } from "@/lib/constants"
 import {
   useIsTimerRunning,
   useSettingsActions,
@@ -14,13 +15,13 @@ export function useShortcuts() {
 
   const handleCommandCenterShortcut = useCallback(
     (e: KeyboardEvent) => {
-      const commandCenterShortcuts = ["k", "K"]
-      const ctrlOrMetaKey = e.metaKey || e.ctrlKey
-
-      if (commandCenterShortcuts.includes(e.key) && ctrlOrMetaKey) {
+      if (
+        SHORTCUT_KEYS.COMMAND_CENTER.includes(e.key) &&
+        SHORTCUT_KEYS.CTRL_OR_META(e)
+      ) {
         e.preventDefault()
         setIsCommandCenterOpen(true)
-        return
+        return true
       }
     },
     [setIsCommandCenterOpen],
@@ -28,18 +29,16 @@ export function useShortcuts() {
 
   const handleToggleTimerShortcut = useCallback(
     (e: KeyboardEvent) => {
-      const spacebarShortcut = " "
-      const toggleTimerShortcuts = ["p", "P"]
-
       const shouldSpacebarToggleTimer =
-        e.key === spacebarShortcut && document.activeElement === document.body
+        e.key === SHORTCUT_KEYS.SPACEBAR &&
+        document.activeElement === document.body
 
       if (shouldSpacebarToggleTimer) {
         e.preventDefault()
         isTimerRunning ? pause() : play()
       }
 
-      if (toggleTimerShortcuts.includes(e.key)) {
+      if (SHORTCUT_KEYS.TOGGLE_TIMER.includes(e.key)) {
         e.preventDefault()
         isTimerRunning ? pause() : play()
       }
@@ -49,15 +48,12 @@ export function useShortcuts() {
 
   const handleSwitchActivityShortcut = useCallback(
     (e: KeyboardEvent) => {
-      const leftArrowShortcuts = ["ArrowLeft", "j", "J"]
-      const rightArrowShortcuts = ["ArrowRight", "k", "K"]
-
-      if (leftArrowShortcuts.includes(e.key)) {
+      if (SHORTCUT_KEYS.SWITCH_ACTIVITY_LEFT.includes(e.key)) {
         e.preventDefault()
         changeCurrentActivity("left")
       }
 
-      if (rightArrowShortcuts.includes(e.key)) {
+      if (SHORTCUT_KEYS.SWITCH_ACTIVITY_RIGHT.includes(e.key)) {
         e.preventDefault()
         changeCurrentActivity("right")
       }
@@ -69,7 +65,9 @@ export function useShortcuts() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isCommandCenterOpen) return
 
-      handleCommandCenterShortcut(e)
+      // Prevent shortcuts from firing when user is typing
+      if (handleCommandCenterShortcut(e)) return
+
       handleToggleTimerShortcut(e)
       handleSwitchActivityShortcut(e)
     }

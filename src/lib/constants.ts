@@ -99,3 +99,12 @@ export const BACKGROUND_SOUNDS_NAMES: Record<BackgroundSound, string> = {
   birds: AUDIO_BIRDS,
   off: AUDIO_UNDERWATER_WHITE_NOISE,
 }
+
+export const SHORTCUT_KEYS = {
+  SPACEBAR: " ",
+  CTRL_OR_META: (e: KeyboardEvent) => e.metaKey || e.ctrlKey,
+  COMMAND_CENTER: ["k", "K"],
+  TOGGLE_TIMER: ["p", "P"],
+  SWITCH_ACTIVITY_LEFT: ["ArrowLeft", "j", "J"],
+  SWITCH_ACTIVITY_RIGHT: ["ArrowRight", "k", "K"],
+}
