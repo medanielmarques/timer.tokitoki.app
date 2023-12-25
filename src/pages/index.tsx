@@ -9,6 +9,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandShortcut,
 } from "@/components/ui/command"
 import {
   type DirectionClicked,
@@ -31,6 +32,7 @@ import {
 } from "@tabler/icons-react"
 import NextHead from "next/head"
 import { useState } from "react"
+import { Settings } from "react-feather"
 import { useSwipeable } from "react-swipeable"
 
 export default function Home() {
@@ -67,10 +69,15 @@ function CommandCenter() {
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
+
         <CommandGroup heading="Suggestions">
-          <CommandItem>Calendar</CommandItem>
-          <CommandItem>Search Emoji</CommandItem>
-          <CommandItem>Calculator</CommandItem>
+          <CommandItem onClick={() => console.log(123)}>Calendar</CommandItem>
+
+          <CommandItem>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Settings</span>
+            <CommandShortcut>⌘S</CommandShortcut>
+          </CommandItem>
         </CommandGroup>
       </CommandList>
     </CommandDialog>
