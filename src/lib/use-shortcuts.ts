@@ -3,16 +3,14 @@ import {
   useSettingsActions,
   useTimerActions,
 } from "@/lib/timer-store"
-import { type Dispatch, type SetStateAction, useEffect } from "react"
+import { useEffect, useState } from "react"
 
-export function useShortcuts({
-  handleOpenChangeCommandCenter,
-}: {
-  handleOpenChangeCommandCenter: Dispatch<SetStateAction<boolean>>
-}) {
+export function useShortcuts() {
   const isTimerRunning = useIsTimerRunning()
   const { play, pause } = useTimerActions()
   const { changeCurrentActivity } = useSettingsActions()
+
+  const [isCommandCenterOpen, setIsCommandCenterOpen] = useState(false)
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -27,9 +25,11 @@ export function useShortcuts({
 
       if (commandCenterShortcuts.includes(e.key) && ctrlOrMetaKey) {
         e.preventDefault()
-        handleOpenChangeCommandCenter(true)
+        setIsCommandCenterOpen(true)
         return
       }
+
+      if (isCommandCenterOpen) return
 
       if (shouldSpacebarToggleTimer) {
         e.preventDefault()
@@ -54,11 +54,7 @@ export function useShortcuts({
 
     document.addEventListener("keydown", handleKeyDown)
     return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [
-    isTimerRunning,
-    pause,
-    play,
-    changeCurrentActivity,
-    handleOpenChangeCommandCenter,
-  ])
+  }, [isTimerRunning, pause, play, changeCurrentActivity, isCommandCenterOpen])
+
+  return { isCommandCenterOpen, setIsCommandCenterOpen }
 }

@@ -44,7 +44,7 @@ export default function Home() {
         <div className="flex w-[600px] flex-col justify-between md:justify-start">
           <Header />
 
-          <CommandMenu />
+          <CommandCenter />
 
           <div className="mb-[20%] flex flex-col items-center justify-between gap-36 py-[25%] md:my-24 md:mb-0 md:py-0">
             <Timer />
@@ -56,13 +56,14 @@ export default function Home() {
   )
 }
 
-function CommandMenu() {
-  const [open, setOpen] = useState(false)
-
-  useShortcuts({ handleOpenChangeCommandCenter: setOpen })
+function CommandCenter() {
+  const { isCommandCenterOpen, setIsCommandCenterOpen } = useShortcuts()
 
   return (
-    <CommandDialog open={open} onOpenChange={setOpen}>
+    <CommandDialog
+      open={isCommandCenterOpen}
+      onOpenChange={setIsCommandCenterOpen}
+    >
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>

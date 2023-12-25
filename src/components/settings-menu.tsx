@@ -32,14 +32,14 @@ export function SettingsMenu() {
   const { handleSheetOpenChange } = useSettingsMenuActions()
 
   useEffect(() => {
-    const down = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "s" || e.key === "S") {
         e.preventDefault()
         handleSheetOpenChange(true)
       }
     }
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
   }, [handleSheetOpenChange])
 
   return (
