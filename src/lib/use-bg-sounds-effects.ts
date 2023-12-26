@@ -13,7 +13,7 @@ import { useEffect } from "react"
 import useSound from "use-sound"
 
 export function useBackgroundSoundEffects() {
-  const { handleKeyDown, setIsplaying } = useBgSoundActions()
+  const { setIsplaying } = useBgSoundActions()
   const isPlaying = useBgSoundIsPlaying()
   const volume = useBgSoundVolume()
   const isTimerRunning = useIsTimerRunning()
@@ -27,11 +27,6 @@ export function useBackgroundSoundEffects() {
       volume: volume / 10,
     },
   )
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [handleKeyDown])
 
   useEffect(() => {
     const shouldPlayBackgroundSound =

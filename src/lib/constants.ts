@@ -101,9 +101,11 @@ export const BACKGROUND_SOUNDS_NAMES: Record<BackgroundSound, string> = {
 }
 
 export const SHORTCUT_KEYS = {
-  SPACEBAR: " ",
-  CTRL_OR_META: (e: KeyboardEvent) => e.metaKey || e.ctrlKey,
+  BG_SOUND_MENU: ["b", "B"],
   COMMAND_CENTER: ["k", "K"],
+  CTRL_OR_META: (e: KeyboardEvent) => e.metaKey || e.ctrlKey,
+  SETINGS_MENU: ["s", "S"],
+  SPACEBAR: " ",
   TOGGLE_TIMER: ["p", "P"],
   SWITCH_ACTIVITY_LEFT: ["ArrowLeft", "j", "J"],
   SWITCH_ACTIVITY_RIGHT: ["ArrowRight", "k", "K"],

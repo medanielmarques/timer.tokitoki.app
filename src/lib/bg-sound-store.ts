@@ -1,4 +1,4 @@
-import { BACKGROUND_SOUNDS } from "@/lib/constants"
+import { BACKGROUND_SOUNDS, SHORTCUT_KEYS } from "@/lib/constants"
 import { type BackgroundSound, useTimerStore } from "@/lib/timer-store"
 import { create } from "zustand"
 
@@ -22,7 +22,7 @@ type BackgroundSoundStore = {
     increaseVolume: () => void
     decreaseVolume: () => void
     setIsBgSoundMenuOpen: (isBgSoundMenuOpen: boolean) => void
-    handleKeyDown: (e: KeyboardEvent) => void
+    handleBgSoundMenuShortcut: (e: KeyboardEvent) => void
   }
 }
 
@@ -66,13 +66,11 @@ export const useBackgroundSoundStore = create<BackgroundSoundStore>(
           }))
         },
 
-        handleKeyDown: (e) => {
+        handleBgSoundMenuShortcut: (e) => {
           const { isSettingsMenuOpen } = useSettingsMenuStore.getState()
           if (isSettingsMenuOpen) return
 
-          const backgroundSoundShortcuts = ["b", "B"]
-
-          if (backgroundSoundShortcuts.includes(e.key)) {
+          if (SHORTCUT_KEYS.BG_SOUND_MENU.includes(e.key)) {
             e.preventDefault()
             set((state) => ({ isBgSoundMenuOpen: !state.isBgSoundMenuOpen }))
           }

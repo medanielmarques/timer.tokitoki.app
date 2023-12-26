@@ -1,3 +1,4 @@
+import { SHORTCUT_KEYS } from "@/lib/constants"
 import { useTimerStore } from "@/lib/timer-store"
 import { create } from "zustand"
 
@@ -7,7 +8,8 @@ type SettingsMenuStore = {
   isSettingsMenuOpen: boolean
   wasTimerRunning: boolean
   actions: {
-    handleSheetOpenChange: (open: boolean) => void
+    handleSheetOpenChange: (open?: boolean) => void
+    handleSettingsMenuShortcut: (e: KeyboardEvent) => void
   }
 }
 
@@ -17,12 +19,11 @@ export const useSettingsMenuStore = create<SettingsMenuStore>((set, get) => {
     wasTimerRunning: false,
 
     actions: {
-      handleSheetOpenChange: (open) => {
+      handleSheetOpenChange: (open = true) => {
         const { isBgSoundMenuOpen } = useBackgroundSoundStore.getState()
         if (isBgSoundMenuOpen) return
 
         const { isTimerRunning, actions } = useTimerStore.getState()
-
         const { wasTimerRunning } = get()
 
         set({ isSettingsMenuOpen: open })
@@ -34,6 +35,14 @@ export const useSettingsMenuStore = create<SettingsMenuStore>((set, get) => {
         } else {
           set({ wasTimerRunning: false })
           actions.play({ playSound: false })
+        }
+      },
+
+      handleSettingsMenuShortcut: (e) => {
+        if (SHORTCUT_KEYS.SETINGS_MENU.includes(e.key)) {
+          e.preventDefault()
+          const { actions } = get()
+          actions.handleSheetOpenChange()
         }
       },
     },

@@ -1,4 +1,6 @@
+import { useBgSoundActions } from "@/lib/bg-sound-store"
 import { SHORTCUT_KEYS } from "@/lib/constants"
+import { useSettingsMenuActions } from "@/lib/settings-menu-store"
 import {
   useIsTimerRunning,
   useSettingsActions,
@@ -10,6 +12,8 @@ export function useShortcuts() {
   const isTimerRunning = useIsTimerRunning()
   const { play, pause } = useTimerActions()
   const { changeCurrentActivity } = useSettingsActions()
+  const { handleBgSoundMenuShortcut } = useBgSoundActions()
+  const { handleSettingsMenuShortcut } = useSettingsMenuActions()
 
   const [isCommandCenterOpen, setIsCommandCenterOpen] = useState(false)
 
@@ -30,7 +34,7 @@ export function useShortcuts() {
   const handleToggleTimerShortcut = useCallback(
     (e: KeyboardEvent) => {
       const shouldSpacebarToggleTimer =
-        e.key === SHORTCUT_KEYS.SPACEBAR &&
+        SHORTCUT_KEYS.SPACEBAR.includes(e.key) &&
         document.activeElement === document.body
 
       if (shouldSpacebarToggleTimer) {
@@ -70,6 +74,8 @@ export function useShortcuts() {
 
       handleToggleTimerShortcut(e)
       handleSwitchActivityShortcut(e)
+      handleBgSoundMenuShortcut(e)
+      handleSettingsMenuShortcut(e)
     }
 
     document.addEventListener("keydown", handleKeyDown)
@@ -79,6 +85,8 @@ export function useShortcuts() {
     handleCommandCenterShortcut,
     handleToggleTimerShortcut,
     handleSwitchActivityShortcut,
+    handleBgSoundMenuShortcut,
+    handleSettingsMenuShortcut,
   ])
 
   return { isCommandCenterOpen, setIsCommandCenterOpen }

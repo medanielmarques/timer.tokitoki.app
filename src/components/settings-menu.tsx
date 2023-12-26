@@ -22,7 +22,6 @@ import {
 import { formatActivityName, milsToMins, minsToMils } from "@/lib/timer-utils"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { ClockIcon, MixerHorizontalIcon } from "@radix-ui/react-icons"
-import { useEffect } from "react"
 
 export function SettingsMenu() {
   const pomodoroDuration = usePomodoroDuration()
@@ -30,17 +29,6 @@ export function SettingsMenu() {
   const longBreakDuration = useLongBreakDuration()
   const isSettingsMenuOpen = useIsSettingsMenuOpen()
   const { handleSheetOpenChange } = useSettingsMenuActions()
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "s" || e.key === "S") {
-        e.preventDefault()
-        handleSheetOpenChange(true)
-      }
-    }
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [handleSheetOpenChange])
 
   return (
     <Sheet open={isSettingsMenuOpen} onOpenChange={handleSheetOpenChange}>
