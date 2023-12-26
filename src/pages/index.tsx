@@ -33,13 +33,19 @@ export default function Home() {
 
       <div className=" flex h-screen justify-center md:items-start">
         <div className="flex w-[600px] flex-col justify-between md:justify-start">
-          <Header />
+          <div className="flex h-screen flex-col justify-between">
+            <div>
+              <Header />
 
-          <CommandCenter />
+              <div className="mb-[20%] flex flex-col items-center justify-between gap-36 py-[25%] md:my-24 md:mb-0 md:py-0">
+                <Timer />
+                <PlayPauseButton />
+              </div>
+            </div>
 
-          <div className="mb-[20%] flex flex-col items-center justify-between gap-36 py-[25%] md:my-24 md:mb-0 md:py-0">
-            <Timer />
-            <PlayPauseButton />
+            <div className="mb-8 hidden md:flex md:justify-end">
+              <CommandCenter />
+            </div>
           </div>
         </div>
       </div>
@@ -69,7 +75,11 @@ function Header() {
 
         {process.env.NODE_ENV === "development" && <DevModeTimer />}
       </div>
-      <SignInButton />
+
+      <div className="gap-4 flex-center">
+        {/* <CommandCenter /> */}
+        <SignInButton />
+      </div>
     </div>
   )
 }

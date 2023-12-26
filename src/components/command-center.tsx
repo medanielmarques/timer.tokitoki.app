@@ -22,58 +22,77 @@ export function CommandCenter() {
   const { resetSettings } = useLocalStorageSettings()
 
   return (
-    <CommandDialog
-      open={isCommandCenterOpen}
-      onOpenChange={setIsCommandCenterOpen}
-    >
-      <CommandInput placeholder="Type a command or search..." />
-      <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
+    <>
+      <div className="gap-4 flex-center">
+        <div className="gap-2 flex-center">
+          <span>Command Center</span>
+          <kbd className="pointer-events-none h-8 w-11 select-none gap-1 rounded border bg-muted font-mono font-semibold text-muted-foreground opacity-100 flex-center">
+            <span>⌘</span>
+            <span>K</span>
+          </kbd>
+        </div>
 
-        <CommandGroup heading="Settings">
-          <CommandItem
-            onSelect={() => {
-              resetSettings()
-              setIsCommandCenterOpen(false)
-            }}
-          >
-            <div className="gap-2 flex-center">
-              <ResetIcon />
-              <span>Reset Settings</span>
-            </div>
-          </CommandItem>
+        <div className="gap-2 flex-center">
+          <span>Shortcuts</span>
+          <kbd className="pointer-events-none h-8 w-11 select-none gap-1 rounded border bg-muted font-mono font-semibold text-muted-foreground opacity-100 flex-center">
+            <span>/</span>
+          </kbd>
+        </div>
+      </div>
 
-          <CommandSeparator />
+      <CommandDialog
+        open={isCommandCenterOpen}
+        onOpenChange={setIsCommandCenterOpen}
+      >
+        <CommandInput placeholder="Type a command or search..." />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
 
-          <CommandItem
-            onSelect={() => {
-              setIsBgSoundMenuOpen(true)
-              setIsCommandCenterOpen(false)
-            }}
-          >
-            <div className="gap-2 flex-center">
-              <Headphones />
-              <span>Background Sounds</span>
-            </div>
+          <CommandGroup heading="Settings">
+            <CommandItem
+              onSelect={() => {
+                resetSettings()
+                setIsCommandCenterOpen(false)
+              }}
+            >
+              <div className="gap-2 flex-center">
+                <ResetIcon />
+                <span>Reset Settings</span>
+              </div>
+            </CommandItem>
 
-            <CommandShortcut>⌘B</CommandShortcut>
-          </CommandItem>
+            <CommandSeparator />
 
-          <CommandItem
-            onSelect={() => {
-              handleSheetOpenChange()
-              setIsCommandCenterOpen(false)
-            }}
-          >
-            <div className="gap-2 flex-center">
-              <MixerHorizontalIcon />
-              <span>Settings</span>
-            </div>
+            <CommandItem
+              onSelect={() => {
+                setIsBgSoundMenuOpen(true)
+                setIsCommandCenterOpen(false)
+              }}
+            >
+              <div className="gap-2 flex-center">
+                <Headphones />
+                <span>Background Sounds</span>
+              </div>
 
-            <CommandShortcut>⌘S</CommandShortcut>
-          </CommandItem>
-        </CommandGroup>
-      </CommandList>
-    </CommandDialog>
+              <CommandShortcut>⌘B</CommandShortcut>
+            </CommandItem>
+
+            <CommandItem
+              onSelect={() => {
+                handleSheetOpenChange()
+                setIsCommandCenterOpen(false)
+              }}
+            >
+              <div className="gap-2 flex-center">
+                <MixerHorizontalIcon />
+                <span>Settings</span>
+              </div>
+
+              <CommandShortcut>⌘S</CommandShortcut>
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
+    </>
   )
 }
