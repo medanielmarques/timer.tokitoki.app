@@ -104,6 +104,7 @@ export const SHORTCUT_KEYS = {
   BG_SOUND_MENU: ["b", "B"],
   COMMAND_CENTER: ["k", "K"],
   CTRL_OR_META: (e: KeyboardEvent) => e.metaKey || e.ctrlKey,
+  HELP_MODAL: "/",
   SETINGS_MENU: ["s", "S"],
   SPACEBAR: " ",
   TOGGLE_TIMER: ["p", "P"],

@@ -1,5 +1,6 @@
 import { useBgSoundActions } from "@/lib/bg-sound-store"
 import { SHORTCUT_KEYS } from "@/lib/constants"
+import { useKeyboardShortcutsModalActions } from "@/lib/kbd-shortcuts-modal-store"
 import { useSettingsMenuActions } from "@/lib/settings-menu-store"
 import {
   useIsTimerRunning,
@@ -14,6 +15,7 @@ export function useShortcuts() {
   const { changeCurrentActivity } = useSettingsActions()
   const { handleBgSoundMenuShortcut } = useBgSoundActions()
   const { handleSettingsMenuShortcut } = useSettingsMenuActions()
+  const { handleHelpModalShortcut } = useKeyboardShortcutsModalActions()
 
   const [isCommandCenterOpen, setIsCommandCenterOpen] = useState(false)
 
@@ -76,6 +78,7 @@ export function useShortcuts() {
       handleSwitchActivityShortcut(e)
       handleBgSoundMenuShortcut(e)
       handleSettingsMenuShortcut(e)
+      handleHelpModalShortcut(e)
     }
 
     document.addEventListener("keydown", handleKeyDown)
@@ -87,6 +90,7 @@ export function useShortcuts() {
     handleSwitchActivityShortcut,
     handleBgSoundMenuShortcut,
     handleSettingsMenuShortcut,
+    handleHelpModalShortcut,
   ])
 
   return { isCommandCenterOpen, setIsCommandCenterOpen }
