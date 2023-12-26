@@ -43,7 +43,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mb-8 hidden md:flex md:justify-end">
+            <div className="mb-8 hidden md:flex-center">
               <CommandCenter />
             </div>
           </div>

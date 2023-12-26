@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/command"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -24,7 +25,11 @@ import {
 import { useSettingsMenuActions } from "@/lib/settings-menu-store"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { useShortcuts } from "@/lib/use-shortcuts"
-import { MixerHorizontalIcon, ResetIcon } from "@radix-ui/react-icons"
+import {
+  Cross2Icon,
+  MixerHorizontalIcon,
+  ResetIcon,
+} from "@radix-ui/react-icons"
 import { Headphones } from "react-feather"
 
 export function CommandCenter() {
@@ -37,32 +42,105 @@ export function CommandCenter() {
 
   return (
     <>
-      <div className="gap-4 flex-center">
-        <div className="gap-2 flex-center">
+      <div className="hidden md:gap-4 md:flex-center">
+        <div className="gap-4 flex-center">
           <span>Command Center</span>
-          <kbd className="pointer-events-none h-8 w-11 select-none gap-1 rounded border bg-muted font-mono font-semibold text-muted-foreground opacity-100 flex-center">
-            <span>⌘</span>
-            <span>K</span>
+          <kbd className="pointer-events-none h-10 w-14 select-none gap-1 rounded border bg-muted font-semibold text-muted-foreground opacity-100 flex-center">
+            <span>⌘ K</span>
           </kbd>
         </div>
 
-        <div className="gap-2 flex-center">
+        <div className="gap-4 flex-center">
           <span>Shortcuts</span>
 
           <Dialog open={isHelpModalOpen} onOpenChange={setHelpModalOpen}>
             <DialogTrigger>
-              <kbd className="pointer-events-none h-8 w-11 select-none gap-1 rounded border bg-muted font-mono font-semibold text-muted-foreground opacity-100 flex-center">
-                <span>/</span>
+              <kbd className="pointer-events-none h-10 w-14 select-none gap-1 rounded border bg-muted font-semibold text-muted-foreground opacity-100 flex-center">
+                <span>⌘ /</span>
               </kbd>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>Keyboard Shortcuts</DialogTitle>
+
+            <DialogContent
+              className="flex max-w-2xl flex-col gap-6"
+              standardCloseButton={false}
+            >
+              <DialogHeader className="mt-4">
+                <DialogTitle className="text-xl">
+                  Keyboard Shortcuts
+                </DialogTitle>
+                <DialogClose className="absolute right-10 top-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                  <Cross2Icon className="h-5 w-5" />
+                  <span className="sr-only">Close</span>
+                </DialogClose>
               </DialogHeader>
 
               <DropdownMenuSeparator />
 
-              <div>Shortcuts goes here</div>
+              <div className="flex flex-col gap-6">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="ml-2 text-lg">Play/Pause Timer</span>
+
+                  <div className="gap-4 flex-center">
+                    <div className="gap-4 flex-center">
+                      <kbd className="pointer-events-none h-12 w-44 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
+                        <span>⌘ P</span>
+                      </kbd>
+                    </div>
+
+                    <span className="text-lg">or</span>
+
+                    <div className="gap-4 flex-center">
+                      <kbd className="pointer-events-none h-12 w-44 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
+                        <span>Spacebar</span>
+                      </kbd>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-2">
+                  <span className="ml-2 text-lg">Change Activity</span>
+
+                  <div className="gap-4 flex-center">
+                    <div className="gap-4 flex-center">
+                      <kbd className="pointer-events-none h-12 w-20 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
+                        <span>&larr;</span>
+                      </kbd>
+
+                      <kbd className="pointer-events-none h-12 w-20 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
+                        <span>&#8594;</span>
+                      </kbd>
+                    </div>
+
+                    <span className="text-lg">or</span>
+
+                    <div className="gap-4 flex-center">
+                      <kbd className="pointer-events-none h-12 w-20 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
+                        <span>⌘ J</span>
+                      </kbd>
+
+                      <kbd className="pointer-events-none h-12 w-20 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
+                        <span>⌘ K</span>
+                      </kbd>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-2">
+                  <span className="ml-2 text-lg">Background Sound</span>
+
+                  <kbd className="pointer-events-none h-12 w-44 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
+                    <span>⌘ B</span>
+                  </kbd>
+                </div>
+
+                <div className="flex items-center justify-between gap-2">
+                  <span className="ml-2 text-lg">Settings</span>
+
+                  <kbd className="pointer-events-none h-12 w-44 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
+                    <span>⌘ S</span>
+                  </kbd>
+                </div>
+              </div>
             </DialogContent>
           </Dialog>
         </div>
