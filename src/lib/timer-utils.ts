@@ -18,7 +18,7 @@ export function playAlarmSound() {
 
 export function playToggleTimerSound() {
   const toggleTimerSound = new Audio(AUDIO_TOGGLE_TIMER)
-  toggleTimerSound.volume = 0.3
+  toggleTimerSound.volume = 0.15
   void toggleTimerSound.play()
 }
 

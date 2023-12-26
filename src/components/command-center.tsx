@@ -5,18 +5,21 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command"
 import { useBgSoundActions } from "@/lib/bg-sound-store"
 import { useSettingsMenuActions } from "@/lib/settings-menu-store"
+import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { useShortcuts } from "@/lib/use-shortcuts"
-import { MixerHorizontalIcon } from "@radix-ui/react-icons"
+import { MixerHorizontalIcon, ResetIcon } from "@radix-ui/react-icons"
 import { Headphones } from "react-feather"
 
 export function CommandCenter() {
   const { isCommandCenterOpen, setIsCommandCenterOpen } = useShortcuts()
   const { setIsBgSoundMenuOpen } = useBgSoundActions()
   const { handleSheetOpenChange } = useSettingsMenuActions()
+  const { resetSettings } = useLocalStorageSettings()
 
   return (
     <CommandDialog
@@ -27,15 +30,26 @@ export function CommandCenter() {
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
 
-        <CommandGroup heading="Settings">{/* Reset Settings */}</CommandGroup>
+        <CommandGroup heading="Settings">
+          <CommandItem
+            onSelect={() => {
+              resetSettings()
+              setIsCommandCenterOpen(false)
+            }}
+          >
+            <div className="gap-2 flex-center">
+              <ResetIcon />
+              <span>Reset Settings</span>
+            </div>
+          </CommandItem>
 
-        <CommandGroup heading="Shortcuts">
+          <CommandSeparator />
+
           <CommandItem
             onSelect={() => {
               setIsBgSoundMenuOpen(true)
               setIsCommandCenterOpen(false)
             }}
-            className="text-base"
           >
             <div className="gap-2 flex-center">
               <Headphones />
@@ -50,7 +64,6 @@ export function CommandCenter() {
               handleSheetOpenChange()
               setIsCommandCenterOpen(false)
             }}
-            className="text-base"
           >
             <div className="gap-2 flex-center">
               <MixerHorizontalIcon />
