@@ -7,38 +7,31 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { timerDurationLimit } from "@/lib/constants"
+import { TIMER_DURATION_LIMIT } from "@/lib/constants"
+import {
+  useIsSettingsMenuOpen,
+  useSettingsMenuActions,
+} from "@/lib/settings-menu-store"
 import {
   type Activity,
-  useIsRunning,
   useLongBreakDuration,
   usePomodoroDuration,
   useSettingsActions,
   useShortBreakDuration,
-  useTimerActions,
 } from "@/lib/timer-store"
 import { formatActivityName, milsToMins, minsToMils } from "@/lib/timer-utils"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { ClockIcon, MixerHorizontalIcon } from "@radix-ui/react-icons"
-import { useState } from "react"
 
 export function SettingsMenu() {
   const pomodoroDuration = usePomodoroDuration()
   const shortBreakDuration = useShortBreakDuration()
   const longBreakDuration = useLongBreakDuration()
-  const isRunning = useIsRunning()
-  const { play, pause } = useTimerActions()
-  const [wasTimerRunning, setWasTimerRunning] = useState(false)
-
-  function handleOpenChange(open: boolean) {
-    if (!isRunning && !wasTimerRunning) return
-
-    setWasTimerRunning(open ? true : false)
-    open ? pause({ playSound: false }) : play({ playSound: false })
-  }
+  const isSettingsMenuOpen = useIsSettingsMenuOpen()
+  const { handleSheetOpenChange } = useSettingsMenuActions()
 
   return (
-    <Sheet onOpenChange={handleOpenChange}>
+    <Sheet open={isSettingsMenuOpen} onOpenChange={handleSheetOpenChange}>
       <SheetTrigger className="flex w-9 items-center justify-center text-gray-600 hover:text-accent-foreground">
         <MixerHorizontalIcon className="h-6 w-6 md:h-6 md:w-6" />
       </SheetTrigger>
@@ -84,9 +77,9 @@ function SettingsMenuChangeActivityDuration({
   const { changeActivityDuration } = useSettingsActions()
   const { setLocalStorageSettings } = useLocalStorageSettings()
 
-  function handleClick(action: "sum" | "subtract") {
-    const sumOrSubtractFive = action === "sum" ? 5 : -5
-    const newDuration = activityDuration + minsToMils(sumOrSubtractFive)
+  function handleClick(action: "add" | "subtract") {
+    const addOrSubtractFive = action === "add" ? 5 : -5
+    const newDuration = activityDuration + minsToMils(addOrSubtractFive)
 
     changeActivityDuration(newDuration, activity)
 
@@ -124,7 +117,7 @@ function SettingsMenuChangeActivityDuration({
           variant="outline"
           className="h-9 rounded-br-none rounded-tr-none border-[1.5px] border-gray-300 text-lg font-medium md:h-11 md:text-xl"
           onClick={() => handleClick("subtract")}
-          disabled={activityDuration <= timerDurationLimit.lowest}
+          disabled={activityDuration <= TIMER_DURATION_LIMIT.LOWEST}
         >
           -
         </Button>
@@ -138,8 +131,8 @@ function SettingsMenuChangeActivityDuration({
         <Button
           variant="outline"
           className="h-9 rounded-bl-none rounded-ss-none border-[1.5px] border-gray-300 text-lg font-medium md:h-11 md:text-xl"
-          onClick={() => handleClick("sum")}
-          disabled={activityDuration >= timerDurationLimit.highest}
+          onClick={() => handleClick("add")}
+          disabled={activityDuration >= TIMER_DURATION_LIMIT.HIGHEST}
         >
           <p>+</p>
         </Button>

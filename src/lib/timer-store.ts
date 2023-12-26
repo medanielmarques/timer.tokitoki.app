@@ -1,4 +1,4 @@
-import { type TimerDefaults, timerDefaults } from "@/lib/constants"
+import { TIMER_DEFAULTS, type TimerDefaults } from "@/lib/constants"
 import {
   decideNextActivity,
   formatTimer,
@@ -18,12 +18,14 @@ export type BackgroundSound = "underwater" | "birds" | "off"
 type TimerStore = {
   currentActivity: Activity
   timer: number
-  isRunning: boolean
+  isTimerRunning: boolean
   longBreakIntervalCount: number
 
+  // Duration in milliseconds
   pomodoro: number
   shortBreak: number
   longBreak: number
+
   longBreakInterval: number
   autoStart: boolean
 
@@ -65,16 +67,17 @@ type TimerStore = {
 
 export const useTimerStore = create<TimerStore>((set, get) => {
   return {
-    currentActivity: timerDefaults.defaultActivity,
-    timer: timerDefaults.activityDuration[timerDefaults.defaultActivity],
-    isRunning: false,
+    currentActivity: TIMER_DEFAULTS.defaultActivity,
+    timer: TIMER_DEFAULTS.activityDuration[TIMER_DEFAULTS.defaultActivity],
+    isTimerRunning: false,
 
-    pomodoro: timerDefaults.activityDuration.pomodoro,
-    shortBreak: timerDefaults.activityDuration.shortBreak,
-    longBreak: timerDefaults.activityDuration.longBreak,
-    longBreakInterval: timerDefaults.longBreakInterval,
-    longBreakIntervalCount: timerDefaults.longBreakIntervalCount,
-    autoStart: timerDefaults.autoStart,
+    pomodoro: TIMER_DEFAULTS.activityDuration.pomodoro,
+    shortBreak: TIMER_DEFAULTS.activityDuration.shortBreak,
+    longBreak: TIMER_DEFAULTS.activityDuration.longBreak,
+
+    longBreakInterval: TIMER_DEFAULTS.longBreakInterval,
+    longBreakIntervalCount: TIMER_DEFAULTS.longBreakIntervalCount,
+    autoStart: TIMER_DEFAULTS.autoStart,
 
     currentBackgroundSound: "off",
 
@@ -95,6 +98,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
         set({
           currentActivity: nextActivity,
           timer: nextTimer,
+          isTimerRunning: false,
         })
       },
 
@@ -137,7 +141,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
         const { handleBreakEnd, handlePomodoroEnd } = get().actions
 
         playAlarmSound()
-        set({ isRunning: false })
+        set({ isTimerRunning: false })
 
         if (currentActivity === "pomodoro") {
           const newLongBreakIntervalCount = longBreakIntervalCount + 1
@@ -193,7 +197,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
           timer: nextTimer,
         })
 
-        autoStart && set({ isRunning: true })
+        autoStart && set({ isTimerRunning: true })
       },
 
       countdown: (setLocalStorageSettings) => {
@@ -208,12 +212,12 @@ export const useTimerStore = create<TimerStore>((set, get) => {
       },
 
       play: ({ playSound = true } = {}) => {
-        set({ isRunning: true })
+        set({ isTimerRunning: true })
         playSound && playToggleTimerSound()
       },
 
       pause: ({ playSound = true } = {}) => {
-        set({ isRunning: false })
+        set({ isTimerRunning: false })
         playSound && playToggleTimerSound()
       },
     },
@@ -232,7 +236,8 @@ export const useFormattedTimer = (useInTabTitle = false) => {
   return formatTimer(timer, useInTabTitle)
 }
 
-export const useIsRunning = () => useTimerStore((state) => state.isRunning)
+export const useIsTimerRunning = () =>
+  useTimerStore((state) => state.isTimerRunning)
 
 export const useCurrentActivity = () =>
   useTimerStore((state) => state.currentActivity)

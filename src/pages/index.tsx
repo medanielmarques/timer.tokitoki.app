@@ -1,4 +1,5 @@
 import { BackGroundSoundsMenu } from "@/components/bg-sounds-menu"
+import { CommandCenter } from "@/components/command-center"
 import { DevModeTimer } from "@/components/dev-mode-timer"
 import { SettingsMenu } from "@/components/settings-menu"
 import { Button } from "@/components/ui/button"
@@ -6,7 +7,7 @@ import {
   type DirectionClicked,
   useCurrentActivity,
   useFormattedTimer,
-  useIsRunning,
+  useIsTimerRunning,
   useSettingsActions,
   useTimerActions,
 } from "@/lib/timer-store"
@@ -32,11 +33,19 @@ export default function Home() {
 
       <div className=" flex h-screen justify-center md:items-start">
         <div className="flex w-[600px] flex-col justify-between md:justify-start">
-          <Header />
+          <div className="flex h-screen flex-col justify-between">
+            <div>
+              <Header />
 
-          <div className="mb-[20%] flex flex-col items-center justify-between gap-36 py-[25%] md:my-24 md:mb-0 md:py-0">
-            <Timer />
-            <PlayPauseButton />
+              <div className="mb-[20%] flex flex-col items-center justify-between gap-36 py-[25%] md:my-24 md:mb-0 md:py-0">
+                <Timer />
+                <PlayPauseButton />
+              </div>
+            </div>
+
+            <div className="mb-8 hidden md:flex-center">
+              <CommandCenter />
+            </div>
           </div>
         </div>
       </div>
@@ -66,7 +75,11 @@ function Header() {
 
         {process.env.NODE_ENV === "development" && <DevModeTimer />}
       </div>
-      <SignInButton />
+
+      <div className="gap-4 flex-center">
+        {/* <CommandCenter /> */}
+        <SignInButton />
+      </div>
     </div>
   )
 }
@@ -96,18 +109,18 @@ function Timer() {
   const { changeCurrentActivity } = useSettingsActions()
   const timer = useFormattedTimer()
   const currentActivity = useCurrentActivity()
-  const isRunning = useIsRunning()
+  const isTimerRunning = useIsTimerRunning()
 
   const handleSwipe = useSwipeable({
-    onSwipedLeft: () => !isRunning && changeCurrentActivity("right"),
-    onSwipedRight: () => !isRunning && changeCurrentActivity("left"),
+    onSwipedLeft: () => !isTimerRunning && changeCurrentActivity("right"),
+    onSwipedRight: () => !isTimerRunning && changeCurrentActivity("left"),
   })
 
   const activityName = formatActivityName(currentActivity)
 
   return (
     <div {...handleSwipe} className="flex items-center md:gap-10">
-      {!isRunning && <ChangeActivityButton direction="left" />}
+      {!isTimerRunning && <ChangeActivityButton direction="left" />}
 
       <div className="flex w-[260px] flex-col items-center gap-2 md:w-[420px] md:text-2xl">
         <p>{activityName}</p>
@@ -115,7 +128,7 @@ function Timer() {
         <div className="h-5" />
       </div>
 
-      {!isRunning && <ChangeActivityButton direction="right" />}
+      {!isTimerRunning && <ChangeActivityButton direction="right" />}
     </div>
   )
 }
@@ -141,13 +154,13 @@ function ChangeActivityButton({ direction }: { direction: DirectionClicked }) {
 
 function PlayPauseButton() {
   const { play, pause } = useTimerActions()
-  const isRunning = useIsRunning()
+  const isTimerRunning = useIsTimerRunning()
 
   function handleClick() {
-    return isRunning ? pause() : play()
+    return isTimerRunning ? pause() : play()
   }
 
-  const icon = isRunning ? (
+  const icon = isTimerRunning ? (
     <IconPlayerPauseFilled className="h-9 w-9 md:h-11 md:w-11" />
   ) : (
     <IconPlayerPlayFilled className="h-9 w-9 md:h-11 md:w-11" />

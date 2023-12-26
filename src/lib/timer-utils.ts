@@ -1,15 +1,15 @@
-import { Activities, activityStateTransitions } from "@/lib/constants"
+import { ACTIVITIES, ACTIVITY_STATE_TRANSITIONS } from "@/lib/constants"
 import {
   type Activity,
   type DirectionClicked,
-  useIsRunning,
+  useIsTimerRunning,
   useTimerActions,
 } from "@/lib/timer-store"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { useEffect } from "react"
 
 const AUDIO_ALARM = "../audio/alarm.mp3"
-const AUDIO_TOGGLE_TIMER = "../audio/toggle-timer.mp3"
+const AUDIO_TOGGLE_TIMER = "../audio/beep.mp3"
 
 export function playAlarmSound() {
   const alarmSound = new Audio(AUDIO_ALARM)
@@ -18,6 +18,7 @@ export function playAlarmSound() {
 
 export function playToggleTimerSound() {
   const toggleTimerSound = new Audio(AUDIO_TOGGLE_TIMER)
+  toggleTimerSound.volume = 0.15
   void toggleTimerSound.play()
 }
 
@@ -25,16 +26,16 @@ export function decideNextActivity(
   currentActivity: Activity,
   directionClicked: DirectionClicked,
 ) {
-  return activityStateTransitions[currentActivity][directionClicked]
+  return ACTIVITY_STATE_TRANSITIONS[currentActivity][directionClicked]
 }
 
 export function formatActivityName(activity: Activity) {
   switch (activity) {
-    case Activities.POMODORO:
+    case ACTIVITIES.POMODORO:
       return "Pomodoro"
-    case Activities.SHORT_BREAK:
+    case ACTIVITIES.SHORT_BREAK:
       return "Short Break"
-    case Activities.LONG_BREAK:
+    case ACTIVITIES.LONG_BREAK:
       return "Long Break"
   }
 }
@@ -67,16 +68,16 @@ export function minsToMils(mins: number) {
 
 export function useCountdown() {
   const { countdown } = useTimerActions()
-  const isRunning = useIsRunning()
+  const isTimerRunning = useIsTimerRunning()
   const { setLocalStorageSettings } = useLocalStorageSettings()
 
   useEffect(() => {
-    if (isRunning) {
+    if (isTimerRunning) {
       const countdownInterval = setInterval(() => {
         countdown(setLocalStorageSettings)
       }, 1000)
 
       return () => clearInterval(countdownInterval)
     }
-  }, [countdown, isRunning, setLocalStorageSettings])
+  }, [countdown, isTimerRunning, setLocalStorageSettings])
 }
