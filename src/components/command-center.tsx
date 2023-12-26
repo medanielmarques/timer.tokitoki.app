@@ -45,7 +45,7 @@ export function CommandCenter() {
       <div className="hidden md:gap-4 md:flex-center">
         <div className="gap-4 flex-center">
           <span>Command Center</span>
-          <kbd className="pointer-events-none h-10 w-14 select-none gap-1 rounded border bg-muted font-semibold text-muted-foreground opacity-100 flex-center">
+          <kbd className="pointer-events-none h-10 w-14 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
             <span>⌘ K</span>
           </kbd>
         </div>
@@ -55,20 +55,20 @@ export function CommandCenter() {
 
           <Dialog open={isHelpModalOpen} onOpenChange={setHelpModalOpen}>
             <DialogTrigger>
-              <kbd className="pointer-events-none h-10 w-14 select-none gap-1 rounded border bg-muted font-semibold text-muted-foreground opacity-100 flex-center">
+              <kbd className="pointer-events-none h-10 w-14 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
                 <span>⌘ /</span>
               </kbd>
             </DialogTrigger>
 
             <DialogContent
-              className="flex max-w-2xl flex-col gap-6"
+              className="flex max-w-xl flex-col gap-5"
               standardCloseButton={false}
             >
-              <DialogHeader className="mt-4">
-                <DialogTitle className="text-xl">
+              <DialogHeader className="mt-2">
+                <DialogTitle className="text-lg">
                   Keyboard Shortcuts
                 </DialogTitle>
-                <DialogClose className="absolute right-10 top-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                <DialogClose className="absolute right-6 top-7 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
                   <Cross2Icon className="h-5 w-5" />
                   <span className="sr-only">Close</span>
                 </DialogClose>
@@ -78,19 +78,19 @@ export function CommandCenter() {
 
               <div className="flex flex-col gap-6">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="ml-2 text-lg">Play/Pause Timer</span>
+                  <span className="ml-2">Play/Pause Timer</span>
 
                   <div className="gap-4 flex-center">
                     <div className="gap-4 flex-center">
-                      <kbd className="pointer-events-none h-12 w-44 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
+                      <kbd className="pointer-events-none h-12 w-32 select-none gap-1 rounded border text-base font-semibold text-muted-foreground opacity-100 flex-center">
                         <span>⌘ P</span>
                       </kbd>
                     </div>
 
-                    <span className="text-lg">or</span>
+                    <span className="">or</span>
 
                     <div className="gap-4 flex-center">
-                      <kbd className="pointer-events-none h-12 w-44 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
+                      <kbd className="pointer-events-none h-12 w-32 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
                         <span>Spacebar</span>
                       </kbd>
                     </div>
@@ -98,27 +98,27 @@ export function CommandCenter() {
                 </div>
 
                 <div className="flex items-center justify-between gap-2">
-                  <span className="ml-2 text-lg">Change Activity</span>
+                  <span className="ml-2">Change Activity</span>
 
                   <div className="gap-4 flex-center">
                     <div className="gap-4 flex-center">
-                      <kbd className="pointer-events-none h-12 w-20 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
+                      <kbd className="pointer-events-none h-12 w-14 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
                         <span>&larr;</span>
                       </kbd>
 
-                      <kbd className="pointer-events-none h-12 w-20 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
+                      <kbd className="pointer-events-none h-12 w-14 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
                         <span>&#8594;</span>
                       </kbd>
                     </div>
 
-                    <span className="text-lg">or</span>
+                    <span className="">or</span>
 
                     <div className="gap-4 flex-center">
-                      <kbd className="pointer-events-none h-12 w-20 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
+                      <kbd className="pointer-events-none h-12 w-14 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
                         <span>⌘ J</span>
                       </kbd>
 
-                      <kbd className="pointer-events-none h-12 w-20 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
+                      <kbd className="pointer-events-none h-12 w-14 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
                         <span>⌘ K</span>
                       </kbd>
                     </div>
@@ -126,17 +126,17 @@ export function CommandCenter() {
                 </div>
 
                 <div className="flex items-center justify-between gap-2">
-                  <span className="ml-2 text-lg">Background Sound</span>
+                  <span className="ml-2">Background Sound</span>
 
-                  <kbd className="pointer-events-none h-12 w-44 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
+                  <kbd className="pointer-events-none h-12 w-32 select-none gap-1 rounded border text-base font-semibold text-muted-foreground opacity-100 flex-center">
                     <span>⌘ B</span>
                   </kbd>
                 </div>
 
                 <div className="flex items-center justify-between gap-2">
-                  <span className="ml-2 text-lg">Settings</span>
+                  <span className="ml-2">Settings</span>
 
-                  <kbd className="pointer-events-none h-12 w-44 select-none gap-1 rounded border text-xl font-semibold text-muted-foreground opacity-100 flex-center">
+                  <kbd className="pointer-events-none h-12 w-32 select-none gap-1 rounded border text-base font-semibold text-muted-foreground opacity-100 flex-center">
                     <span>⌘ S</span>
                   </kbd>
                 </div>
