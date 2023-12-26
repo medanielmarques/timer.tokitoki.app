@@ -1,16 +1,8 @@
 import { BackGroundSoundsMenu } from "@/components/bg-sounds-menu"
+import { CommandCenter } from "@/components/command-center"
 import { DevModeTimer } from "@/components/dev-mode-timer"
 import { SettingsMenu } from "@/components/settings-menu"
 import { Button } from "@/components/ui/button"
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandShortcut,
-} from "@/components/ui/command"
 import {
   type DirectionClicked,
   useCurrentActivity,
@@ -20,7 +12,6 @@ import {
   useTimerActions,
 } from "@/lib/timer-store"
 import { formatActivityName, useCountdown } from "@/lib/timer-utils"
-import { useShortcuts } from "@/lib/use-shortcuts"
 import { signIn, signOut } from "@/utils/supabase"
 import { ExitIcon, PersonIcon } from "@radix-ui/react-icons"
 import { useSession } from "@supabase/auth-helpers-react"
@@ -31,8 +22,6 @@ import {
   IconPlayerPlayFilled,
 } from "@tabler/icons-react"
 import NextHead from "next/head"
-import { useState } from "react"
-import { Settings } from "react-feather"
 import { useSwipeable } from "react-swipeable"
 
 export default function Home() {
@@ -55,32 +44,6 @@ export default function Home() {
         </div>
       </div>
     </>
-  )
-}
-
-function CommandCenter() {
-  const { isCommandCenterOpen, setIsCommandCenterOpen } = useShortcuts()
-
-  return (
-    <CommandDialog
-      open={isCommandCenterOpen}
-      onOpenChange={setIsCommandCenterOpen}
-    >
-      <CommandInput placeholder="Type a command or search..." />
-      <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-
-        <CommandGroup heading="Suggestions">
-          <CommandItem onClick={() => console.log(123)}>Calendar</CommandItem>
-
-          <CommandItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-            <CommandShortcut>⌘S</CommandShortcut>
-          </CommandItem>
-        </CommandGroup>
-      </CommandList>
-    </CommandDialog>
   )
 }
 
