@@ -21,7 +21,7 @@ import {
 } from "@/lib/timer-store"
 import { formatActivityName, milsToMins, minsToMils } from "@/lib/timer-utils"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
-import { ClockIcon, MixerHorizontalIcon } from "@radix-ui/react-icons"
+import { Clock, SlidersHorizontal } from "@phosphor-icons/react"
 
 export function SettingsMenu() {
   const pomodoroDuration = usePomodoroDuration()
@@ -33,7 +33,7 @@ export function SettingsMenu() {
   return (
     <Sheet open={isSettingsMenuOpen} onOpenChange={handleSheetOpenChange}>
       <SheetTrigger className="flex w-9 items-center justify-center text-gray-600 hover:text-accent-foreground">
-        <MixerHorizontalIcon className="h-6 w-6 md:h-6 md:w-6" />
+        <SlidersHorizontal weight="regular" className="h-6 w-6 md:h-6 md:w-6" />
       </SheetTrigger>
 
       <SheetContent side="left" className="flex flex-col gap-10 sm:max-w-md">
@@ -43,7 +43,7 @@ export function SettingsMenu() {
 
         <div className="flex flex-col gap-6 px-8">
           <div className="flex items-center justify-center gap-2 md:justify-normal">
-            <ClockIcon />
+            <Clock />
             <p className="text-base md:text-lg">Timer (minutes)</p>
           </div>
 

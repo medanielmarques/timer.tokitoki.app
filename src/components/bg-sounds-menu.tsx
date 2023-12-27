@@ -20,8 +20,12 @@ import {
   useIsBgSoundMenuOpen,
 } from "@/lib/bg-sound-store"
 import { useBackgroundSoundEffects } from "@/lib/use-bg-sounds-effects"
-import { InfoCircledIcon } from "@radix-ui/react-icons"
-import { Headphones, Volume1, Volume2 } from "react-feather"
+import {
+  Headphones,
+  Info,
+  SpeakerSimpleHigh,
+  SpeakerSimpleLow,
+} from "@phosphor-icons/react"
 
 export function BackGroundSoundsMenu() {
   useBackgroundSoundEffects()
@@ -49,7 +53,7 @@ export function BackGroundSoundsMenu() {
           <TooltipProvider delayDuration={300}>
             <Tooltip>
               <TooltipTrigger>
-                <InfoCircledIcon className="h-5 w-5 text-gray-600" />
+                <Info className="h-5 w-5 text-gray-600" />
               </TooltipTrigger>
 
               <TooltipContent>
@@ -77,22 +81,22 @@ export function BackGroundSoundsMenu() {
         <div className="gap-4 flex-center">
           <Button
             variant="ghost"
-            className="w-13 h-10 font-medium text-gray-500"
+            className="w-13 h-10 font-medium text-gray-600"
             onClick={decreaseVolume}
             disabled={volume === 0}
           >
-            <Volume1 className="h-5 w-5" />
+            <SpeakerSimpleLow className="h-5 w-5" />
           </Button>
 
           <p className="text-lg font-semibold text-gray-600">{volume}</p>
 
           <Button
             variant="ghost"
-            className="w-13 h-10 font-medium text-gray-500"
+            className="w-13 h-10 font-medium text-gray-600"
             onClick={increaseVolume}
             disabled={volume === 10}
           >
-            <Volume2 className="h-5 w-5" />
+            <SpeakerSimpleHigh className="h-5 w-5" />
           </Button>
         </div>
       </DropdownMenuContent>
