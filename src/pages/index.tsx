@@ -1,8 +1,5 @@
-import { BackGroundSoundsMenu } from "@/components/bg-sounds-menu"
 import { CommandCenter } from "@/components/command-center"
-import { DevModeTimer } from "@/components/dev-mode-timer"
-import { SettingsMenu } from "@/components/settings-menu"
-import { Button } from "@/components/ui/button"
+import { Header } from "@/components/header"
 import {
   type DirectionClicked,
   useCurrentActivity,
@@ -12,16 +9,7 @@ import {
   useTimerActions,
 } from "@/lib/timer-store"
 import { formatActivityName, useCountdown } from "@/lib/timer-utils"
-import { signIn, signOut } from "@/utils/supabase"
-import {
-  CaretLeft,
-  CaretRight,
-  Pause,
-  Play,
-  SignIn,
-} from "@phosphor-icons/react"
-import { SignOut } from "@phosphor-icons/react/dist/ssr"
-import { useSession } from "@supabase/auth-helpers-react"
+import { CaretLeft, CaretRight, Pause, Play } from "@phosphor-icons/react"
 import NextHead from "next/head"
 import { useSwipeable } from "react-swipeable"
 
@@ -67,44 +55,6 @@ function TabTitleTimer() {
   )
 }
 
-function Header() {
-  return (
-    <div className="flex justify-between p-5">
-      <div className="flex items-center gap-4">
-        <SettingsMenu />
-        <BackGroundSoundsMenu />
-
-        {process.env.NODE_ENV === "development" && <DevModeTimer />}
-      </div>
-
-      <div className="gap-4 flex-center">
-        <SignInButton />
-      </div>
-    </div>
-  )
-}
-
-function SignInButton() {
-  const session = useSession()
-  const isSignedIn = !!session
-
-  const icon = isSignedIn ? (
-    <SignOut className="mr-2 h-4 w-4" />
-  ) : (
-    <SignIn className="mr-2 h-4 w-4" />
-  )
-  const text = isSignedIn ? "Sign out" : "Sign in"
-
-  const handleClick = () => (isSignedIn ? signOut() : signIn())
-
-  return (
-    <Button onClick={handleClick} variant="outline">
-      {icon}
-      <span>{text}</span>
-    </Button>
-  )
-}
-
 function Timer() {
   const { changeCurrentActivity } = useSettingsActions()
   const timer = useFormattedTimer()
@@ -119,7 +69,7 @@ function Timer() {
   const activityName = formatActivityName(currentActivity)
 
   return (
-    <div {...handleSwipe} className="flex items-center md:gap-10">
+    <div {...handleSwipe} className="flex items-center md:gap-7">
       {!isTimerRunning && <ChangeActivityButton direction="left" />}
 
       <div className="flex w-[260px] flex-col items-center gap-2 md:w-[420px] md:text-2xl">

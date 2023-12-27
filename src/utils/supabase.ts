@@ -2,9 +2,15 @@ import { createPagesBrowserClient } from "@supabase/auth-helpers-nextjs"
 
 export const supabase = createPagesBrowserClient()
 
-export async function signIn() {
+export async function signInWithDiscord() {
   await supabase.auth.signInWithOAuth({
     provider: "discord",
+  })
+}
+
+export async function signInWithGoogle() {
+  await supabase.auth.signInWithOAuth({
+    provider: "google",
   })
 }
 
