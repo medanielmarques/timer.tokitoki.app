@@ -22,8 +22,6 @@ export function Header() {
   const session = useSession()
   const isSignedIn = !!session
 
-  console.log(session)
-
   return (
     <div className="flex justify-between p-5">
       <div className="flex items-center gap-4">
