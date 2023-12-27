@@ -1,7 +1,7 @@
 import { ACTIVITY_DURATION } from "@/lib/constants"
 import { useTimer } from "@/lib/timer-store"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
-import { TimerIcon } from "@radix-ui/react-icons"
+import { Clock } from "@phosphor-icons/react"
 import { useCallback, useEffect } from "react"
 
 export function DevModeTimer() {
@@ -33,7 +33,7 @@ export function DevModeTimer() {
 
   return (
     <button className="text-gray-500" onClick={handleDevModeTimer}>
-      <TimerIcon className="h-6 w-6" />
+      <Clock className="h-6 w-6" />
     </button>
   )
 }

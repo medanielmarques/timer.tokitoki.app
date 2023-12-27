@@ -13,14 +13,15 @@ import {
 } from "@/lib/timer-store"
 import { formatActivityName, useCountdown } from "@/lib/timer-utils"
 import { signIn, signOut } from "@/utils/supabase"
-import { ExitIcon, PersonIcon } from "@radix-ui/react-icons"
-import { useSession } from "@supabase/auth-helpers-react"
 import {
-  IconChevronLeft,
-  IconChevronRight,
-  IconPlayerPauseFilled,
-  IconPlayerPlayFilled,
-} from "@tabler/icons-react"
+  CaretLeft,
+  CaretRight,
+  Pause,
+  Play,
+  SignIn,
+} from "@phosphor-icons/react"
+import { SignOut } from "@phosphor-icons/react/dist/ssr"
+import { useSession } from "@supabase/auth-helpers-react"
 import NextHead from "next/head"
 import { useSwipeable } from "react-swipeable"
 
@@ -77,7 +78,6 @@ function Header() {
       </div>
 
       <div className="gap-4 flex-center">
-        {/* <CommandCenter /> */}
         <SignInButton />
       </div>
     </div>
@@ -89,9 +89,9 @@ function SignInButton() {
   const isSignedIn = !!session
 
   const icon = isSignedIn ? (
-    <ExitIcon className="mr-2 h-4 w-4" />
+    <SignOut className="mr-2 h-4 w-4" />
   ) : (
-    <PersonIcon className="mr-2 h-4 w-4" />
+    <SignIn className="mr-2 h-4 w-4" />
   )
   const text = isSignedIn ? "Sign out" : "Sign in"
 
@@ -136,7 +136,12 @@ function Timer() {
 function ChangeActivityButton({ direction }: { direction: DirectionClicked }) {
   const { changeCurrentActivity } = useSettingsActions()
 
-  const icon = direction === "left" ? <IconChevronLeft /> : <IconChevronRight />
+  const icon =
+    direction === "left" ? (
+      <CaretLeft className="h-4 w-4 md:h-6 md:w-6" />
+    ) : (
+      <CaretRight className="h-4 w-4 md:h-6 md:w-6" />
+    )
 
   function handleClick() {
     changeCurrentActivity(direction)
@@ -144,7 +149,7 @@ function ChangeActivityButton({ direction }: { direction: DirectionClicked }) {
 
   return (
     <button
-      className="flex items-center justify-center rounded-full border border-gray-300 p-1 text-gray-500 hover:bg-gray-100"
+      className="flex h-7 w-7 items-center justify-center rounded-full border border-gray-300 p-1 text-gray-500 hover:bg-gray-100 md:h-9 md:w-9"
       onClick={handleClick}
     >
       {icon}
@@ -161,9 +166,9 @@ function PlayPauseButton() {
   }
 
   const icon = isTimerRunning ? (
-    <IconPlayerPauseFilled className="h-9 w-9 md:h-11 md:w-11" />
+    <Pause weight="fill" className="h-9 w-9 md:h-11 md:w-11" />
   ) : (
-    <IconPlayerPlayFilled className="h-9 w-9 md:h-11 md:w-11" />
+    <Play weight="fill" className="h-9 w-9 md:h-11 md:w-11" />
   )
 
   return (

@@ -25,12 +25,8 @@ import {
 import { useSettingsMenuActions } from "@/lib/settings-menu-store"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { useShortcuts } from "@/lib/use-shortcuts"
-import {
-  Cross2Icon,
-  MixerHorizontalIcon,
-  ResetIcon,
-} from "@radix-ui/react-icons"
-import { Headphones } from "react-feather"
+import { Headphones, SlidersHorizontal } from "@phosphor-icons/react"
+import { Cross2Icon, ResetIcon } from "@radix-ui/react-icons"
 
 export function CommandCenter() {
   const { isCommandCenterOpen, setIsCommandCenterOpen } = useShortcuts()
@@ -190,7 +186,7 @@ export function CommandCenter() {
               }}
             >
               <div className="gap-2 flex-center">
-                <MixerHorizontalIcon />
+                <SlidersHorizontal />
                 <span>Settings</span>
               </div>
 
