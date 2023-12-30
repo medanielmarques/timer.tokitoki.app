@@ -13,7 +13,7 @@ export type DirectionClicked = "left" | "right"
 
 type MakeOptional<T> = { [K in keyof T]?: T[K] }
 
-export type BackgroundSound = "ultra-soft-noise" | "birds" | "off"
+export type BackgroundSound = "white-noise" | "off"
 
 type TimerStore = {
   currentActivity: Activity

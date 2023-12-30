@@ -75,15 +75,11 @@ export type Sound = {
 
 export const BACKGROUND_SOUNDS: Sound[] = [
   {
-    name: "Ultra Soft Noise",
-    value: "ultra-soft-noise",
+    name: "White Noise",
+    value: "white-noise",
     checked: false,
   },
-  {
-    name: "Birds",
-    value: "birds",
-    checked: false,
-  },
+
   {
     name: "Off",
     value: "off",
@@ -91,13 +87,11 @@ export const BACKGROUND_SOUNDS: Sound[] = [
   },
 ]
 
-const AUDIO_ULTRA_SOFT_NOISE = "../audio/ultra-soft-noise.mp3"
-const AUDIO_BIRDS = "../audio/birds.mp3"
+const AUDIO_WHITE_NOISE = "../audio/white-noise.mp3"
 
 export const BACKGROUND_SOUNDS_NAMES: Record<BackgroundSound, string> = {
-  "ultra-soft-noise": AUDIO_ULTRA_SOFT_NOISE,
-  birds: AUDIO_BIRDS,
-  off: AUDIO_ULTRA_SOFT_NOISE,
+  "white-noise": AUDIO_WHITE_NOISE,
+  off: AUDIO_WHITE_NOISE,
 }
 
 export const SHORTCUT_KEYS = {
