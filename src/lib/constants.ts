@@ -75,8 +75,8 @@ export type Sound = {
 
 export const BACKGROUND_SOUNDS: Sound[] = [
   {
-    name: "Underwater",
-    value: "underwater",
+    name: "Ultra Soft Noise",
+    value: "ultra-soft-noise",
     checked: false,
   },
   {
@@ -91,13 +91,13 @@ export const BACKGROUND_SOUNDS: Sound[] = [
   },
 ]
 
-const AUDIO_UNDERWATER_WHITE_NOISE = "../audio/underwater.mp3"
+const AUDIO_ULTRA_SOFT_NOISE = "../audio/ultra-soft-noise.mp3"
 const AUDIO_BIRDS = "../audio/birds.mp3"
 
 export const BACKGROUND_SOUNDS_NAMES: Record<BackgroundSound, string> = {
-  underwater: AUDIO_UNDERWATER_WHITE_NOISE,
+  "ultra-soft-noise": AUDIO_ULTRA_SOFT_NOISE,
   birds: AUDIO_BIRDS,
-  off: AUDIO_UNDERWATER_WHITE_NOISE,
+  off: AUDIO_ULTRA_SOFT_NOISE,
 }
 
 export const SHORTCUT_KEYS = {
