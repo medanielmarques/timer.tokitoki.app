@@ -19,7 +19,7 @@ import {
   useBgSoundVolume,
   useIsBgSoundMenuOpen,
 } from "@/lib/bg-sound-store"
-import { useBackgroundSoundEffects } from "@/lib/use-bg-sounds-effects"
+import { useWhiteNoise } from "@/lib/use-white-noise"
 import {
   Headphones,
   Info,
@@ -28,7 +28,7 @@ import {
 } from "@phosphor-icons/react"
 
 export function BackGroundSoundsMenu() {
-  useBackgroundSoundEffects()
+  useWhiteNoise()
 
   const isBgSoundMenuOpen = useIsBgSoundMenuOpen()
   const sounds = useBgSoundSounds()

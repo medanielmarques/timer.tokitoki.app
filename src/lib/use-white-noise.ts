@@ -9,10 +9,10 @@ import {
   useCurrentBackgroundSound,
   useIsTimerRunning,
 } from "@/lib/timer-store"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import useSound from "use-sound"
 
-export function useBackgroundSoundEffects() {
+export function useWhiteNoise() {
   const { setIsplaying } = useBgSoundActions()
   const isPlaying = useBgSoundIsPlaying()
   const volume = useBgSoundVolume()
@@ -20,7 +20,7 @@ export function useBackgroundSoundEffects() {
   const currentActivity = useCurrentActivity()
   const currentBackgroundSound = useCurrentBackgroundSound()
 
-  const [play, { stop }] = useSound(
+  const [play, { stop, pause }] = useSound(
     BACKGROUND_SOUNDS_NAMES[currentBackgroundSound],
     {
       loop: true,
@@ -28,35 +28,44 @@ export function useBackgroundSoundEffects() {
     },
   )
 
-  useEffect(() => {
-    const shouldPlayBackgroundSound =
+  const shouldPlayBackgroundSound = useCallback(() => {
+    return (
       currentActivity === ACTIVITIES.POMODORO &&
       currentBackgroundSound !== "off"
+    )
+  }, [currentActivity, currentBackgroundSound])
 
-    if (!shouldPlayBackgroundSound) {
-      setIsplaying(false)
-      stop()
+  const startPlaying = useCallback(() => {
+    setIsplaying(true)
+    play()
+  }, [setIsplaying, play])
+
+  const stopPlaying = useCallback(() => {
+    setIsplaying(false)
+    pause()
+  }, [setIsplaying, pause])
+
+  useEffect(() => {
+    if (!shouldPlayBackgroundSound()) {
+      stopPlaying()
       return
     }
 
     if (isTimerRunning) {
-      setIsplaying(true)
-      play()
+      startPlaying()
     } else if (isPlaying) {
-      setIsplaying(false)
-      stop()
+      stopPlaying()
     }
 
     return () => {
       stop()
     }
   }, [
-    isTimerRunning,
     isPlaying,
-    play,
-    currentActivity,
-    currentBackgroundSound,
+    isTimerRunning,
+    shouldPlayBackgroundSound,
+    startPlaying,
     stop,
-    setIsplaying,
+    stopPlaying,
   ])
 }
