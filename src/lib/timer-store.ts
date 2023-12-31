@@ -13,8 +13,6 @@ export type DirectionClicked = "left" | "right"
 
 type MakeOptional<T> = { [K in keyof T]?: T[K] }
 
-export type BackgroundSound = "white-noise" | "off"
-
 type TimerStore = {
   currentActivity: Activity
   timer: number
@@ -29,8 +27,6 @@ type TimerStore = {
   longBreakInterval: number
   autoStart: boolean
 
-  currentBackgroundSound: BackgroundSound
-
   settingsActions: {
     changeActivityDuration: (newDuration: number, activity: Activity) => void
     changeCurrentActivity: (directionClicked: DirectionClicked) => void
@@ -38,8 +34,6 @@ type TimerStore = {
     changeLongBreakIntervalCount: (newCount: number) => void
     changeActivityTimer: (newTimer: number, activity: Activity) => void
     changeAutoStart: (autoStart: boolean) => void
-
-    changeBackgroundSound: (backgroundSound: BackgroundSound) => void
   }
 
   actions: {
@@ -79,8 +73,6 @@ export const useTimerStore = create<TimerStore>((set, get) => {
     longBreakIntervalCount: TIMER_DEFAULTS.longBreakIntervalCount,
     autoStart: TIMER_DEFAULTS.autoStart,
 
-    currentBackgroundSound: "off",
-
     settingsActions: {
       changeActivityDuration: (newDuration, activity) => {
         set({ [activity]: newDuration })
@@ -116,10 +108,6 @@ export const useTimerStore = create<TimerStore>((set, get) => {
 
       changeAutoStart: (autoStart) => {
         set({ autoStart })
-      },
-
-      changeBackgroundSound: (backgroundSound) => {
-        set({ currentBackgroundSound: backgroundSound })
       },
     },
 
@@ -253,6 +241,3 @@ export const useLongBreakDuration = () =>
 
 export const useLongBreakInterval = () =>
   useTimerStore((state) => state.longBreakInterval)
-
-export const useCurrentBackgroundSound = () =>
-  useTimerStore((state) => state.currentBackgroundSound)

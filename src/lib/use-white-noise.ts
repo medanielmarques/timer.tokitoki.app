@@ -1,71 +1,63 @@
+import { ACTIVITIES, AUDIO_WHITE_NOISE } from "@/lib/constants"
+import { useCurrentActivity, useIsTimerRunning } from "@/lib/timer-store"
 import {
-  useBgSoundActions,
-  useBgSoundIsPlaying,
-  useBgSoundVolume,
-} from "@/lib/bg-sound-store"
-import { ACTIVITIES, BACKGROUND_SOUNDS_NAMES } from "@/lib/constants"
-import {
-  useCurrentActivity,
-  useCurrentBackgroundSound,
-  useIsTimerRunning,
-} from "@/lib/timer-store"
+  useIsWhiteNoiseEnabled,
+  useIsWhiteNoisePlaying,
+  useWhiteNoiseActions,
+  useWhiteNoiseVolume,
+} from "@/lib/white-noise-store"
 import { useCallback, useEffect } from "react"
 import useSound from "use-sound"
 
 export function useWhiteNoise() {
-  const { setIsplaying } = useBgSoundActions()
-  const isPlaying = useBgSoundIsPlaying()
-  const volume = useBgSoundVolume()
+  const { setIsWhiteNoisePlaying } = useWhiteNoiseActions()
+  const isWhiteNoisePlaying = useIsWhiteNoisePlaying()
+  const volume = useWhiteNoiseVolume()
   const isTimerRunning = useIsTimerRunning()
   const currentActivity = useCurrentActivity()
-  const currentBackgroundSound = useCurrentBackgroundSound()
+  const isWhiteNoiseEnabled = useIsWhiteNoiseEnabled()
 
-  const [play, { stop, pause }] = useSound(
-    BACKGROUND_SOUNDS_NAMES[currentBackgroundSound],
-    {
+  const [playWhiteNoise, { stop: stopWhiteNoise, pause: pauseWhiteNoite }] =
+    useSound(AUDIO_WHITE_NOISE, {
       loop: true,
       volume: volume / 10,
-    },
-  )
+    })
 
-  const shouldPlayBackgroundSound = useCallback(() => {
-    return (
-      currentActivity === ACTIVITIES.POMODORO &&
-      currentBackgroundSound !== "off"
-    )
-  }, [currentActivity, currentBackgroundSound])
+  const shouldPlayWhiteNoise = useCallback(() => {
+    return currentActivity === ACTIVITIES.POMODORO && isWhiteNoiseEnabled
+  }, [currentActivity, isWhiteNoiseEnabled])
 
   const startPlaying = useCallback(() => {
-    setIsplaying(true)
-    play()
-  }, [setIsplaying, play])
+    setIsWhiteNoisePlaying(true)
+    playWhiteNoise()
+  }, [setIsWhiteNoisePlaying, playWhiteNoise])
 
   const stopPlaying = useCallback(() => {
-    setIsplaying(false)
-    pause()
-  }, [setIsplaying, pause])
+    setIsWhiteNoisePlaying(false)
+    pauseWhiteNoite()
+  }, [setIsWhiteNoisePlaying, pauseWhiteNoite])
 
   useEffect(() => {
-    if (!shouldPlayBackgroundSound()) {
+    if (!shouldPlayWhiteNoise()) {
       stopPlaying()
       return
     }
 
     if (isTimerRunning) {
       startPlaying()
-    } else if (isPlaying) {
+    } else if (isWhiteNoisePlaying) {
       stopPlaying()
     }
 
     return () => {
-      stop()
+      stopWhiteNoise()
     }
   }, [
-    isPlaying,
     isTimerRunning,
-    shouldPlayBackgroundSound,
+    isWhiteNoisePlaying,
+    shouldPlayWhiteNoise,
     startPlaying,
-    stop,
     stopPlaying,
+    stopWhiteNoise,
   ])
 }

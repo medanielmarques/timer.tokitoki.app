@@ -2,7 +2,7 @@ import { SHORTCUT_KEYS } from "@/lib/constants"
 import { useTimerStore } from "@/lib/timer-store"
 import { create } from "zustand"
 
-import { useBackgroundSoundStore } from "./bg-sound-store"
+import { useWhiteNoiseStore } from "./white-noise-store"
 
 type SettingsMenuStore = {
   isSettingsMenuOpen: boolean
@@ -20,8 +20,8 @@ export const useSettingsMenuStore = create<SettingsMenuStore>((set, get) => {
 
     actions: {
       handleSheetOpenChange: (open = true) => {
-        const { isBgSoundMenuOpen } = useBackgroundSoundStore.getState()
-        if (isBgSoundMenuOpen) return
+        const { isWhiteNoiseMenuOpen } = useWhiteNoiseStore.getState()
+        if (isWhiteNoiseMenuOpen) return
 
         const { isTimerRunning, actions } = useTimerStore.getState()
         const { wasTimerRunning } = get()
