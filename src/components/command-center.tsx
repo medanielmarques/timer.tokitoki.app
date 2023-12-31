@@ -1,4 +1,4 @@
-import { KeyboardShortcutsMenu } from "@/components/KeyboardShortcutsMenu"
+import { KeyboardShortcutsMenu } from "@/components/kbd-shortcuts-menu"
 import {
   CommandDialog,
   CommandEmpty,
