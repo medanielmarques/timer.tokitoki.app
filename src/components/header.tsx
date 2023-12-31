@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { WhiteNoiseMenu } from "@/components/white-noise-menu"
+import { WhiteNoiseMenu } from "@/components/white-noise/white-noise-menu"
 import { signInWithDiscord, signInWithGoogle, signOut } from "@/utils/supabase"
 import {
   GoogleLogo,

@@ -1,11 +1,11 @@
-import { ACTIVITIES, AUDIO_WHITE_NOISE } from "@/lib/constants"
-import { useCurrentActivity, useIsTimerRunning } from "@/lib/timer-store"
 import {
   useIsWhiteNoiseEnabled,
   useIsWhiteNoisePlaying,
   useWhiteNoiseActions,
   useWhiteNoiseVolume,
-} from "@/lib/white-noise-store"
+} from "@/components/white-noise/white-noise-store"
+import { ACTIVITIES, AUDIO_WHITE_NOISE } from "@/lib/constants"
+import { useCurrentActivity, useIsTimerRunning } from "@/lib/timer-store"
 import { useCallback, useEffect } from "react"
 import useSound from "use-sound"
 

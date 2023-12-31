@@ -1,7 +1,7 @@
 import { SHORTCUT_KEYS } from "@/lib/constants"
 import { create } from "zustand"
 
-import { useSettingsMenuStore } from "./settings-menu-store"
+import { useSettingsMenuStore } from "../../lib/settings-menu-store"
 
 type WhiteNoiseStore = {
   isWhiteNoiseMenuOpen: boolean

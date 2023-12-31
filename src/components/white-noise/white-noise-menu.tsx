@@ -13,13 +13,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { useWhiteNoise } from "@/lib/use-white-noise"
+import { useWhiteNoise } from "@/components/white-noise/use-white-noise"
 import {
   useIsWhiteNoiseEnabled,
   useIsWhiteNoiseMenuOpen,
   useWhiteNoiseActions,
   useWhiteNoiseVolume,
-} from "@/lib/white-noise-store"
+} from "@/components/white-noise/white-noise-store"
 import {
   Headphones,
   Info,

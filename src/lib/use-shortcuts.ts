@@ -1,12 +1,12 @@
+import { useWhiteNoiseActions } from "@/components/white-noise/white-noise-store"
 import { SHORTCUT_KEYS } from "@/lib/constants"
-import { useKeyboardShortcutsModalActions } from "@/lib/kbd-shortcuts-modal-store"
 import { useSettingsMenuActions } from "@/lib/settings-menu-store"
+import { useKeyboardShortcutsModalActions } from "@/lib/shortcuts-modal-store"
 import {
   useIsTimerRunning,
   useSettingsActions,
   useTimerActions,
 } from "@/lib/timer-store"
-import { useWhiteNoiseActions } from "@/lib/white-noise-store"
 import { useCallback, useEffect, useState } from "react"
 
 export function useShortcuts() {
