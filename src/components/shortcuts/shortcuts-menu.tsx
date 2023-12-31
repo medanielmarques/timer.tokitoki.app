@@ -10,7 +10,7 @@ import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
 import {
   useIsHelpModalOpen,
   useKeyboardShortcutsModalActions,
-} from "@/lib/shortcuts-modal-store"
+} from "@/components/shortcuts/shortcuts-modal-store"
 import { Cross2Icon } from "@radix-ui/react-icons"
 
 export function KeyboardShortcutsMenu() {

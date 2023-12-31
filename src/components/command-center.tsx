@@ -1,4 +1,5 @@
-import { KeyboardShortcutsMenu } from "@/components/shortcuts-menu"
+import { KeyboardShortcutsMenu } from "@/components/shortcuts/shortcuts-menu"
+import { useShortcuts } from "@/components/shortcuts/use-shortcuts"
 import {
   CommandDialog,
   CommandEmpty,
@@ -12,7 +13,6 @@ import {
 import { useWhiteNoiseActions } from "@/components/white-noise/white-noise-store"
 import { useSettingsMenuActions } from "@/lib/settings-menu-store"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
-import { useShortcuts } from "@/lib/use-shortcuts"
 import { Headphones, SlidersHorizontal } from "@phosphor-icons/react"
 import { ResetIcon } from "@radix-ui/react-icons"
 

@@ -1,7 +1,7 @@
+import { useKeyboardShortcutsModalActions } from "@/components/shortcuts/shortcuts-modal-store"
 import { useWhiteNoiseActions } from "@/components/white-noise/white-noise-store"
 import { SHORTCUT_KEYS } from "@/lib/constants"
 import { useSettingsMenuActions } from "@/lib/settings-menu-store"
-import { useKeyboardShortcutsModalActions } from "@/lib/shortcuts-modal-store"
 import {
   useIsTimerRunning,
   useSettingsActions,
