@@ -10,13 +10,11 @@ import { PostHogProvider } from "posthog-js/react"
 
 import "../globals.css"
 
-if (typeof window !== "undefined") {
+const isProduction = process.env.NODE_ENV === "production"
+
+if (isProduction && typeof window !== "undefined") {
   posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://app.posthog.com",
-    // Enable debug mode in development
-    loaded: (posthog) => {
-      if (process.env.NODE_ENV === "development") posthog.debug()
-    },
   })
 }
 
@@ -25,7 +23,7 @@ const montserrat = Montserrat({ subsets: ["latin"] })
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <PostHogProvider>
-      {process.env.NODE_ENV === "development" && (
+      {isProduction && (
         <HighlightInit
           projectId={process.env.NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID}
           serviceName={process.env.NEXT_PUBLIC_HIGHLIGHT_SERVICE_NAME}

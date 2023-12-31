@@ -1,4 +1,4 @@
-import { type Activity, type BackgroundSound } from "@/lib/timer-store"
+import { type Activity } from "@/lib/timer-store"
 
 export const ACTIVITIES = {
   POMODORO: "pomodoro",
@@ -67,41 +67,10 @@ export const ACTIVITY_STATE_TRANSITIONS: ActivityStateTransitions = {
   },
 }
 
-export type Sound = {
-  name: string
-  value: BackgroundSound
-  checked: boolean
-}
-
-export const BACKGROUND_SOUNDS: Sound[] = [
-  {
-    name: "Underwater",
-    value: "underwater",
-    checked: false,
-  },
-  {
-    name: "Birds",
-    value: "birds",
-    checked: false,
-  },
-  {
-    name: "Off",
-    value: "off",
-    checked: true,
-  },
-]
-
-const AUDIO_UNDERWATER_WHITE_NOISE = "../audio/underwater.mp3"
-const AUDIO_BIRDS = "../audio/birds.mp3"
-
-export const BACKGROUND_SOUNDS_NAMES: Record<BackgroundSound, string> = {
-  underwater: AUDIO_UNDERWATER_WHITE_NOISE,
-  birds: AUDIO_BIRDS,
-  off: AUDIO_UNDERWATER_WHITE_NOISE,
-}
+export const AUDIO_WHITE_NOISE = "../audio/white-noise.mp3"
 
 export const SHORTCUT_KEYS = {
-  BG_SOUND_MENU: ["b", "B"],
+  WHITE_NOISE_MENU: ["w", "W"],
   COMMAND_CENTER: ["k", "K"],
   CTRL_OR_META: (e: KeyboardEvent) => e.metaKey || e.ctrlKey,
   HELP_MODAL: "/",

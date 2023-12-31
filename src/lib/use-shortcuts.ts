@@ -1,4 +1,3 @@
-import { useBgSoundActions } from "@/lib/bg-sound-store"
 import { SHORTCUT_KEYS } from "@/lib/constants"
 import { useKeyboardShortcutsModalActions } from "@/lib/kbd-shortcuts-modal-store"
 import { useSettingsMenuActions } from "@/lib/settings-menu-store"
@@ -7,13 +6,14 @@ import {
   useSettingsActions,
   useTimerActions,
 } from "@/lib/timer-store"
+import { useWhiteNoiseActions } from "@/lib/white-noise-store"
 import { useCallback, useEffect, useState } from "react"
 
 export function useShortcuts() {
   const isTimerRunning = useIsTimerRunning()
   const { play, pause } = useTimerActions()
   const { changeCurrentActivity } = useSettingsActions()
-  const { handleBgSoundMenuShortcut } = useBgSoundActions()
+  const { handleWhiteNoiseMenuShortcut } = useWhiteNoiseActions()
   const { handleSettingsMenuShortcut } = useSettingsMenuActions()
   const { handleHelpModalShortcut } = useKeyboardShortcutsModalActions()
 
@@ -76,7 +76,7 @@ export function useShortcuts() {
 
       handleToggleTimerShortcut(e)
       handleSwitchActivityShortcut(e)
-      handleBgSoundMenuShortcut(e)
+      handleWhiteNoiseMenuShortcut(e)
       handleSettingsMenuShortcut(e)
       handleHelpModalShortcut(e)
     }
@@ -88,7 +88,7 @@ export function useShortcuts() {
     handleCommandCenterShortcut,
     handleToggleTimerShortcut,
     handleSwitchActivityShortcut,
-    handleBgSoundMenuShortcut,
+    handleWhiteNoiseMenuShortcut,
     handleSettingsMenuShortcut,
     handleHelpModalShortcut,
   ])

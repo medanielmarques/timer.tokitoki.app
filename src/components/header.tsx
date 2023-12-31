@@ -1,4 +1,3 @@
-import { BackGroundSoundsMenu } from "@/components/bg-sounds-menu"
 import { DevModeTimer } from "@/components/dev-mode-timer"
 import { SettingsMenu } from "@/components/settings-menu"
 import { Button } from "@/components/ui/button"
@@ -9,6 +8,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { WhiteNoiseMenu } from "@/components/white-noise-menu"
 import { signInWithDiscord, signInWithGoogle, signOut } from "@/utils/supabase"
 import {
   GoogleLogo,
@@ -26,7 +26,7 @@ export function Header() {
     <div className="flex justify-between p-5">
       <div className="flex items-center gap-4">
         <SettingsMenu />
-        <BackGroundSoundsMenu />
+        <WhiteNoiseMenu />
 
         {process.env.NODE_ENV === "development" && <DevModeTimer />}
       </div>
