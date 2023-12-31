@@ -1,4 +1,8 @@
 import {
+  useIsSettingsMenuOpen,
+  useSettingsMenuActions,
+} from "@/components/settings-menu/settings-menu-store"
+import {
   type Activity,
   useLongBreakDuration,
   usePomodoroDuration,
@@ -20,10 +24,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { TIMER_DURATION_LIMIT } from "@/lib/constants"
-import {
-  useIsSettingsMenuOpen,
-  useSettingsMenuActions,
-} from "@/lib/settings-menu-store"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { Clock, SlidersHorizontal } from "@phosphor-icons/react"
 

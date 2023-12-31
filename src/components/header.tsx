@@ -1,5 +1,5 @@
 import { DevModeTimer } from "@/components/dev-mode-timer"
-import { SettingsMenu } from "@/components/settings-menu"
+import { SettingsMenu } from "@/components/settings-menu/settings-menu"
 import {
   useCurrentActivity,
   useFormattedTimer,

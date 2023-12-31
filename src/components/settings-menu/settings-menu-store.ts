@@ -2,7 +2,7 @@ import { useTimerStore } from "@/components/timer/timer-store"
 import { SHORTCUT_KEYS } from "@/lib/constants"
 import { create } from "zustand"
 
-import { useWhiteNoiseStore } from "../components/white-noise/white-noise-store"
+import { useWhiteNoiseStore } from "../white-noise/white-noise-store"
 
 type SettingsMenuStore = {
   isSettingsMenuOpen: boolean
