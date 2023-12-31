@@ -1,10 +1,10 @@
-import { ACTIVITIES, ACTIVITY_STATE_TRANSITIONS } from "@/lib/constants"
 import {
   type Activity,
   type DirectionClicked,
   useIsTimerRunning,
   useTimerActions,
-} from "@/lib/timer-store"
+} from "@/components/timer/timer-store"
+import { ACTIVITIES, ACTIVITY_STATE_TRANSITIONS } from "@/lib/constants"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { useEffect } from "react"
 

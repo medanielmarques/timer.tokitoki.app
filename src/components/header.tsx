@@ -1,5 +1,10 @@
 import { DevModeTimer } from "@/components/dev-mode-timer"
 import { SettingsMenu } from "@/components/settings-menu"
+import {
+  useCurrentActivity,
+  useFormattedTimer,
+} from "@/components/timer/timer-store"
+import { formatActivityName } from "@/components/timer/timer-utils"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -17,24 +22,42 @@ import {
 } from "@phosphor-icons/react"
 import { DiscordLogo } from "@phosphor-icons/react/dist/ssr"
 import { useSession } from "@supabase/auth-helpers-react"
+import NextHead from "next/head"
 
 export function Header() {
   const session = useSession()
   const isSignedIn = !!session
 
   return (
-    <div className="flex justify-between p-5">
-      <div className="flex items-center gap-4">
-        <SettingsMenu />
-        <WhiteNoiseMenu />
+    <>
+      <TabTitleTimer />
 
-        {process.env.NODE_ENV === "development" && <DevModeTimer />}
-      </div>
+      <div className="flex justify-between p-5">
+        <div className="flex items-center gap-4">
+          <SettingsMenu />
+          <WhiteNoiseMenu />
 
-      <div className="gap-4 flex-center">
-        {isSignedIn ? <SignOutButton /> : <SignInModal />}
+          {process.env.NODE_ENV === "development" && <DevModeTimer />}
+        </div>
+
+        <div className="gap-4 flex-center">
+          {isSignedIn ? <SignOutButton /> : <SignInModal />}
+        </div>
       </div>
-    </div>
+    </>
+  )
+}
+
+function TabTitleTimer() {
+  const currentActivity = useCurrentActivity()
+  const timer = useFormattedTimer(true)
+
+  const title = `${timer} - Toki - ${formatActivityName(currentActivity)}`
+
+  return (
+    <NextHead>
+      <title>{title}</title>
+    </NextHead>
   )
 }
 

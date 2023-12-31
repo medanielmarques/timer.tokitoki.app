@@ -1,12 +1,12 @@
 import { useKeyboardShortcutsModalActions } from "@/components/shortcuts/shortcuts-modal-store"
-import { useWhiteNoiseActions } from "@/components/white-noise/white-noise-store"
-import { SHORTCUT_KEYS } from "@/lib/constants"
-import { useSettingsMenuActions } from "@/lib/settings-menu-store"
 import {
   useIsTimerRunning,
   useSettingsActions,
   useTimerActions,
-} from "@/lib/timer-store"
+} from "@/components/timer/timer-store"
+import { useWhiteNoiseActions } from "@/components/white-noise/white-noise-store"
+import { SHORTCUT_KEYS } from "@/lib/constants"
+import { useSettingsMenuActions } from "@/lib/settings-menu-store"
 import { useCallback, useEffect, useState } from "react"
 
 export function useShortcuts() {

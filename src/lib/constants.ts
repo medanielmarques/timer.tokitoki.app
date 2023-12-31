@@ -1,4 +1,4 @@
-import { type Activity } from "@/lib/timer-store"
+import { type Activity } from "@/components/timer/timer-store"
 
 export const ACTIVITIES = {
   POMODORO: "pomodoro",

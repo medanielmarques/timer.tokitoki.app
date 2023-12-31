@@ -1,10 +1,10 @@
-import { TIMER_DEFAULTS, type TimerDefaults } from "@/lib/constants"
 import {
   decideNextActivity,
   formatTimer,
   playAlarmSound,
   playToggleTimerSound,
-} from "@/lib/timer-utils"
+} from "@/components/timer/timer-utils"
+import { TIMER_DEFAULTS, type TimerDefaults } from "@/lib/constants"
 import { type SetLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { create } from "zustand"
 

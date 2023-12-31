@@ -1,5 +1,5 @@
+import { useTimerStore } from "@/components/timer/timer-store"
 import { SHORTCUT_KEYS } from "@/lib/constants"
-import { useTimerStore } from "@/lib/timer-store"
 import { create } from "zustand"
 
 import { useWhiteNoiseStore } from "../components/white-noise/white-noise-store"

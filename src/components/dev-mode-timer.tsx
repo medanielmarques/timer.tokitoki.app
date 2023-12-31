@@ -1,5 +1,5 @@
+import { useTimer } from "@/components/timer/timer-store"
 import { ACTIVITY_DURATION } from "@/lib/constants"
-import { useTimer } from "@/lib/timer-store"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { Clock } from "@phosphor-icons/react"
 import { useCallback, useEffect } from "react"

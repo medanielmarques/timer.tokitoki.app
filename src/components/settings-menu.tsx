@@ -1,3 +1,15 @@
+import {
+  type Activity,
+  useLongBreakDuration,
+  usePomodoroDuration,
+  useSettingsActions,
+  useShortBreakDuration,
+} from "@/components/timer/timer-store"
+import {
+  formatActivityName,
+  milsToMins,
+  minsToMils,
+} from "@/components/timer/timer-utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -12,14 +24,6 @@ import {
   useIsSettingsMenuOpen,
   useSettingsMenuActions,
 } from "@/lib/settings-menu-store"
-import {
-  type Activity,
-  useLongBreakDuration,
-  usePomodoroDuration,
-  useSettingsActions,
-  useShortBreakDuration,
-} from "@/lib/timer-store"
-import { formatActivityName, milsToMins, minsToMils } from "@/lib/timer-utils"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { Clock, SlidersHorizontal } from "@phosphor-icons/react"
 
