@@ -20,11 +20,13 @@ export function useWhiteNoise() {
   const currentActivity = useCurrentActivity()
   const isWhiteNoiseEnabled = useIsWhiteNoiseEnabled()
 
-  const [playWhiteNoise, { stop: stopWhiteNoise, pause: pauseWhiteNoite }] =
-    useSound(AUDIO_WHITE_NOISE, {
+  const [playWhiteNoise, { pause: pauseWhiteNoite }] = useSound(
+    AUDIO_WHITE_NOISE,
+    {
       loop: true,
       volume: volume / 10,
-    })
+    },
+  )
 
   const shouldPlayWhiteNoise = useCallback(() => {
     return currentActivity === ACTIVITIES.POMODORO && isWhiteNoiseEnabled
@@ -35,32 +37,32 @@ export function useWhiteNoise() {
     playWhiteNoise()
   }, [setIsWhiteNoisePlaying, playWhiteNoise])
 
-  const stopPlaying = useCallback(() => {
+  const pausePlaying = useCallback(() => {
     setIsWhiteNoisePlaying(false)
     pauseWhiteNoite()
   }, [setIsWhiteNoisePlaying, pauseWhiteNoite])
 
   useEffect(() => {
     if (!shouldPlayWhiteNoise()) {
-      stopPlaying()
+      pausePlaying()
       return
     }
 
     if (isTimerRunning) {
       startPlaying()
     } else if (isWhiteNoisePlaying) {
-      stopPlaying()
+      pausePlaying()
     }
 
     return () => {
-      stopWhiteNoise()
+      pauseWhiteNoite()
     }
   }, [
     isTimerRunning,
     isWhiteNoisePlaying,
     shouldPlayWhiteNoise,
     startPlaying,
-    stopPlaying,
-    stopWhiteNoise,
+    pausePlaying,
+    pauseWhiteNoite,
   ])
 }

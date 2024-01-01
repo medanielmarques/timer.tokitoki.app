@@ -56,7 +56,7 @@ export function WhiteNoiseMenu() {
 
             <TooltipProvider delayDuration={300}>
               <Tooltip>
-                <TooltipTrigger className="mt-1">
+                <TooltipTrigger tabIndex={-1} className="mt-1">
                   <Info className="h-5 w-5 text-gray-600" />
                 </TooltipTrigger>
 
@@ -87,7 +87,7 @@ export function WhiteNoiseMenu() {
               <SpeakerSimpleLow className="h-5 w-5" />
             </Button>
 
-            <span className="text-lg font-semibold text-gray-600">
+            <span className="text-xl font-semibold text-gray-600">
               {volume}
             </span>
 
