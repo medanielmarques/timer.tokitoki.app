@@ -70,13 +70,14 @@ export const ACTIVITY_STATE_TRANSITIONS: ActivityStateTransitions = {
 export const AUDIO_WHITE_NOISE = "../audio/white-noise.mp3"
 
 export const SHORTCUT_KEYS = {
-  WHITE_NOISE_MENU: ["w", "W"],
   COMMAND_CENTER: ["k", "K"],
   CTRL_OR_META: (e: KeyboardEvent) => e.metaKey || e.ctrlKey,
   HELP_MODAL: "/",
   SETINGS_MENU: ["s", "S"],
   SPACEBAR: " ",
+  TOGGLE_THEME: ["t", "T"],
   TOGGLE_TIMER: ["p", "P"],
   SWITCH_ACTIVITY_LEFT: ["ArrowLeft", "j", "J"],
   SWITCH_ACTIVITY_RIGHT: ["ArrowRight", "k", "K"],
+  WHITE_NOISE_MENU: ["w", "W"],
 }

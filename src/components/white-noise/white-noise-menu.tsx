@@ -45,8 +45,13 @@ export function WhiteNoiseMenu() {
 
   return (
     <Sheet open={isWhiteNoiseMenuOpen} onOpenChange={setIsWhiteNoiseMenuOpen}>
-      <SheetTrigger className="text-gray-500 hover:text-accent-foreground">
-        <Headphones className="h-6 w-6 md:h-6 md:w-6" />
+      <SheetTrigger
+        asChild
+        className="text-gray-500 hover:text-accent-foreground"
+      >
+        <Button variant="ghost" size="icon">
+          <Headphones className="h-6 w-6 md:h-6 md:w-6" />
+        </Button>
       </SheetTrigger>
 
       <SheetContent side="bottom" className="flex flex-col">

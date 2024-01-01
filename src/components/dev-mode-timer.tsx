@@ -22,7 +22,7 @@ export function DevModeTimer() {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "t") {
+      if (e.key === "d") {
         e.preventDefault()
         handleDevModeTimer()
       }
