@@ -1,4 +1,4 @@
-import { CommandCenter } from "@/components/command-center"
+import { CommandCenter } from "@/components/command-center/command-center"
 import { Header } from "@/components/header"
 import { TimerSection } from "@/components/timer/timer"
 import { useCountdown } from "@/components/timer/timer-utils"
