@@ -1,4 +1,5 @@
 import { useTimer } from "@/components/timer/timer-store"
+import { Button } from "@/components/ui/button"
 import { ACTIVITY_DURATION } from "@/lib/constants"
 import { useLocalStorageSettings } from "@/lib/use-local-storage-settings"
 import { Clock } from "@phosphor-icons/react"
@@ -22,7 +23,7 @@ export function DevModeTimer() {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "t") {
+      if (e.key === "d") {
         e.preventDefault()
         handleDevModeTimer()
       }
@@ -32,8 +33,8 @@ export function DevModeTimer() {
   }, [handleDevModeTimer])
 
   return (
-    <button className="text-gray-500" onClick={handleDevModeTimer}>
+    <Button variant="ghost" size="icon" onClick={handleDevModeTimer}>
       <Clock className="h-6 w-6" />
-    </button>
+    </Button>
   )
 }

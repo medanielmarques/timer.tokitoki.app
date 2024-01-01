@@ -45,8 +45,10 @@ export function WhiteNoiseMenu() {
 
   return (
     <Sheet open={isWhiteNoiseMenuOpen} onOpenChange={setIsWhiteNoiseMenuOpen}>
-      <SheetTrigger className="text-gray-500 hover:text-accent-foreground">
-        <Headphones className="h-6 w-6 md:h-6 md:w-6" />
+      <SheetTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <Headphones className="h-6 w-6 md:h-6 md:w-6" />
+        </Button>
       </SheetTrigger>
 
       <SheetContent side="bottom" className="flex flex-col">
@@ -57,7 +59,7 @@ export function WhiteNoiseMenu() {
             <TooltipProvider delayDuration={300}>
               <Tooltip>
                 <TooltipTrigger tabIndex={-1} className="mt-1">
-                  <Info className="h-5 w-5 text-gray-600" />
+                  <Info className="h-5 w-5" />
                 </TooltipTrigger>
 
                 <TooltipContent>
@@ -80,20 +82,18 @@ export function WhiteNoiseMenu() {
           <div className="gap-4 flex-center">
             <Button
               variant="ghost"
-              className="w-13 h-10 font-medium text-gray-600"
+              className="w-13 h-10 font-medium"
               onClick={decreaseVolume}
               disabled={volume === 0}
             >
               <SpeakerSimpleLow className="h-5 w-5" />
             </Button>
 
-            <span className="text-xl font-semibold text-gray-600">
-              {volume}
-            </span>
+            <span className="text-xl font-semibold">{volume}</span>
 
             <Button
               variant="ghost"
-              className="w-13 h-10 font-medium text-gray-600"
+              className="w-13 h-10 font-medium"
               onClick={increaseVolume}
               disabled={volume === 10}
             >

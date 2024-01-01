@@ -13,6 +13,12 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { WhiteNoiseMenu } from "@/components/white-noise/white-noise-menu"
 import { signInWithDiscord, signInWithGoogle, signOut } from "@/utils/supabase"
 import {
@@ -21,7 +27,9 @@ import {
   SignOut as SignOutIcon,
 } from "@phosphor-icons/react"
 import { DiscordLogo } from "@phosphor-icons/react/dist/ssr"
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { useSession } from "@supabase/auth-helpers-react"
+import { useTheme } from "next-themes"
 import NextHead from "next/head"
 
 export function Header() {
@@ -36,6 +44,7 @@ export function Header() {
         <div className="flex items-center gap-4">
           <SettingsMenu />
           <WhiteNoiseMenu />
+          <ToggleTheme />
 
           {process.env.NODE_ENV === "development" && <DevModeTimer />}
         </div>
@@ -58,6 +67,38 @@ function TabTitleTimer() {
     <NextHead>
       <title>{title}</title>
     </NextHead>
+  )
+}
+
+function ToggleTheme() {
+  const { setTheme } = useTheme()
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+
+          <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme("light")}>
+          Light
+        </DropdownMenuItem>
+
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
+          Dark
+        </DropdownMenuItem>
+
+        <DropdownMenuItem onClick={() => setTheme("system")}>
+          System
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
