@@ -1,9 +1,9 @@
-import { TIMER_DEFAULTS, type TimerDefaults } from "@/lib/constants"
 import {
   useCurrentActivity,
   useSettingsActions,
   useTimerActions,
-} from "@/lib/timer-store"
+} from "@/components/timer/timer-store"
+import { TIMER_DEFAULTS, type TimerDefaults } from "@/lib/constants"
 import { useLocalStorage } from "@mantine/hooks"
 import { type ReactNode, createContext, useContext, useEffect } from "react"
 

@@ -1,13 +1,18 @@
-import { SHORTCUT_KEYS } from "@/lib/constants"
-import { useKeyboardShortcutsModalActions } from "@/lib/kbd-shortcuts-modal-store"
-import { useSettingsMenuActions } from "@/lib/settings-menu-store"
+import {
+  useCommandCenterActions,
+  useIsCommandCenterOpen,
+} from "@/components/command-center/command-center-store"
+import { useSettingsMenuActions } from "@/components/settings-menu/settings-menu-store"
+import { useKeyboardShortcutsModalActions } from "@/components/shortcuts/shortcuts-modal-store"
 import {
   useIsTimerRunning,
   useSettingsActions,
   useTimerActions,
-} from "@/lib/timer-store"
-import { useWhiteNoiseActions } from "@/lib/white-noise-store"
-import { useCallback, useEffect, useState } from "react"
+} from "@/components/timer/timer-store"
+import { useWhiteNoiseActions } from "@/components/white-noise/white-noise-store"
+import { SHORTCUT_KEYS } from "@/lib/constants"
+import { useIsAnyMenuOpen } from "@/lib/utils"
+import { useCallback, useEffect } from "react"
 
 export function useShortcuts() {
   const isTimerRunning = useIsTimerRunning()
@@ -16,8 +21,9 @@ export function useShortcuts() {
   const { handleWhiteNoiseMenuShortcut } = useWhiteNoiseActions()
   const { handleSettingsMenuShortcut } = useSettingsMenuActions()
   const { handleHelpModalShortcut } = useKeyboardShortcutsModalActions()
-
-  const [isCommandCenterOpen, setIsCommandCenterOpen] = useState(false)
+  const isCommandCenterOpen = useIsCommandCenterOpen()
+  const { setIsCommandCenterOpen } = useCommandCenterActions()
+  const isAnyMenuOpen = useIsAnyMenuOpen()
 
   const handleCommandCenterShortcut = useCallback(
     (e: KeyboardEvent) => {
@@ -68,10 +74,10 @@ export function useShortcuts() {
   )
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (isCommandCenterOpen) return
+    if (isAnyMenuOpen) return
 
-      // Prevent shortcuts from firing when user is typing
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Prevent switching activities instead of triggering the command center
       if (handleCommandCenterShortcut(e)) return
 
       handleToggleTimerShortcut(e)
@@ -91,6 +97,7 @@ export function useShortcuts() {
     handleWhiteNoiseMenuShortcut,
     handleSettingsMenuShortcut,
     handleHelpModalShortcut,
+    isAnyMenuOpen,
   ])
 
   return { isCommandCenterOpen, setIsCommandCenterOpen }

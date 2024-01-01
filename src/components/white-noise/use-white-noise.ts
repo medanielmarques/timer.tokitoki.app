@@ -1,11 +1,14 @@
-import { ACTIVITIES, AUDIO_WHITE_NOISE } from "@/lib/constants"
-import { useCurrentActivity, useIsTimerRunning } from "@/lib/timer-store"
+import {
+  useCurrentActivity,
+  useIsTimerRunning,
+} from "@/components/timer/timer-store"
 import {
   useIsWhiteNoiseEnabled,
   useIsWhiteNoisePlaying,
   useWhiteNoiseActions,
   useWhiteNoiseVolume,
-} from "@/lib/white-noise-store"
+} from "@/components/white-noise/white-noise-store"
+import { ACTIVITIES, AUDIO_WHITE_NOISE } from "@/lib/constants"
 import { useCallback, useEffect } from "react"
 import useSound from "use-sound"
 
@@ -17,11 +20,13 @@ export function useWhiteNoise() {
   const currentActivity = useCurrentActivity()
   const isWhiteNoiseEnabled = useIsWhiteNoiseEnabled()
 
-  const [playWhiteNoise, { stop: stopWhiteNoise, pause: pauseWhiteNoite }] =
-    useSound(AUDIO_WHITE_NOISE, {
+  const [playWhiteNoise, { pause: pauseWhiteNoite }] = useSound(
+    AUDIO_WHITE_NOISE,
+    {
       loop: true,
       volume: volume / 10,
-    })
+    },
+  )
 
   const shouldPlayWhiteNoise = useCallback(() => {
     return currentActivity === ACTIVITIES.POMODORO && isWhiteNoiseEnabled
@@ -32,32 +37,32 @@ export function useWhiteNoise() {
     playWhiteNoise()
   }, [setIsWhiteNoisePlaying, playWhiteNoise])
 
-  const stopPlaying = useCallback(() => {
+  const pausePlaying = useCallback(() => {
     setIsWhiteNoisePlaying(false)
     pauseWhiteNoite()
   }, [setIsWhiteNoisePlaying, pauseWhiteNoite])
 
   useEffect(() => {
     if (!shouldPlayWhiteNoise()) {
-      stopPlaying()
+      pausePlaying()
       return
     }
 
     if (isTimerRunning) {
       startPlaying()
     } else if (isWhiteNoisePlaying) {
-      stopPlaying()
+      pausePlaying()
     }
 
     return () => {
-      stopWhiteNoise()
+      pauseWhiteNoite()
     }
   }, [
     isTimerRunning,
     isWhiteNoisePlaying,
     shouldPlayWhiteNoise,
     startPlaying,
-    stopPlaying,
-    stopWhiteNoise,
+    pausePlaying,
+    pauseWhiteNoite,
   ])
 }
