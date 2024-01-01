@@ -36,10 +36,7 @@ export function SettingsMenu() {
 
   return (
     <Sheet open={isSettingsMenuOpen} onOpenChange={handleSheetOpenChange}>
-      <SheetTrigger
-        className="flex w-9 items-center justify-center text-gray-600 hover:text-accent-foreground"
-        asChild
-      >
+      <SheetTrigger asChild>
         <Button variant="ghost" size="icon">
           <SlidersHorizontal
             weight="regular"
