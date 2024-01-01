@@ -1,4 +1,8 @@
 import {
+  useIsHelpModalOpen,
+  useKeyboardShortcutsModalActions,
+} from "@/components/shortcuts/shortcuts-modal-store"
+import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -7,10 +11,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
-import {
-  useIsHelpModalOpen,
-  useKeyboardShortcutsModalActions,
-} from "@/components/shortcuts/shortcuts-modal-store"
 import { Cross2Icon } from "@radix-ui/react-icons"
 
 export function KeyboardShortcutsMenu() {
@@ -24,7 +24,7 @@ export function KeyboardShortcutsMenu() {
       <Dialog open={isHelpModalOpen} onOpenChange={setHelpModalOpen}>
         <DialogTrigger>
           <kbd className="pointer-events-none h-10 w-14 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
-            <span>⌘ /</span>
+            <span>/</span>
           </kbd>
         </DialogTrigger>
 
@@ -49,7 +49,7 @@ export function KeyboardShortcutsMenu() {
               <div className="gap-4 flex-center">
                 <div className="gap-4 flex-center">
                   <kbd className="pointer-events-none h-12 w-32 select-none gap-1 rounded border text-base font-semibold text-muted-foreground opacity-100 flex-center">
-                    <span>⌘ P</span>
+                    <span>P</span>
                   </kbd>
                 </div>
 
@@ -81,11 +81,11 @@ export function KeyboardShortcutsMenu() {
 
                 <div className="gap-4 flex-center">
                   <kbd className="pointer-events-none h-12 w-14 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
-                    <span>⌘ J</span>
+                    <span>J</span>
                   </kbd>
 
                   <kbd className="pointer-events-none h-12 w-14 select-none gap-1 rounded border font-semibold text-muted-foreground opacity-100 flex-center">
-                    <span>⌘ K</span>
+                    <span>K</span>
                   </kbd>
                 </div>
               </div>
@@ -95,7 +95,7 @@ export function KeyboardShortcutsMenu() {
               <span className="ml-2">White Noise</span>
 
               <kbd className="pointer-events-none h-12 w-32 select-none gap-1 rounded border text-base font-semibold text-muted-foreground opacity-100 flex-center">
-                <span>⌘ W</span>
+                <span>W</span>
               </kbd>
             </div>
 
@@ -103,7 +103,7 @@ export function KeyboardShortcutsMenu() {
               <span className="ml-2">Settings</span>
 
               <kbd className="pointer-events-none h-12 w-32 select-none gap-1 rounded border text-base font-semibold text-muted-foreground opacity-100 flex-center">
-                <span>⌘ S</span>
+                <span>S</span>
               </kbd>
             </div>
           </div>

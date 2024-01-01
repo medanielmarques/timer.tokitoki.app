@@ -69,7 +69,7 @@ export function CommandCenter() {
                 <span>White Noise</span>
               </div>
 
-              <CommandShortcut>⌘W</CommandShortcut>
+              <CommandShortcut>W</CommandShortcut>
             </CommandItem>
 
             <CommandItem
@@ -83,7 +83,7 @@ export function CommandCenter() {
                 <span>Settings</span>
               </div>
 
-              <CommandShortcut>⌘S</CommandShortcut>
+              <CommandShortcut>S</CommandShortcut>
             </CommandItem>
           </CommandGroup>
         </CommandList>
