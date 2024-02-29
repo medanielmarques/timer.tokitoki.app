@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@/components/ThemeProvider"
 import { LocalStorageSettingsProvider } from "@/lib/use-local-storage-settings"
 import { api } from "@/utils/api"
 import { supabase } from "@/utils/supabase"
@@ -40,14 +39,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <main className={montserrat.className}>
         <SessionContextProvider supabaseClient={supabase}>
           <LocalStorageSettingsProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <Component {...pageProps} />
-            </ThemeProvider>
+            <Component {...pageProps} />
           </LocalStorageSettingsProvider>
         </SessionContextProvider>
       </main>

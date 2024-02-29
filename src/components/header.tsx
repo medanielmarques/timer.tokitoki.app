@@ -44,7 +44,6 @@ export function Header() {
         <div className="flex items-center gap-4">
           <SettingsMenu />
           <WhiteNoiseMenu />
-          <ToggleTheme />
 
           {process.env.NODE_ENV === "development" && <DevModeTimer />}
         </div>

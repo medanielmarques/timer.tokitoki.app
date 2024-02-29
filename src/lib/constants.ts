@@ -75,7 +75,7 @@ export const SHORTCUT_KEYS = {
   HELP_MODAL: "/",
   SETINGS_MENU: ["s", "S"],
   SPACEBAR: " ",
-  TOGGLE_THEME: ["t", "T"],
+  // TOGGLE_THEME: ["t", "T"],
   TOGGLE_TIMER: ["p", "P"],
   SWITCH_ACTIVITY_LEFT: ["ArrowLeft", "j", "J"],
   SWITCH_ACTIVITY_RIGHT: ["ArrowRight", "k", "K"],
