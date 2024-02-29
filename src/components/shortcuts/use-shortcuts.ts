@@ -12,7 +12,6 @@ import {
 import { useWhiteNoiseActions } from "@/components/white-noise/white-noise-store"
 import { SHORTCUT_KEYS } from "@/lib/constants"
 import { useIsAnyMenuOpen } from "@/lib/utils"
-import { useTheme } from "next-themes"
 import { useCallback, useEffect } from "react"
 
 export function useShortcuts() {
@@ -25,7 +24,6 @@ export function useShortcuts() {
   const isCommandCenterOpen = useIsCommandCenterOpen()
   const { setIsCommandCenterOpen } = useCommandCenterActions()
   const isAnyMenuOpen = useIsAnyMenuOpen()
-  const { setTheme, theme } = useTheme()
 
   const handleCommandCenterShortcut = useCallback(
     (e: KeyboardEvent) => {
@@ -75,16 +73,6 @@ export function useShortcuts() {
     [changeCurrentActivity],
   )
 
-  const handleToggleThemeShortcut = useCallback(
-    (e: KeyboardEvent) => {
-      if (SHORTCUT_KEYS.TOGGLE_THEME.includes(e.key)) {
-        e.preventDefault()
-        setTheme(theme === "dark" ? "light" : "dark")
-      }
-    },
-    [setTheme, theme],
-  )
-
   useEffect(() => {
     if (isAnyMenuOpen) return
 
@@ -97,7 +85,6 @@ export function useShortcuts() {
       handleWhiteNoiseMenuShortcut(e)
       handleSettingsMenuShortcut(e)
       handleHelpModalShortcut(e)
-      handleToggleThemeShortcut(e)
     }
 
     document.addEventListener("keydown", handleKeyDown)
@@ -111,7 +98,6 @@ export function useShortcuts() {
     handleSettingsMenuShortcut,
     handleHelpModalShortcut,
     isAnyMenuOpen,
-    handleToggleThemeShortcut,
   ])
 
   return { isCommandCenterOpen, setIsCommandCenterOpen }
